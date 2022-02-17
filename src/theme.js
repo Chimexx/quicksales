@@ -4,12 +4,22 @@ export const theme = createTheme({
 	palette: {
 		primary: {
 			main: "#018ef4",
+			green: "#96d243",
+			lightGreen: "#96d24347",
+			lightOrange: "#ff840049",
+			saffron: "#F2C237",
+			white: "#fff",
+			lightBlue: "#018ff455",
+			blueDeFrance2: "#018ff426",
+			orange: "#ff8400",
+			darkGray: "#303030",
 		},
 		secondary: {
-			main: "#f8f8ff",
+			main: "#cccdde",
+			darkGray: "#303030",
 		},
 		default: {
-			main: "#e8e8e8",
+			main: "#fff",
 		},
 		success: {
 			main: "#4caf50",
@@ -17,13 +27,16 @@ export const theme = createTheme({
 	},
 	button: {
 		primary: {
-			main: "#00e676",
+			blueDeFrance: "#018ef4",
 		},
 		secondary: {
-			main: "#00e676",
+			bg1: "#f8f8ff",
+		},
+		default: {
+			white: "#fff",
 		},
 		success: {
-			main: "#4caf50",
+			green: "#96d243",
 		},
 	},
 });

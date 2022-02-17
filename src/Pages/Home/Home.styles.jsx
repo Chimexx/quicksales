@@ -25,8 +25,8 @@ export const Wrapper = styled.div`
 	}
 	.section--title {
 		padding: 10px 40px;
-		background-color: var(--gray1);
-		color: var(--darkGray);
+		background-color: var(--blueDeFrance2);
+		color: var(--blueDeFrance);
 		border-radius: 5px;
 		width: 100%;
 		font-weight: 700;

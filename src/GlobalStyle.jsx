@@ -15,12 +15,42 @@ const GlobalStyle = createGlobalStyle`
 	width: 100%;
 	min-height: 100vh;
 	background-color: var(--bg1);
-	max-width: 1440px;
+	max-width: '1440px';
+	
+	a{
+		text-decoration: none;
+	}
+
+    animation: animateHeroImage 1s;
+    @keyframes animateHeroImage{
+        from{
+            opacity: 0;
+        }
+        to{
+            opacity: 1;
+        }
+    }
+
+
+	::-webkit-scrollbar{
+		width: 5px;
+	}
+	::-webkit-scrollbar-track{
+		background: #7a7a7a
+	}
+	::-webkit-scrollbar-thumb{
+		background: #162a6b;
+		border-radius: 5px;
+
+		&:hover{
+			background: #7a7a7a;
+		}
+	}
   }
   :root {
     --saffron: #F2C237;
     --blueDeFrance: #018ef4;
-    --blueDeFrance2: #018ff499;
+    --blueDeFrance2: #018ff426;
     --green: #96d243;
     --orange: #ff8400;
 	--bg1: #f8f8ff;
@@ -35,6 +65,8 @@ const GlobalStyle = createGlobalStyle`
 	--fontMedium: 1.2rem;
 	--fontLarge: 1.6rem;
 	--fontXLarge: 3rem;
+
+
 }
 `;
 
