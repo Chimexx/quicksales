@@ -72,24 +72,21 @@ const form = (props) => {
 							size="small"
 							className={(classes.formControl, classes.new__input)}
 						>
-							<InputLabel id="vendor">Vendor</InputLabel>
-							<Select
-								labelId="vendor"
+							<TextField
+								variant="filled"
+								fullWidth={true}
+								size="small"
+								className={classes.new__input}
+								labelId="Vendor"
 								id="vendor"
 								name="vendor"
 								value={values.vendor}
+								defaultValue="system"
 								onChange={handleChange}
 								onBlur={handleBlur}
 								helperText={touched.vendor ? errors.vendor : ""}
 								error={touched.vendor && Boolean(errors.vendor)}
-							>
-								<MenuItem value="">
-									<em>None</em>
-								</MenuItem>
-								<MenuItem value={10}>GSK</MenuItem>
-								<MenuItem value={20}>Hovid</MenuItem>
-								<MenuItem value={30}>Laborate</MenuItem>
-							</Select>
+							/>
 						</FormControl>
 						<FormControl
 							variant="filled"
@@ -177,7 +174,13 @@ const form = (props) => {
 				</Container>
 			</Container>
 			<CardActions className={classes.actions}>
-				<Button size="small" style={{ marginRight: 20 }} variant="contained" color="primary">
+				<Button
+					size="small"
+					style={{ marginRight: 20 }}
+					variant="contained"
+					color="primary"
+					onClick={handleSubmit}
+				>
 					Create Item
 				</Button>
 				<Button size="small" style={{ marginRight: 20 }}>

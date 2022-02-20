@@ -10,10 +10,10 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme";
-import { store } from "./redux/store_copy";
+import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor } from "./redux/store_copy";
+import { persistor } from "./redux/store";
 
 ReactDOM.render(
 	<ThemeProvider theme={theme}>
