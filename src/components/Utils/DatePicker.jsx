@@ -27,7 +27,6 @@ function DatePicker() {
 				variant="inline"
 				size="small"
 				format="dd/MM/yyyy"
-				margin="normal"
 				id="date-picker-inline"
 				label="Product Expiry Date"
 				value={selectedDate}

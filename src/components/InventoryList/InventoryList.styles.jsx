@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Table = styled.table`
 	border-collapse: collapse;
 	width: 100%;
-	border-radius: 5px 5px 0 0;
+	border-radius: 50px;
 
 	td {
 		border: 1px solid #e6e6e6;
@@ -12,6 +12,7 @@ export const Table = styled.table`
 		font-size: 12px;
 		overflow: hidden;
 		white-space: nowrap;
+		font-weight: 700;
 
 		.button-container {
 			display: flex;
@@ -32,11 +33,22 @@ export const Table = styled.table`
 			border-radius: 5px;
 			color: #414141;
 			font-weight: 700;
+			font-family: Poppins;
 			background-color: transparent;
-			border: 1px solid #f3f3f3;
+			border: none;
+			background-color: #ffffffa2;
 		}
 		input:focus {
 			outline: none;
+		}
+
+		input[type="number"]::-webkit-inner-spin-button,
+		input[type="number"]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+		}
+
+		input[type="number"] {
+			-moz-appearance: textfield;
 		}
 	}
 	th {
@@ -51,6 +63,6 @@ export const Table = styled.table`
 	}
 
 	tr:nth-child(even) {
-		background-color: #e7f5ff;
+		background-color: #e3f3ff83;
 	}
 `;

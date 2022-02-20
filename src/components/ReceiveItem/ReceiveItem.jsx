@@ -1,100 +1,18 @@
-import { Button, Typography, Container, TextField, CardActionArea } from "@material-ui/core";
-import "date-fns";
+import { Button, Typography, Container, TextField, CardActions } from "@material-ui/core";
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { useStyles } from "./ReceiveItem.styles";
 import InventoryList from "../InventoryList/InventoryList";
 import FilterDisplay from "../FilterDisplay/FilterDisplay";
-
-const useStyles = makeStyles((theme) => ({
-	new_head: {
-		fontSize: 18,
-		padding: "0 10px",
-		color: theme.palette.primary.white,
-		backgroundColor: theme.palette.primary.lightBlue,
-		marginBottom: 0,
-	},
-
-	containerLeft: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "space-between",
-		width: "65%",
-		padding: 0,
-		height: "100%",
-		borderRadius: "5px 5px 0 0",
-		border: `1px solid ${theme.palette.secondary.main}`,
-		marginRight: 20,
-	},
-
-	new: {
-		width: "100%",
-		height: "30px",
-		color: theme.palette.primary.darkGray,
-		padding: 0,
-		margin: 0,
-	},
-	body: {
-		display: "flex",
-		flexDirection: "column",
-		width: "100%",
-		padding: 0,
-		height: "100%",
-		justifyContent: "space-between",
-	},
-	inner__body: {
-		padding: 10,
-	},
-	new__input: {
-		width: "100%",
-		marginBottom: "10px ",
-	},
-	new_small_input: {
-		width: "100%",
-		display: "grid",
-		padding: 0,
-		gridTemplateColumns: "repeat(2, 1fr)",
-		gap: 2,
-	},
-	actions: {
-		display: "flex",
-		justifyContent: "space-between",
-		backgroundColor: theme.palette.secondary.main,
-		color: theme.palette.primary.white,
-		padding: 10,
-	},
-	table__container: {
-		maxHeight: 300,
-		width: "100%",
-		padding: 0,
-		margin: "10px 0",
-		overflow: "auto",
-	},
-	totals: {
-		backgroundColor: theme.palette.primary.orange,
-		borderRadius: 5,
-		padding: "3px 10px",
-		width: "200px",
-		height: 30,
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	total_field: {
-		fontSize: 20,
-		fontWeight: 700,
-	},
-	action__buttons: {
-		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.primary.white,
-	},
-}));
+import { convertMoney } from "../Utils/converter";
+import { clearBuyCart, getTotals } from "../../redux/BuyCartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
 	{
-		id: 0,
+		_id: 0,
 		name: "Ciprofloxacin",
 		ohq: 1,
-		description: "Ciprotab 500mg",
+		description: "Ciprotab 500mg ",
 		salesPrice: 2000,
 		costPrice: 1500,
 		availQty: 20,
@@ -102,7 +20,7 @@ const data = [
 		customPrice: 1900,
 	},
 	{
-		id: 1,
+		_id: 1,
 		name: "Paracetamol",
 		ohq: 1,
 		description: "Paracetamol 100mg",
@@ -113,27 +31,44 @@ const data = [
 		customPrice: 95,
 	},
 	{
-		id: 2,
+		_id: 2,
 		name: "Gentamycin",
 		ohq: 1,
 		description: "Gentamycin inj 60mg",
-		salesPrice: 3000,
-		costPrice: 2000,
+		salesPrice: 300,
+		costPrice: 200,
 		availQty: 90,
-		wholesalePrice: 2700,
-		customPrice: 2900,
+		wholesalePrice: 250,
+		customPrice: 290,
+	},
+	{
+		_id: 3,
+		name: "Ceftriaxone inj",
+		ohq: 1,
+		description: "Ceftriaxone inj 60mg",
+		salesPrice: 600,
+		costPrice: 450,
+		availQty: 120,
+		wholesalePrice: 500,
+		customPrice: 550,
 	},
 ];
 
 const ReceiveItem = () => {
 	const classes = useStyles();
-	const [term, setTerm] = useState(null);
-	const [inventory, setInventory] = useState([]);
+	const dispatch = useDispatch();
+	const [term, setTerm] = useState("");
+	const { buyCartTotalAmount } = useSelector((state) => state.buyCart);
 
 	const dataFilter = () =>
 		data.filter(
 			(key) => key.name.toLowerCase().includes(term.toLowerCase()) || key.age === parseInt(term)
 		);
+
+	const handleDispatch = () => {
+		dispatch(clearBuyCart());
+		dispatch(getTotals());
+	};
 
 	return (
 		<Container className={classes.containerLeft}>
@@ -154,19 +89,22 @@ const ReceiveItem = () => {
 							onChange={(e) => setTerm(e.target.value)}
 							placeholder="Find Items"
 						/>
-						{term ? (
-							<FilterDisplay
-								data={dataFilter()}
-								inventory={inventory}
-								setInventory={setInventory}
-							/>
-						) : null}
+						{term ? <FilterDisplay data={dataFilter()} /> : null}
 						<Container className={classes.table__container}>
-							<InventoryList inventory={inventory} setInventory={setInventory} />
+							<InventoryList />
+							<Button
+								size="small"
+								variant="outlined"
+								color="secondary"
+								style={{ marginTop: 5, marginBottom: 5 }}
+								onClick={handleDispatch}
+							>
+								clear all
+							</Button>
 						</Container>
 					</Container>
 				</Container>
-				<CardActionArea className={classes.actions}>
+				<CardActions className={classes.actions}>
 					<Container>
 						<Button
 							size="small"
@@ -177,117 +115,20 @@ const ReceiveItem = () => {
 						>
 							Receive Item
 						</Button>
-						<Button size="small" style={{ marginRight: 20 }} variant="default">
+						<Button size="small" style={{ marginRight: 20 }}>
 							Cancel
 						</Button>
 					</Container>
-					<Container style={{ display: "flex", alignItems: "center" }}>
+					<Container style={{ display: "flex", alignItems: "center", fontFamily: "Roboto" }}>
 						<p className={classes.total_field}>Total:</p>
 						<Container className={classes.totals}>
-							<p className={classes.total_field}>₦ 5,000</p>
+							<p className={classes.total_field}> {convertMoney(buyCartTotalAmount)}</p>
 						</Container>
 					</Container>
-				</CardActionArea>
+				</CardActions>
 			</Container>
 		</Container>
 	);
 };
 
 export default ReceiveItem;
-
-// <Container className={classes.new_small_input}>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		fullWidth={true}
-// 		size="small"
-// 		placeholder="Item Name"
-// 		className={classes.new__input}
-// 	/>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		fullWidth={true}
-// 		size="small"
-// 		placeholder="Item Description"
-// 		className={classes.new__input}
-// 	/>
-// 	<FormControl variant="filled" size="small" className={(classes.formControl, classes.new__input)}>
-// 		<InputLabel id="demo-simple-select-filled-label">Vendor</InputLabel>
-// 		<Select
-// 			labelId="demo-simple-select-filled-label"
-// 			id="demo-simple-select-filled"
-// 			// value={age}
-// 			// onChange={handleChange}
-// 		>
-// 			<MenuItem value="">
-// 				<em>None</em>
-// 			</MenuItem>
-// 			<MenuItem value={10}>GSK</MenuItem>
-// 			<MenuItem value={20}>Hovid</MenuItem>
-// 			<MenuItem value={30}>Laborate</MenuItem>
-// 		</Select>
-// 	</FormControl>
-// 	<FormControl variant="filled" size="small" className={(classes.formControl, classes.new__input)}>
-// 		<InputLabel id="demo-simple-select-filled-label">Department</InputLabel>
-// 		<Select
-// 			labelId="demo-simple-select-filled-label"
-// 			id="demo-simple-select-filled"
-// 			// value={age}
-// 			// onChange={handleChange}
-// 		>
-// 			<MenuItem value="">
-// 				<em>None</em>
-// 			</MenuItem>
-// 			<MenuItem value={10}>Anti-Malarial</MenuItem>
-// 			<MenuItem value={20}>Anti-Biotics</MenuItem>
-// 			<MenuItem value={30}>Creams</MenuItem>
-// 		</Select>
-// 	</FormControl>
-
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		fullWidth={true}
-// 		size="small"
-// 		type="number"
-// 		placeholder="Vendor Phone No."
-// 		className={classes.new__input}
-// 	/>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		fullWidth={true}
-// 		size="small"
-// 		placeholder="Item Cost Price"
-// 		type="number"
-// 		className={classes.new__input}
-// 	/>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		size="small"
-// 		fullWidth={true}
-// 		placeholder="Item Sales Price"
-// 		type="number"
-// 		className={classes.new__input}
-// 	/>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		fullWidth={true}
-// 		size="small"
-// 		type="number"
-// 		placeholder="On-Hand Quantity"
-// 		className={classes.new__input}
-// 	/>
-// 	<TextField
-// 		id="filled-basic"
-// 		variant="filled"
-// 		size="small"
-// 		fullWidth={true}
-// 		placeholder="Find Items"
-// 		className={classes.new__input}
-// 	/>
-// 	<DatePicker />
-// </Container>;
