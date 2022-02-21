@@ -6,7 +6,7 @@ export const Container = styled.aside`
 	height: calc(100vh - 60px);
 	overflow: auto;
 	border-right: var(--gray2) 1px solid;
-	background-color: var(--white);
+	background-color: var(--blueDeFrance2);
 `;
 export const Wrapper = styled.div`
 	margin-top: 1rem;

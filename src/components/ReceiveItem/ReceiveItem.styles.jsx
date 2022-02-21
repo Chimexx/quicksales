@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 		width: "65%",
 		padding: 0,
-		height: "calc(100vh - 85px)",
+		height: "100%",
 		borderRadius: "5px 5px 0 0",
 		border: `1px solid ${theme.palette.secondary.main}`,
 		marginRight: 20,
@@ -23,7 +23,6 @@ export const useStyles = makeStyles((theme) => ({
 
 	new: {
 		width: "100%",
-		height: "30px",
 		color: theme.palette.primary.darkGray,
 		padding: 0,
 		margin: 0,
@@ -52,6 +51,7 @@ export const useStyles = makeStyles((theme) => ({
 	},
 	actions: {
 		display: "flex",
+		alignItems: "center",
 		justifyContent: "space-between",
 		backgroundColor: theme.palette.secondary.main,
 		color: theme.palette.primary.white,
@@ -81,5 +81,8 @@ export const useStyles = makeStyles((theme) => ({
 	action__buttons: {
 		backgroundColor: theme.palette.primary.main,
 		color: theme.palette.primary.white,
+	},
+	progress: {
+		backgroundColor: theme.palette.primary.saffron,
 	},
 }));

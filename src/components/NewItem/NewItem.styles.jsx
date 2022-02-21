@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-export const styles = (theme) => ({
+export const useStyles = makeStyles((theme) => ({
 	new_head: {
 		fontSize: 18,
 		padding: "0 10px",
@@ -14,14 +14,13 @@ export const styles = (theme) => ({
 		justifyContent: "space-between",
 		width: "35%",
 		padding: 0,
-		height: "calc(100vh - 85px)",
+		height: "100%",
 		borderRadius: "5px 5px 0 0",
 		border: `1px solid ${theme.palette.secondary.main}`,
 	},
 
 	new: {
 		width: "100%",
-		height: "30px",
 		color: theme.palette.primary.darkGray,
 		padding: 0,
 		margin: 0,
@@ -49,4 +48,19 @@ export const styles = (theme) => ({
 		color: theme.palette.primary.white,
 		padding: 10,
 	},
-});
+	action__buttons: {
+		backgroundColor: theme.palette.primary.main,
+		color: theme.palette.primary.white,
+
+		"&:disabled": {
+			backgroundColor: theme.palette.secondary.main,
+		},
+	},
+	add__buttons: {
+		backgroundColor: theme.palette.secondary.main,
+		color: theme.palette.primary.blueDeFrance,
+	},
+	progress: {
+		backgroundColor: theme.palette.primary.saffron,
+	},
+}));

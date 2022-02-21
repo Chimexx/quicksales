@@ -10,27 +10,20 @@ const useStyles = makeStyles((theme) => ({
 		margin: "3px 0",
 	},
 }));
-function DatePicker() {
+function DatePicker({ expiryDate, setExpiryDate }) {
 	const classes = useStyles();
-
-	const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-	const handleDateChange = (date) => {
-		setSelectedDate(date);
-	};
 
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<KeyboardDatePicker
 				className={classes.new__input}
-				disableToolbar
 				variant="inline"
 				size="small"
 				format="dd/MM/yyyy"
 				id="date-picker-inline"
-				label="Product Expiry Date"
-				value={selectedDate}
-				onChange={handleDateChange}
+				label="Expiry Date"
+				value={expiryDate}
+				onChange={setExpiryDate}
 				KeyboardButtonProps={{
 					"aria-label": "change date",
 				}}

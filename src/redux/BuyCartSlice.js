@@ -4,9 +4,6 @@ const buyCartSlice = createSlice({
 	name: "buyCart",
 	initialState: {
 		buyCartItems: [],
-		// buyCartItems: localStorage.getItem("buyCartItems")
-		// 	? JSON.parse(localStorage.getItem("buyCartItems"))
-		// 	: [],
 		buyCartTotalAmount: 0,
 	},
 	reducers: {

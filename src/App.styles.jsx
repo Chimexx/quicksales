@@ -22,8 +22,8 @@ export const Wrapper = styled.div`
 `;
 export const MainView = styled.div`
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	align-items: flex-start;
+	justify-content: space-between;
 	width: 80vw;
 	height: calc(100vh - 60px);
 	overflow: auto;

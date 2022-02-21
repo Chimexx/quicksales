@@ -1,5 +1,5 @@
 import { Button, Container } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Table } from "./InventoryList.styles";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +8,7 @@ import { addToBuyCart, decQty, directInput, getTotals, removeFromBuyCart } from 
 import { CgOptions } from "react-icons/cg";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { convertMoney } from "../Utils/converter";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	actions: {
@@ -130,14 +131,16 @@ const InventoryList = () => {
 							<td>{convertMoney(item.wholesalePrice)}</td>
 							<td>{convertMoney(item.customPrice)}</td>
 							<td>
-								<Button
-									className={classes.editbutton}
-									size="small"
-									variant="outlined"
-									color="primary"
-								>
-									Edit
-								</Button>
+								<Link to="/">
+									<Button
+										className={classes.editbutton}
+										size="small"
+										variant="outlined"
+										color="primary"
+									>
+										Edit
+									</Button>
+								</Link>
 							</td>
 						</tr>
 					))}
