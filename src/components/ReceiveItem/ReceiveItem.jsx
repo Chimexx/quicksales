@@ -1,4 +1,4 @@
-import { Button, Typography, Container, TextField, CardActionArea, LinearProgress } from "@material-ui/core";
+import { Button, Typography, Container, TextField, CardActionArea } from "@material-ui/core";
 import React, { useState } from "react";
 import { useStyles } from "./ReceiveItem.styles";
 import InventoryList from "../InventoryList/InventoryList";
@@ -6,6 +6,7 @@ import FilterDisplay from "../FilterDisplay/FilterDisplay";
 import { convertMoney } from "../Utils/converter";
 import { clearBuyCart, getTotals } from "../../redux/BuyCartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Progress from "../Utils/Progress";
 
 const data = [
 	{
@@ -74,7 +75,7 @@ const ReceiveItem = () => {
 	return (
 		<Container className={classes.containerLeft} style={{ height: "100%" }}>
 			<Container className={classes.new}>
-				{loading && <LinearProgress className={classes.progress} />}
+				{loading && <Progress />}
 				<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 					Receive Item
 				</Typography>

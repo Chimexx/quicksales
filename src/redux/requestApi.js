@@ -3,47 +3,42 @@ import {
 	fetchItemsFailure,
 	fetchItemsStart,
 	fetchItemsSuccess,
-	fetchMeatFailure,
-	fetchMeatStart,
-	fetchMeatSuccess,
-	fetchSauceFailure,
-	fetchSauceStart,
-	fetchSauceSuccess,
+	fetchDepartmentFailure,
+	fetchDepartmentStart,
+	fetchDepartmentSuccess,
+	fetchVendorFailure,
+	fetchVendorStart,
+	fetchVendorSuccess,
 } from "./productSlice";
 
-export const itemsFetch = async (dispatch, cat) => {
+export const itemsFetch = async (dispatch) => {
 	dispatch(fetchItemsStart());
 	try {
-		const res = cat
-			? await publicRequest.get(`dishes?category=${cat}`)
-			: await publicRequest.get("dishes");
+		const res = await publicRequest.get("dishes");
 		await dispatch(fetchItemsSuccess(res.data));
 	} catch (error) {
 		dispatch(fetchItemsFailure());
-
-		console.log(error);
 	}
 };
 
-export const meatFetch = async (dispatch) => {
-	dispatch(fetchMeatStart());
+export const vendorFetch = async (dispatch) => {
+	dispatch(fetchVendorStart());
 
 	try {
 		const res = await publicRequest.get("meat");
-		await dispatch(fetchMeatSuccess(res.data));
+		await dispatch(fetchVendorSuccess(res.data));
 	} catch (error) {
-		dispatch(fetchMeatFailure());
-		console.log(error);
+		dispatch(fetchVendorFailure());
 	}
 };
 
-export const sauceFetch = async (dispatch) => {
-	dispatch(fetchSauceStart());
+export const departmentFetch = async (dispatch) => {
+	dispatch(fetchDepartmentStart());
 	try {
 		const res = await publicRequest.get("sauce");
-		await dispatch(fetchSauceSuccess(res.data));
+		await dispatch(fetchDepartmentSuccess(res.data));
 	} catch (error) {
-		dispatch(fetchSauceFailure());
+		dispatch(fetchDepartmentFailure());
 		console.log(error);
 	}
 };

@@ -15,7 +15,7 @@ export const theme = createTheme({
 			darkGray: "#303030",
 		},
 		secondary: {
-			main: "#cccdde",
+			main: "#bebfce",
 			darkGray: "#303030",
 		},
 		default: {

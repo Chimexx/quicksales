@@ -57,7 +57,7 @@ export const useStyles = makeStyles((theme) => ({
 		},
 	},
 	add__buttons: {
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.primary.white,
 		color: theme.palette.primary.blueDeFrance,
 	},
 	progress: {

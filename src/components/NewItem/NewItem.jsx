@@ -8,13 +8,14 @@ import {
 	Select,
 	MenuItem,
 	CardActionArea,
-	LinearProgress,
 	Divider,
 } from "@material-ui/core";
 import newItemSchema from "../../validations/validationSchema";
 import { useStyles } from "./NewItem.styles";
 import React, { useState } from "react";
 import DatePicker from "../../components/Utils/DatePicker";
+import AddModal from "../AddModal/AddModal";
+import Progress from "../Utils/Progress";
 
 const NewItem = () => {
 	const classes = useStyles();
@@ -22,10 +23,18 @@ const NewItem = () => {
 	const [input, setInput] = useState([]);
 	const [isValid, setIsValid] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [type, setType] = useState("");
 
 	const handleChange = async (e) => {
 		setInput({ ...input, [e.target.name]: e.target.value });
 		setIsValid(await newItemSchema.isValid(input));
+	};
+
+	const handleModal = (action) => {
+		if (action === "dep") setType("dep");
+		if (action === "vendor") setType("vendor");
+		setModalOpen(true);
 	};
 
 	const date = new Date();
@@ -44,7 +53,7 @@ const NewItem = () => {
 	return (
 		<Container className={classes.containerRight}>
 			<Container className={classes.new}>
-				{loading && <LinearProgress className={classes.progress} />}
+				{loading && <Progress />}
 				<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 					Create New Item
 				</Typography>
@@ -55,7 +64,7 @@ const NewItem = () => {
 						fullWidth={true}
 						size="small"
 						name="itemName"
-						placeholder="Item Name"
+						label="Item Name"
 						className={classes.new__input}
 						value={input.itemName}
 						onChange={handleChange}
@@ -70,7 +79,7 @@ const NewItem = () => {
 							fullWidth={true}
 							size="small"
 							name="description"
-							placeholder="Item Description"
+							label="Item Description"
 							className={classes.new__input}
 							value={input.description}
 							onChange={handleChange}
@@ -85,7 +94,7 @@ const NewItem = () => {
 							size="small"
 							name="salesPrice"
 							fullWidth={true}
-							placeholder="Item Sales Price"
+							label="Item Sales Price"
 							type="number"
 							className={classes.new__input}
 							value={input.salesPrice}
@@ -100,7 +109,7 @@ const NewItem = () => {
 							fullWidth={true}
 							size="small"
 							name="costPrice"
-							placeholder="Item Cost Price"
+							label="Item Cost Price"
 							type="number"
 							className={classes.new__input}
 							value={input.costPrice}
@@ -115,7 +124,7 @@ const NewItem = () => {
 							size="small"
 							name="wholesalePrice"
 							fullWidth={true}
-							placeholder="Wholesale Price"
+							label="Wholesale Price"
 							type="number"
 							className={classes.new__input}
 							value={input.wholesalePrice}
@@ -128,7 +137,7 @@ const NewItem = () => {
 							size="small"
 							name="customPrice"
 							fullWidth={true}
-							placeholder="Custom Price"
+							label="Custom Price"
 							type="number"
 							className={classes.new__input}
 							value={input.customPrice}
@@ -148,7 +157,7 @@ const NewItem = () => {
 								value={input.vendor}
 								onChange={handleChange}
 							>
-								<MenuItem value="">
+								<MenuItem value="system">
 									<em>None</em>
 								</MenuItem>
 								<MenuItem value={10}>GSK</MenuItem>
@@ -170,7 +179,7 @@ const NewItem = () => {
 								value={input.department}
 								onChange={handleChange}
 							>
-								<MenuItem value="">
+								<MenuItem value="system">
 									<em>None</em>
 								</MenuItem>
 								<MenuItem value={10}>Anti-Malarial</MenuItem>
@@ -185,6 +194,7 @@ const NewItem = () => {
 
 				<Divider />
 				<Button
+					onClick={() => handleModal("dep")}
 					className={classes.add__buttons}
 					size="small"
 					variant="outlined"
@@ -194,6 +204,7 @@ const NewItem = () => {
 					Add Department
 				</Button>
 				<Button
+					onClick={() => handleModal("vendor")}
 					className={classes.add__buttons}
 					size="small"
 					variant="outlined"
@@ -216,6 +227,7 @@ const NewItem = () => {
 					Create Item
 				</Button>
 			</CardActionArea>
+			{modalOpen && <AddModal type={type} setModalOpen={setModalOpen} />}
 		</Container>
 	);
 };

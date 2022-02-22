@@ -1,69 +1,94 @@
-// import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
-// const initialState = {
-// 	itemList: [],
-// 	meatList: [],
-// 	sauceList: [],
-// 	pending: false,
-// 	error: false,
-// };
+const initialState = {
+	productList: [],
+	isFetching: false,
+	error: false,
+};
 
-// const productSlice = createSlice({
-// 	name: "items",
-// 	initialState,
-// 	reducers: {
-// 		//FetchItems
-// 		fetchItemsStart: (state) => {
-// 			state.pending = true;
-// 		},
-// 		fetchItemsSuccess: (state, action) => {
-// 			state.pending = false;
-// 			state.error = false;
-// 			state.itemList = action.payload;
-// 		},
-// 		fetchItemsFailure: (state) => {
-// 			state.pending = false;
-// 			state.error = true;
-// 		},
-// 		//FetchMeat
-// 		fetchMeatStart: (state) => {
-// 			state.pending = true;
-// 		},
-// 		fetchMeatSuccess: (state, action) => {
-// 			state.pending = false;
-// 			state.error = false;
-// 			state.meatList = action.payload;
-// 		},
-// 		fetchMeatFailure: (state) => {
-// 			state.pending = false;
-// 			state.error = true;
-// 		},
-// 		//FetchSauce
-// 		fetchSauceStart: (state) => {
-// 			state.pending = true;
-// 		},
-// 		fetchSauceSuccess: (state, action) => {
-// 			state.pending = false;
-// 			state.error = false;
-// 			state.sauceList = action.payload;
-// 		},
-// 		fetchSauceFailure: (state) => {
-// 			state.pending = false;
-// 			state.error = true;
-// 		},
-// 	},
-// });
+const productSlice = createSlice({
+	name: "products",
+	initialState,
+	reducers: {
+		//Fetch Products
+		fetchProductStart: (state) => {
+			state.isFetching = true;
+		},
+		fetchProductSuccess: (state, action) => {
+			state.isFetching = false;
+			state.error = false;
+			state.productList = action.payload;
+		},
+		fetchProductFailure: (state) => {
+			state.isFetching = false;
+			state.error = true;
+			toast.error(`Sorry, an error occured`);
+		},
+		//Update Product
+		updateProductStart: (state) => {
+			state.isFetching = true;
+		},
+		updateProductSuccess: (state, action) => {
+			state.isFetching = false;
+			state.error = false;
+			state.productList[state.productList.findIndex((item) => item._id === action.payload.id)] =
+				action.payload.data;
+			toast.success(`${action.payload.itemName} has been updated!`);
+		},
+		updateProductFailure: (state) => {
+			state.isFetching = false;
+			state.error = true;
+			toast.error(`Sorry, an error occured`);
+		},
+		//Create Product
+		createProductStart: (state) => {
+			state.isFetching = true;
+		},
+		createProductSuccess: (state, action) => {
+			state.isFetching = false;
+			state.error = false;
+			state.productList.push(action.payload);
+			toast.success(`${action.payload.itemName} has been added!`);
+		},
+		createProductFailure: (state) => {
+			state.isFetching = false;
+			state.error = true;
+			toast.error(`Sorry, an error occured`);
+		},
 
-// export default productSlice.reducer;
-// export const getState = (state) => state.items;
-// export const {
-// 	fetchSauceStart,
-// 	fetchSauceSuccess,
-// 	fetchSauceFailure,
-// 	fetchItemsStart,
-// 	fetchItemsSuccess,
-// 	fetchItemsFailure,
-// 	fetchMeatStart,
-// 	fetchMeatSuccess,
-// 	fetchMeatFailure,
-// } = productSlice.actions;
+		//Delete Product
+		deleteProductStart: (state) => {
+			state.isFetching = true;
+		},
+		deleteProductSuccess: (state, action) => {
+			state.isFetching = false;
+			state.productList.splice(
+				state.productList.findIndex((item) => item._id === action.payload.id),
+				1
+			);
+			toast.success(`Product has been deleted!`);
+		},
+		deleteProductFailure: (state) => {
+			state.isFetching = false;
+			state.error = true;
+			toast.error(`Sorry, an error occured`);
+		},
+	},
+});
+export const getProducts = (state) => state.products;
+export const {
+	fetchProductStart,
+	fetchProductSuccess,
+	fetchProductFailure,
+	createProductStart,
+	createProductSuccess,
+	createProductFailure,
+	deleteProductStart,
+	deleteProductSuccess,
+	deleteProductFailure,
+	updateProductStart,
+	updateProductSuccess,
+	updateProductFailure,
+} = productSlice.actions;
+export default productSlice.reducer;
