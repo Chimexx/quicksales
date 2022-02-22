@@ -17,7 +17,6 @@ const buyCartSlice = createSlice({
 			} else {
 				state.buyCartItems.push(action.payload.item);
 			}
-			localStorage.setItem("buyCartItems", JSON.stringify(state.buyCartItems));
 		},
 		decQty: (state, action) => {
 			const index = state.buyCartItems.findIndex((item) => item._id === action.payload.item._id);
@@ -26,7 +25,6 @@ const buyCartSlice = createSlice({
 			} else if ((state.buyCartItems[index].ohq = 1)) {
 				return;
 			}
-			localStorage.setItem("buyCartItems", JSON.stringify(state.buyCartItems));
 		},
 		directInput: (state, action) => {
 			const index = current(state.buyCartItems).findIndex(
@@ -34,19 +32,14 @@ const buyCartSlice = createSlice({
 			);
 			console.log(action.payload.value);
 			state.buyCartItems[index].ohq = action.payload.value;
-
-			localStorage.setItem("buyCartItems", JSON.stringify(state.buyCartItems));
 		},
 		removeFromBuyCart: (state, action) => {
 			const newItems = state.buyCartItems.filter((item) => item._id !== action.payload.item._id);
 			state.buyCartItems = newItems;
-
-			localStorage.setItem("buyCartItems", JSON.stringify(state.buyCartItems));
 		},
 
 		clearBuyCart: (state, action) => {
 			state.buyCartItems = [];
-			localStorage.setItem("buyCartItems", JSON.stringify(state.buyCartItems));
 		},
 
 		getTotals: (state, action) => {

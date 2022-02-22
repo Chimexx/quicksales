@@ -1,31 +1,39 @@
 import { Button, Divider, Grid, TextField } from "@material-ui/core";
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createDepartment } from "../../redux/departmentsApi";
+import { createVendor } from "../../redux/vendorsApi";
 import Progress from "../Utils/Progress";
 import { Container, Wrapper, ButtonContainer } from "./AddModal.styles";
 
 const AddModal = ({ setModalOpen, type }) => {
+	const dispatch = useDispatch();
 	const [vendor, setVendor] = useState([]);
-	const [dep, setDep] = useState("system");
-	const [loading, setLoading] = useState(false);
+	const [dep, setDep] = useState("");
+	const [isValid, setIsValid] = useState(false);
+
+	const { isFetching_vendor } = useSelector((state) => state.vendors);
+	const { isFetching_dep } = useSelector((state) => state.departments);
 
 	const handleVendor = (e) => {
-		setVendor({ ...vendor, [e.target.name]: e.target.value });
+		setVendor({ ...vendor, [e.target.name]: e.target.value.toLowerCase() });
+		if (vendor.company) setIsValid(true);
 	};
-	const createVendor = (e) => {
+	const createVen = (e) => {
 		e.preventDefault();
-		console.log(vendor);
+		createVendor(dispatch, vendor);
 	};
 
 	const createDep = (e) => {
 		e.preventDefault();
-		console.log(dep);
+		createDepartment(dispatch, dep);
 	};
 
 	if (type === "dep") {
 		return (
 			<Container>
 				<Wrapper>
-					{loading && <Progress />}
+					{isFetching_dep && <Progress />}
 					<div className="body">
 						<p className="title">Add a new department</p>
 						<Divider />
@@ -39,7 +47,7 @@ const AddModal = ({ setModalOpen, type }) => {
 								variant="filled"
 								size="small"
 								value={dep}
-								onChange={(e) => setDep(e.target.value)}
+								onChange={(e) => setDep(e.target.value.toLowerCase())}
 							/>
 
 							<ButtonContainer>
@@ -49,7 +57,7 @@ const AddModal = ({ setModalOpen, type }) => {
 									variant="outlined"
 									color="primary"
 									onClick={createDep}
-									// disabled={!isValid}
+									disabled={!dep || isFetching_dep}
 								>
 									Add Department
 								</Button>
@@ -58,7 +66,7 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									color="secondary"
 									onClick={() => setModalOpen(false)}
-									// disabled={!isValid}
+									disabled={isFetching_dep}
 								>
 									Cancel
 								</Button>
@@ -74,7 +82,7 @@ const AddModal = ({ setModalOpen, type }) => {
 		return (
 			<Container>
 				<Wrapper>
-					{loading && <Progress />}
+					{isFetching_vendor && <Progress />}
 					<div className="body">
 						<p className="title">Add a new vendor</p>
 						<Divider />
@@ -141,6 +149,7 @@ const AddModal = ({ setModalOpen, type }) => {
 										label="Phone"
 										id="phone"
 										name="phone"
+										type="number"
 										variant="filled"
 										size="small"
 										value={vendor.phone ?? ""}
@@ -163,6 +172,7 @@ const AddModal = ({ setModalOpen, type }) => {
 										label="Account Number"
 										id="account"
 										name="account"
+										type="number"
 										variant="filled"
 										size="small"
 										value={vendor.account ?? ""}
@@ -176,8 +186,8 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									variant="outlined"
 									color="primary"
-									onClick={createVendor}
-									// disabled={!isValid}
+									onClick={createVen}
+									disabled={!isValid || isFetching_vendor}
 								>
 									Add Vendor
 								</Button>
@@ -186,7 +196,7 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									color="secondary"
 									onClick={() => setModalOpen(false)}
-									// disabled={!isValid}
+									disabled={isFetching_vendor}
 								>
 									Cancel
 								</Button>

@@ -12,31 +12,42 @@ import {
 } from "@material-ui/core";
 import newItemSchema from "../../validations/validationSchema";
 import { useStyles } from "./NewItem.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "../../components/Utils/DatePicker";
 import AddModal from "../AddModal/AddModal";
 import Progress from "../Utils/Progress";
+import { useSelector, useDispatch } from "react-redux";
+import { createProduct } from "../../redux/productsApi";
+import { fetchVendors } from "../../redux/vendorsApi";
+import { fetchDepartments } from "../../redux/departmentsApi";
 
 const NewItem = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 	const [expiryDate, setExpiryDate] = useState(new Date());
 	const [input, setInput] = useState([]);
 	const [isValid, setIsValid] = useState(false);
-	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [type, setType] = useState("");
 
+	useEffect(() => {
+		fetchVendors(dispatch);
+		fetchDepartments(dispatch);
+	}, [dispatch]);
+
+	const { isFetching } = useSelector((state) => state.products);
+	const { vendorList } = useSelector((state) => state.vendors);
+	const { departmentList } = useSelector((state) => state.departments);
+
 	const handleChange = async (e) => {
-		setInput({ ...input, [e.target.name]: e.target.value });
+		setInput({ ...input, [e.target.name]: e.target.value.toLowerCase() });
 		setIsValid(await newItemSchema.isValid(input));
 	};
-
 	const handleModal = (action) => {
 		if (action === "dep") setType("dep");
 		if (action === "vendor") setType("vendor");
 		setModalOpen(true);
 	};
-
 	const date = new Date();
 	const expiry = expiryDate.getFullYear() + "-" + (expiryDate.getMonth() + 1) + "-" + expiryDate.getDate();
 	const today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
@@ -46,14 +57,16 @@ const NewItem = () => {
 
 		if (isValid) {
 			const data = { ...input, expiryDate: today === expiry ? "" : expiryDate };
-			console.log(data);
+			createProduct(dispatch, data);
+			setInput([]);
+			setIsValid(false);
 		}
 	};
 
 	return (
 		<Container className={classes.containerRight}>
 			<Container className={classes.new}>
-				{loading && <Progress />}
+				{isFetching && <Progress />}
 				<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 					Create New Item
 				</Typography>
@@ -66,7 +79,7 @@ const NewItem = () => {
 						name="itemName"
 						label="Item Name"
 						className={classes.new__input}
-						value={input.itemName}
+						value={input.itemName ?? ""}
 						onChange={handleChange}
 						required
 						error={!input.itemName}
@@ -81,7 +94,7 @@ const NewItem = () => {
 							name="description"
 							label="Item Description"
 							className={classes.new__input}
-							value={input.description}
+							value={input.description ?? ""}
 							onChange={handleChange}
 							required
 							error={!input.description}
@@ -97,7 +110,7 @@ const NewItem = () => {
 							label="Item Sales Price"
 							type="number"
 							className={classes.new__input}
-							value={input.salesPrice}
+							value={input.salesPrice ?? ""}
 							onChange={handleChange}
 							required
 							error={!input.salesPrice}
@@ -112,7 +125,7 @@ const NewItem = () => {
 							label="Item Cost Price"
 							type="number"
 							className={classes.new__input}
-							value={input.costPrice}
+							value={input.costPrice ?? ""}
 							onChange={handleChange}
 							required
 							error={!input.costPrice}
@@ -127,20 +140,20 @@ const NewItem = () => {
 							label="Wholesale Price"
 							type="number"
 							className={classes.new__input}
-							value={input.wholesalePrice}
+							value={input.wholesalePrice ?? ""}
 							onChange={handleChange}
 						/>
 
 						<TextField
-							id="customPrice"
+							id="retailPrice"
 							variant="filled"
 							size="small"
-							name="customPrice"
+							name="retailPrice"
 							fullWidth={true}
-							label="Custom Price"
+							label="Retail Price"
 							type="number"
 							className={classes.new__input}
-							value={input.customPrice}
+							value={input.retailPrice ?? ""}
 							onChange={handleChange}
 						/>
 
@@ -154,15 +167,17 @@ const NewItem = () => {
 								labelId="vendor"
 								id="vendor"
 								name="vendor"
-								value={input.vendor}
+								// value={input.vendor ? input.vendor : ''}
 								onChange={handleChange}
 							>
-								<MenuItem value="system">
+								<MenuItem selected value="system">
 									<em>None</em>
 								</MenuItem>
-								<MenuItem value={10}>GSK</MenuItem>
-								<MenuItem value={20}>Hovid</MenuItem>
-								<MenuItem value={30}>Laborate</MenuItem>
+								{vendorList?.map((vendor) => (
+									<MenuItem key={vendor.company} value={vendor.company}>
+										{vendor.company.toUpperCase()}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 
@@ -176,15 +191,17 @@ const NewItem = () => {
 								labelId="department"
 								id="department"
 								name="department"
-								value={input.department}
 								onChange={handleChange}
 							>
-								<MenuItem value="system">
+								<MenuItem selected value="system">
 									<em>None</em>
 								</MenuItem>
-								<MenuItem value={10}>Anti-Malarial</MenuItem>
-								<MenuItem value={20}>Anti-Biotics</MenuItem>
-								<MenuItem value={30}>Creams</MenuItem>
+
+								{departmentList?.map((dep) => (
+									<MenuItem key={dep.department} value={dep.department}>
+										{dep.department.toUpperCase()}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 
@@ -222,7 +239,7 @@ const NewItem = () => {
 					variant="outlined"
 					color="primary"
 					onClick={createItem}
-					disabled={!isValid}
+					disabled={!isValid || isFetching}
 				>
 					Create Item
 				</Button>

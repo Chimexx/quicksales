@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 const initialState = {
 	departmentList: [],
-	isFetching: false,
+	isFetching_dep: false,
 	error: false,
 };
 const departmentSlice = createSlice({
@@ -12,55 +12,56 @@ const departmentSlice = createSlice({
 	reducers: {
 		//Fetch Department
 		fetchDepartmentStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_dep = true;
 		},
 		fetchDepartmentSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = false;
 			state.departmentList = action.payload;
+			console.log(action.payload);
 		},
 		fetchDepartmentFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Create Department
 		createDepartmentStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_dep = true;
 		},
 		createDepartmentSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = false;
-			state.departmentList = action.payload;
-			toast.success(`${action.payload.dep} has been added!`);
+			state.departmentList.push(action.payload);
+			toast.success(`${action.payload.department} has been added!`);
 		},
 		createDepartmentFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Update Department
 		updateDepartmentStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_dep = true;
 		},
 		updateDepartmentSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = false;
 			state.departmentList[state.departmentList.findIndex((item) => item._id === action.payload.id)] =
 				action.payload.data;
 			toast.success(`${action.payload.dep} has been updated!`);
 		},
 		updateDepartmentFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Delete Department
 		deleteDepartmentStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_dep = true;
 		},
 		deleteDepartmentSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.departmentList.splice(
 				state.departmentList.findIndex((item) => item._id === action.payload.id),
 				1
@@ -68,7 +69,7 @@ const departmentSlice = createSlice({
 			toast.success(`Department has been removed!`);
 		},
 		deleteDepartmentFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_dep = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},

@@ -11,19 +11,21 @@ function App() {
 	return (
 		<>
 			<Toaster
-				position="bottom-center"
+				position="top-right"
 				gutter={8}
 				toastOptions={{
-					duration: 3000,
+					duration: 4000,
 					style: {
 						background: "#fff",
 						color: "#62d346",
-						fontSize: "1.5rem",
+						fontSize: "1rem",
+						borderLeft: "#018ef4 solid 5px",
 					},
 					error: {
 						style: {
 							color: "red",
 							secondary: "black",
+							borderLeft: "red solid 5px",
 						},
 					},
 				}}

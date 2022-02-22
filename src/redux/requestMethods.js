@@ -8,7 +8,7 @@ export const publicRequest = axios.create({
 	baseURL: BASE_URL,
 });
 
-// export const authRequest = axios.create({
-// 	baseURL: BASE_URL,
-// 	headers: { TOKEN: `Bearer ${TOKEN}` },
-// });
+export const authRequest = axios.create({
+	baseURL: BASE_URL,
+	// headers: { TOKEN: `Bearer ${TOKEN}` },
+});

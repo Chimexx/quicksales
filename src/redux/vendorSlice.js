@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 const initialState = {
 	vendorList: [],
-	isFetching: false,
+	isFetching_vendor: false,
 	error: false,
 };
 
@@ -13,55 +13,55 @@ const departmentSlice = createSlice({
 	reducers: {
 		//Fetch Vendor
 		fetchVendorStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_vendor = true;
 		},
 		fetchVendorSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = false;
 			state.vendorList = action.payload;
 		},
 		fetchVendorFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Create Vendor
 		createVendorStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_vendor = true;
 		},
 		createVendorSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = false;
-			state.vendorList = action.payload;
+			state.vendorList.push(action.payload);
 			toast.success(`${action.payload.company} has been added!`);
 		},
 		createDepartmentFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Update Vendor
 		updateProductStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_vendor = true;
 		},
 		updateVendorSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = false;
 			state.vendorList[state.vendorList.findIndex((item) => item._id === action.payload.id)] =
 				action.payload.data;
 			toast.success(`${action.payload.company} has been updated!`);
 		},
 		updateVendorFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
 		//Delete Vendor
 		deleteVendorStart: (state) => {
-			state.isFetching = true;
+			state.isFetching_vendor = true;
 		},
 		deleteVendorSuccess: (state, action) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.vendorList.splice(
 				state.vendorList.findIndex((item) => item._id === action.payload.id),
 				1
@@ -69,7 +69,7 @@ const departmentSlice = createSlice({
 			toast.success(`Vendor has been removed!`);
 		},
 		deleteVendorFailure: (state) => {
-			state.isFetching = false;
+			state.isFetching_vendor = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
