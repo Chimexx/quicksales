@@ -40,7 +40,8 @@ const NewItem = () => {
 	const { departmentList } = useSelector((state) => state.departments);
 
 	const handleChange = async (e) => {
-		setInput({ ...input, [e.target.name]: e.target.value.toLowerCase() });
+		setInput({ ...input, [e.target.name]: e.target.value });
+		// setInput({ ...input, [e.target.name]: e.target.value.toLowerCase() });
 		setIsValid(await newItemSchema.isValid(input));
 	};
 	const handleModal = (action) => {
@@ -58,8 +59,9 @@ const NewItem = () => {
 		if (isValid) {
 			const data = { ...input, expiryDate: today === expiry ? "" : expiryDate };
 			createProduct(dispatch, data);
-			setInput([]);
-			setIsValid(false);
+			// setInput([]);
+			console.log(data);
+			// setIsValid(false);
 		}
 	};
 
@@ -71,21 +73,21 @@ const NewItem = () => {
 					Create New Item
 				</Typography>
 				<Container className={classes.body}>
-					<TextField
-						id="filled-basic"
-						variant="filled"
-						fullWidth={true}
-						size="small"
-						name="itemName"
-						label="Item Name"
-						className={classes.new__input}
-						value={input.itemName ?? ""}
-						onChange={handleChange}
-						required
-						error={!input.itemName}
-						helperText={!input.itemName && "Field required"}
-					/>
 					<Container className={classes.new_small_input}>
+						<TextField
+							id="filled-basic"
+							variant="filled"
+							fullWidth={true}
+							size="small"
+							name="itemName"
+							label="Item Name"
+							className={classes.new__input}
+							value={input.itemName ?? ""}
+							onChange={handleChange}
+							required
+							error={!input.itemName}
+							helperText={!input.itemName && "Field required"}
+						/>
 						<TextField
 							id="description"
 							variant="filled"
@@ -100,6 +102,21 @@ const NewItem = () => {
 							error={!input.description}
 							helperText={!input.description && "Field required"}
 						/>
+						<TextField
+							id="onHandQty"
+							variant="filled"
+							fullWidth={true}
+							size="small"
+							name="onHandQty"
+							label="On-Hand Qty"
+							className={classes.new__input}
+							value={input.onHandQty ?? 0}
+							onChange={handleChange}
+							required
+							type="number"
+							error={!input.onHandQty}
+							helperText={!input.onHandQty && "Field required"}
+						/>
 
 						<TextField
 							id="salesPrice"
@@ -110,9 +127,10 @@ const NewItem = () => {
 							label="Item Sales Price"
 							type="number"
 							className={classes.new__input}
-							value={input.salesPrice ?? ""}
+							value={input.salesPrice ?? 0}
 							onChange={handleChange}
 							required
+							min="0"
 							error={!input.salesPrice}
 							helperText={!input.salesPrice && "Field required"}
 						/>
@@ -125,9 +143,10 @@ const NewItem = () => {
 							label="Item Cost Price"
 							type="number"
 							className={classes.new__input}
-							value={input.costPrice ?? ""}
+							value={input.costPrice ?? 0}
 							onChange={handleChange}
 							required
+							min="0"
 							error={!input.costPrice}
 							helperText={!input.costPrice && "Field required"}
 						/>
@@ -139,8 +158,9 @@ const NewItem = () => {
 							fullWidth={true}
 							label="Wholesale Price"
 							type="number"
+							min="0"
 							className={classes.new__input}
-							value={input.wholesalePrice ?? ""}
+							value={input.wholesalePrice ?? 0}
 							onChange={handleChange}
 						/>
 
@@ -152,8 +172,9 @@ const NewItem = () => {
 							fullWidth={true}
 							label="Retail Price"
 							type="number"
+							min="0"
 							className={classes.new__input}
-							value={input.retailPrice ?? ""}
+							value={input.retailPrice ?? 0}
 							onChange={handleChange}
 						/>
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const BASE_URL = "https://tao-foods.herokuapp.com/api/";
+// const BASE_URL = "https://quicksales-api.herokuapp.com/api/";
 const BASE_URL = "http://localhost:5000/api/";
 // const TOKEN = JSON.parse(localStorage.getItem("taoToken"));
 

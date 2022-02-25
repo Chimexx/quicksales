@@ -6,12 +6,13 @@ import Home from "./Pages/Home/Home";
 import Inventory from "./Pages/Inventory/Inventory";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import ItemList from "./Pages/ItemList/ItemList";
 
 function App() {
 	return (
 		<>
 			<Toaster
-				position="top-right"
+				position="top-center"
 				gutter={8}
 				toastOptions={{
 					duration: 4000,
@@ -19,7 +20,9 @@ function App() {
 						background: "#fff",
 						color: "#62d346",
 						fontSize: "1rem",
-						borderLeft: "#018ef4 solid 5px",
+						borderLeft: "#62d346 solid 5px",
+						borderRadius: 2,
+						maxWidth: 500,
 					},
 					error: {
 						style: {
@@ -39,6 +42,7 @@ function App() {
 							<Routes>
 								<Route path="/home" element={<Home />} />
 								<Route path="/inventory" element={<Inventory />} />
+								<Route path="/items" element={<ItemList />} />
 							</Routes>
 						</MainView>
 					</Wrapper>

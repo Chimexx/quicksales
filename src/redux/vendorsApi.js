@@ -19,7 +19,6 @@ export const fetchVendors = async (dispatch) => {
 	dispatch(fetchVendorStart());
 	try {
 		const res = await publicRequest.get("vendors");
-		console.log(res);
 		await dispatch(fetchVendorSuccess(res.data));
 	} catch (error) {
 		dispatch(fetchVendorFailure());

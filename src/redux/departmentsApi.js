@@ -28,8 +28,10 @@ export const fetchDepartments = async (dispatch) => {
 //Create Departments
 export const createDepartment = async (dispatch, data) => {
 	dispatch(createDepartmentStart());
+	console.log(data);
 	try {
 		const res = await publicRequest.post("departments/new", data);
+
 		await dispatch(createDepartmentSuccess(res.data));
 	} catch (error) {
 		dispatch(createDepartmentFailure());

@@ -23,7 +23,7 @@ const productSlice = createSlice({
 		fetchProductFailure: (state) => {
 			state.isFetching = false;
 			state.error = true;
-			toast.error(`Sorry, an error occured`);
+			toast.error(`Sorry, an error occured, Check your network`);
 		},
 		//Update Product
 		updateProductStart: (state) => {
@@ -36,7 +36,20 @@ const productSlice = createSlice({
 				action.payload.data;
 			toast.success(`${action.payload.itemName} has been updated!`);
 		},
-		updateProductFailure: (state) => {
+		//receive Inventory
+		receiveInventoryStart: (state) => {
+			state.isFetching = true;
+		},
+		receiveInventorySuccess: (state, action) => {
+			state.isFetching = false;
+			state.error = false;
+			action.payload.forEach((entry) => {
+				state.productList[state.productList.findIndex((item) => item._id === entry._id)].availQty +=
+					entry.onHandQty;
+			});
+			toast.success("Inventory has been updated!");
+		},
+		receiveInventoryFailure: (state) => {
 			state.isFetching = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
@@ -90,5 +103,8 @@ export const {
 	updateProductStart,
 	updateProductSuccess,
 	updateProductFailure,
+	receiveInventoryStart,
+	receiveInventorySuccess,
+	receiveInventoryFailure,
 } = productSlice.actions;
 export default productSlice.reducer;

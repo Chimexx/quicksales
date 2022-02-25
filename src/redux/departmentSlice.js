@@ -18,7 +18,6 @@ const departmentSlice = createSlice({
 			state.isFetching_dep = false;
 			state.error = false;
 			state.departmentList = action.payload;
-			console.log(action.payload);
 		},
 		fetchDepartmentFailure: (state) => {
 			state.isFetching_dep = false;

@@ -58,7 +58,7 @@ export const useStyles = makeStyles((theme) => ({
 		padding: 10,
 	},
 	table__container: {
-		maxHeight: 300,
+		maxHeight: 280,
 		width: "100%",
 		padding: 0,
 		margin: "10px 0",
@@ -81,6 +81,10 @@ export const useStyles = makeStyles((theme) => ({
 	action__buttons: {
 		backgroundColor: theme.palette.primary.main,
 		color: theme.palette.primary.white,
+
+		"&:disabled": {
+			backgroundColor: theme.palette.secondary.main,
+		},
 	},
 	progress: {
 		backgroundColor: theme.palette.primary.saffron,

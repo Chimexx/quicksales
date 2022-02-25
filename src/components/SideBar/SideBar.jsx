@@ -28,10 +28,11 @@ const SideBar = () => {
 						Inventory
 					</Button>
 				</Link>
-
-				<Button className={classes.button} size="large" variant="outlined" color="primary">
-					Button
-				</Button>
+				<Link to="/items">
+					<Button className={classes.button} size="large" variant="outlined" color="primary">
+						Item list
+					</Button>
+				</Link>
 				<Button className={classes.button} size="large" variant="outlined" color="primary">
 					Button
 				</Button>

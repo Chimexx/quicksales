@@ -8,6 +8,7 @@ export const Item = styled.div`
 	white-space: nowrap;
 	&:hover {
 		background-color: #eeeeee;
+		font-weight: 700;
 	}
 
 	.name {

@@ -13,6 +13,7 @@ export const theme = createTheme({
 			blueDeFrance2: "#018ff426",
 			orange: "#ff8400",
 			darkGray: "#303030",
+			bg2: "#f8f8ff",
 		},
 		secondary: {
 			main: "#bebfce",

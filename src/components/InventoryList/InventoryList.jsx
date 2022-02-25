@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 	actions: {
 		backgroundColor: theme.palette.primary.blueDeFrance2,
 		color: theme.palette.primary.white,
-		padding: 5,
+		padding: 1,
 		borderRadius: 5,
 	},
 	button: {
@@ -42,30 +42,30 @@ const InventoryList = () => {
 	const dispatch = useDispatch();
 
 	const { buyCartItems } = useSelector((state) => state.buyCart);
-	const [ohq, setOhq] = useState(1);
+	const [onHandQty, setOnHandQty] = useState(1);
 
 	const handleQty = (item, action, value) => {
-		setOhq(item.ohq);
+		setOnHandQty(item.onHandQty);
 		if (action === "inc") {
-			setOhq(item.ohq + 1);
-			dispatch(addToBuyCart({ item, ohq }));
+			setOnHandQty(item.onHandQty + 1);
+			dispatch(addToBuyCart({ item, onHandQty }));
 			dispatch(getTotals());
 		}
 		if (action === "dec") {
-			if (ohq < 1) {
-				setOhq(1);
+			if (onHandQty < 1) {
+				setOnHandQty(1);
 			} else {
-				setOhq(item.ohq - 1);
-				dispatch(decQty({ item, ohq }));
+				setOnHandQty(item.onHandQty - 1);
+				dispatch(decQty({ item, onHandQty }));
 			}
 			dispatch(getTotals());
 		}
 		if (action === "dir") {
 			if (value === null || isNaN(value) || value < 1) {
-				setOhq(1);
+				setOnHandQty(1);
 				dispatch(directInput({ item, value: 1 }));
 			} else {
-				setOhq(value);
+				setOnHandQty(value);
 				dispatch(directInput({ item, value }));
 			}
 			dispatch(getTotals());
@@ -91,7 +91,7 @@ const InventoryList = () => {
 						<th>Ext Cost </th>
 						<th>Avail Qty</th>
 						<th>Wholesale Price</th>
-						<th>Custom Price</th>
+						<th>Retail Price</th>
 						<th>Extra Action</th>
 					</tr>
 				</thead>
@@ -104,7 +104,7 @@ const InventoryList = () => {
 									onClick={() => handleDelete(item)}
 								/>
 							</td>
-							<td>{item.name}</td>
+							<td>{item.itemName}</td>
 							<td>{convertMoney(item.salesPrice)}</td>
 							<td>{convertMoney(item.costPrice)}</td>
 							<td className="button-col">
@@ -115,7 +115,7 @@ const InventoryList = () => {
 
 									<input
 										type="number"
-										value={item.ohq}
+										value={item.onHandQty}
 										min="1"
 										onChange={(e) => handleQty(item, "dir", parseInt(e.target.value))}
 									/>
@@ -126,10 +126,10 @@ const InventoryList = () => {
 								</Container>
 							</td>
 
-							<td>{convertMoney(item.costPrice * item.ohq)}</td>
+							<td>{convertMoney(item.costPrice * item.onHandQty)}</td>
 							<td>{item.availQty}</td>
 							<td>{convertMoney(item.wholesalePrice)}</td>
-							<td>{convertMoney(item.customPrice)}</td>
+							<td>{convertMoney(item.retailPrice)}</td>
 							<td>
 								<Link to="/">
 									<Button

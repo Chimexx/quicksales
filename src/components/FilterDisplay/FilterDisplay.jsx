@@ -7,7 +7,6 @@ import { MdErrorOutline } from "react-icons/md";
 
 const FilterDisplay = ({ data }) => {
 	const dispatch = useDispatch();
-	console.log(data);
 
 	const handleAddToList = (item, id) => {
 		dispatch(addToBuyCart({ item, id }));
@@ -42,9 +41,17 @@ const FilterDisplay = ({ data }) => {
 				<Container style={{ padding: 10 }}>
 					{data?.map((item) => (
 						<div key={item._id}>
-							<Item onClick={(e) => handleAddToList(item, item._id)}>
-								<h4 className="name">{item.name.slice(0, 22)}</h4>
-								<p className="desc">{item.description.slice(0, 22)} ...</p>
+							<Item onClick={() => handleAddToList(item, item._id)}>
+								<p className="name">
+									{item.itemName.length > 22
+										? item.itemName.slice(0, 22) + "..."
+										: item.itemName}
+								</p>
+								<p className="desc">
+									{item.description.length > 22
+										? item.description.slice(0, 22) + "..."
+										: item.description}
+								</p>
 								<p className="price">₦{item.salesPrice}</p>
 								<p>{item.availQty}</p>
 							</Item>

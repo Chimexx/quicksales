@@ -26,7 +26,7 @@ const AddModal = ({ setModalOpen, type }) => {
 
 	const createDep = (e) => {
 		e.preventDefault();
-		createDepartment(dispatch, dep);
+		createDepartment(dispatch, { department: dep });
 	};
 
 	if (type === "dep") {
@@ -66,7 +66,6 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									color="secondary"
 									onClick={() => setModalOpen(false)}
-									disabled={isFetching_dep}
 								>
 									Cancel
 								</Button>
@@ -196,7 +195,6 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									color="secondary"
 									onClick={() => setModalOpen(false)}
-									disabled={isFetching_vendor}
 								>
 									Cancel
 								</Button>

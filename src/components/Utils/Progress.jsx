@@ -2,7 +2,7 @@ import React from "react";
 import { LinearProgress, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	progress: {
-		backgroundColor: theme.palette.primary.saffron,
+		backgroundColor: theme.palette.secondary.main,
 	},
 }));
 

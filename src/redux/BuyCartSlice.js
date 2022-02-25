@@ -13,16 +13,16 @@ const buyCartSlice = createSlice({
 			);
 
 			if (index >= 0) {
-				state.buyCartItems[index].ohq += 1;
+				state.buyCartItems[index].onHandQty += 1;
 			} else {
 				state.buyCartItems.push(action.payload.item);
 			}
 		},
 		decQty: (state, action) => {
 			const index = state.buyCartItems.findIndex((item) => item._id === action.payload.item._id);
-			if (state.buyCartItems[index].ohq > 1) {
-				state.buyCartItems[index].ohq -= 1;
-			} else if ((state.buyCartItems[index].ohq = 1)) {
+			if (state.buyCartItems[index].onHandQty > 1) {
+				state.buyCartItems[index].onHandQty -= 1;
+			} else if ((state.buyCartItems[index].onHandQty = 1)) {
 				return;
 			}
 		},
@@ -31,7 +31,7 @@ const buyCartSlice = createSlice({
 				(item) => item._id === action.payload.item._id
 			);
 			console.log(action.payload.value);
-			state.buyCartItems[index].ohq = action.payload.value;
+			state.buyCartItems[index].onHandQty = action.payload.value;
 		},
 		removeFromBuyCart: (state, action) => {
 			const newItems = state.buyCartItems.filter((item) => item._id !== action.payload.item._id);
@@ -47,10 +47,10 @@ const buyCartSlice = createSlice({
 			//and another parameter of initial values, in this case an object
 			let { totalAmount } = state.buyCartItems.reduce(
 				(cartTotal, buyCartItem) => {
-					const { costPrice, ohq } = buyCartItem;
+					const { costPrice, onHandQty } = buyCartItem;
 
 					//calculating total for each item in the cart
-					const itemTotal = costPrice * ohq;
+					const itemTotal = costPrice * onHandQty;
 
 					//summing up totals of each cartItem
 					cartTotal.totalAmount += itemTotal;

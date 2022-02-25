@@ -1,5 +1,5 @@
 import { Button, Typography, Container, TextField, CardActionArea } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStyles } from "./ReceiveItem.styles";
 import InventoryList from "../InventoryList/InventoryList";
 import FilterDisplay from "../FilterDisplay/FilterDisplay";
@@ -7,75 +7,39 @@ import { convertMoney } from "../Utils/converter";
 import { clearBuyCart, getTotals } from "../../redux/BuyCartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Progress from "../Utils/Progress";
-
-const data = [
-	{
-		_id: 0,
-		name: "Ciprofloxacin",
-		ohq: 1,
-		description: "Ciprotab 500mg ",
-		salesPrice: 2000,
-		costPrice: 1500,
-		availQty: 20,
-		wholesalePrice: 1700,
-		customPrice: 1900,
-	},
-	{
-		_id: 1,
-		name: "Paracetamol",
-		ohq: 1,
-		description: "Paracetamol 100mg",
-		salesPrice: 100,
-		costPrice: 70,
-		availQty: 200,
-		wholesalePrice: 70,
-		customPrice: 95,
-	},
-	{
-		_id: 2,
-		name: "Gentamycin",
-		ohq: 1,
-		description: "Gentamycin inj 60mg",
-		salesPrice: 300,
-		costPrice: 200,
-		availQty: 90,
-		wholesalePrice: 250,
-		customPrice: 290,
-	},
-	{
-		_id: 3,
-		name: "Ceftriaxone inj",
-		ohq: 1,
-		description: "Ceftriaxone inj 60mg",
-		salesPrice: 600,
-		costPrice: 450,
-		availQty: 120,
-		wholesalePrice: 500,
-		customPrice: 550,
-	},
-];
+import { fetchProducts, receiveInventory } from "../../redux/productsApi";
 
 const ReceiveItem = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [term, setTerm] = useState("");
-	const [loading, setLoading] = useState(false);
-	const { buyCartTotalAmount } = useSelector((state) => state.buyCart);
+	const { buyCartTotalAmount, buyCartItems } = useSelector((state) => state.buyCart);
+
+	useEffect(() => {
+		fetchProducts(dispatch);
+	}, [dispatch]);
+
+	const { productList, isFetching, error } = useSelector((state) => state.products);
 
 	const dataFilter = () =>
-		data.filter(
-			(key) => key.name.toLowerCase().includes(term.toLowerCase()) || key.age === parseInt(term)
+		productList?.filter(
+			(product) =>
+				product.itemName.toLowerCase().includes(term.toLowerCase()) ||
+				product.salesPrice === parseInt(term)
 		);
 
 	const handleDispatch = () => {
 		dispatch(clearBuyCart());
 		dispatch(getTotals());
 	};
+	const handleInventory = () => {
+		receiveInventory(buyCartItems, dispatch);
+	};
 
 	return (
-		<Container className={classes.containerLeft} style={{ height: "100%" }}>
+		<Container className={classes.containerLeft}>
 			<Container className={classes.new}>
-				{loading && <Progress />}
+				{isFetching && <Progress />}
 				<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 					Receive Item
 				</Typography>
@@ -114,8 +78,10 @@ const ReceiveItem = () => {
 						style={{ marginRight: 20 }}
 						variant="outlined"
 						color="primary"
+						disabled={isFetching || buyCartItems?.length === 0}
+						onClick={handleInventory}
 					>
-						Receive Item
+						Receive Items
 					</Button>
 				</Container>
 				<Container style={{ display: "flex", alignItems: "center", fontFamily: "Roboto" }}>

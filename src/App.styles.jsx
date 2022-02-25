@@ -5,6 +5,7 @@ export const Container = styled.div`
 	flex-direction: column;
 	column-gap: 1rem;
 	font-family: "Roboto";
+	height: 100vh;
 `;
 export const Wrapper = styled.div`
 	display: flex;

@@ -9,7 +9,8 @@ export const Table = styled.table`
 		border: 1px solid #e6e6e6;
 		text-align: left;
 		padding: 4px 5px;
-		font-size: 12px;
+		font-size: 15px;
+		font-weight: 700;
 		overflow: hidden;
 		white-space: nowrap;
 		font-weight: 700;
@@ -21,6 +22,8 @@ export const Table = styled.table`
 		.button-col {
 			display: flex;
 			width: 50px;
+			align-items: center;
+			justify-content: center;
 		}
 		button {
 			padding: 2px 20px;
@@ -28,7 +31,7 @@ export const Table = styled.table`
 		}
 		input {
 			width: 50px;
-			height: 27px;
+			height: 25px;
 			padding: 0 5px;
 			border-radius: 5px;
 			color: #414141;
