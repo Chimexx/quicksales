@@ -14,6 +14,7 @@ export const theme = createTheme({
 			orange: "#ff8400",
 			darkGray: "#303030",
 			bg2: "#f8f8ff",
+			bg3: "#eeeeee",
 		},
 		secondary: {
 			main: "#bebfce",

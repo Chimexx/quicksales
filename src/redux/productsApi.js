@@ -45,12 +45,15 @@ export const createProduct = async (dispatch, data) => {
 export const receiveInventory = async (data, dispatch) => {
 	dispatch(receiveInventoryStart());
 	try {
-		await publicRequest.put("products/receive", data);
-		dispatch(receiveInventorySuccess(data));
-		dispatch(clearBuyCart());
-		dispatch(getTotals());
+		const res = await publicRequest.put("products/receive", data);
+		if (res.data === "ok") {
+			dispatch(receiveInventorySuccess(data));
+			dispatch(clearBuyCart());
+			dispatch(getTotals());
+		} else {
+			dispatch(receiveInventoryFailure());
+		}
 	} catch (error) {
-		console.log(error);
 		dispatch(receiveInventoryFailure());
 	}
 };

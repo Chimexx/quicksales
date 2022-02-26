@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) => ({
 
 	bar: {
 		display: "flex",
-		padding: "5px 10px",
+		padding: "0px 10px",
 		borderRadius: 0,
 		alignItems: "center",
 		height: 40,
@@ -89,7 +89,7 @@ export const useStyles = makeStyles((theme) => ({
 	button: {
 		border: "none",
 		padding: "0 10px",
-		borderRadius: 4,
+		borderRadius: 8,
 		margin: 0,
 		display: "flex",
 		height: 30,
@@ -99,7 +99,7 @@ export const useStyles = makeStyles((theme) => ({
 		cursor: "pointer",
 		fontWeight: 700,
 		color: theme.palette.primary.darkGray,
-		backgroundColor: theme.palette.primary.bg2,
+		backgroundColor: theme.palette.primary.bg3,
 
 		"&:hover": {
 			backgroundColor: theme.palette.primary.blueDeFrance2,
@@ -111,7 +111,6 @@ export const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 		justifyContent: "center",
 		padding: "0 20px",
-		borderLeft: `1px solid ${theme.palette.secondary.main}`,
 		borderRight: `1px solid ${theme.palette.secondary.main}`,
 		position: "relative",
 	},
@@ -120,11 +119,11 @@ export const useStyles = makeStyles((theme) => ({
 		height: 30,
 		paddingLeft: 30,
 		paddingRight: 10,
-		borderRadius: 20,
+		borderRadius: 8,
 		outline: "none",
 		border: "none",
 		fontSize: 16,
-		backgroundColor: theme.palette.primary.bg2,
+		backgroundColor: theme.palette.primary.bg3,
 	},
 	searchIcon: {
 		position: "absolute",
@@ -136,5 +135,16 @@ export const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.blueDeFrance2,
 		fontSize: 25,
 		paddingRight: 4,
+	},
+	select: {
+		height: 30,
+		borderRadius: 8,
+		outline: "none",
+		border: "none",
+		fontSize: 16,
+		cursor: "pointer",
+		textTransform: "capitalize",
+		padding: "0 5px",
+		backgroundColor: theme.palette.primary.bg3,
 	},
 }));

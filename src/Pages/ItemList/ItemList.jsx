@@ -1,11 +1,22 @@
-import { Button, Typography, Container, TextField, CardActionArea, Card, Grid } from "@material-ui/core";
+import {
+	Button,
+	Typography,
+	Container,
+	TextField,
+	CardActionArea,
+	Card,
+	Grid,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useStyles } from "./ItemList.styles";
 import { convertMoney } from "../../components/Utils/converter";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../redux/productsApi";
 import Progress from "../../components/Utils/Progress";
-import { BiSearchAlt } from "react-icons/bi";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { HiDocumentSearch } from "react-icons/hi";
 
@@ -18,22 +29,11 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import dayjs from "dayjs";
 
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-	createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-	createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-	createData("Eclair", 262, 16.0, 24, 6.0),
-	createData("Cupcake", 305, 3.7, 67, 4.3),
-	createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 const ItemList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [term, setTerm] = useState("");
+	const [sortValue, setSortValue] = useState("Item name");
 
 	useEffect(() => {
 		fetchProducts(dispatch);
@@ -41,16 +41,16 @@ const ItemList = () => {
 
 	const { productList, isFetching, error } = useSelector((state) => state.products);
 
-	let List;
-
 	const searchData = productList?.filter(
 		(product) =>
 			product.itemName?.toLowerCase().includes(term.toLowerCase()) ||
 			product.salesPrice === parseInt(term) ||
-			product.vendor?.toLowerCase().includes(term.toLowerCase())
+			product.vendor?.toLowerCase().includes(term.toLowerCase()) ||
+			product.department?.toLowerCase().includes(term.toLowerCase())
 	);
 
-	searchData ? (List = searchData) : (List = productList);
+	const sortOptions = ["Item name", "Qty", "Sales price", "Date Added"];
+	let List = searchData || productList;
 
 	return (
 		<>
@@ -77,11 +77,24 @@ const ItemList = () => {
 							value={term}
 						/>
 					</div>
+					<div className={classes.inputContainer} style={{ width: 250, justifyContent: "center" }}>
+						<label htmlFor="sort" style={{ marginRight: 10 }}>
+							Sort By:{" "}
+						</label>
+						<select name="" id="sort" className={classes.select}>
+							{sortOptions.map((option) => (
+								<option key={option} value={option}>
+									{option}
+								</option>
+							))}
+						</select>
+					</div>
 				</Card>
 				<TableContainer component={Paper} className={classes.tableContainer}>
 					<Table className={classes.table} size="small" aria-label="a dense table">
 						<TableHead>
 							<TableRow className={classes.tableHead}>
+								<TableCell className={classes.tableHead}>#</TableCell>
 								<TableCell className={classes.tableHead}>Item Name</TableCell>
 								<TableCell className={classes.tableHead}>Description</TableCell>
 								<TableCell className={classes.tableHead}>Sales Price</TableCell>
@@ -95,8 +108,10 @@ const ItemList = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{List.map((row) => (
+							{List.map((row, index) => (
 								<TableRow className={classes.tableBody} key={row._id}>
+									<TableCell align="left">{index + 1}</TableCell>
+
 									<TableCell component="th" scope="row">
 										{row.itemName.length > 30
 											? row.itemName.slice(0, 30) + "..."
