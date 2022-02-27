@@ -35,7 +35,7 @@ const departmentSlice = createSlice({
 			state.vendorList.push(action.payload);
 			toast.success(`${action.payload.company} has been added!`);
 		},
-		createDepartmentFailure: (state) => {
+		createVendorFailure: (state) => {
 			state.isFetching_vendor = false;
 			state.error = true;
 			toast.error(`Sorry, an error occured`);

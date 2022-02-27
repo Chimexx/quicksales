@@ -19,10 +19,14 @@ import {
 import { authRequest, publicRequest } from "./requestMethods";
 
 //Fetch Products
-export const fetchProducts = async (dispatch) => {
+export const fetchProducts = async (dispatch, term) => {
 	dispatch(fetchProductStart());
+	console.log(term);
 	try {
-		const res = await publicRequest.get("products");
+		let res;
+		term
+			? (res = await publicRequest.get(`products?filter=${term}`))
+			: (res = await publicRequest.get("products"));
 		await dispatch(fetchProductSuccess(res.data));
 	} catch (error) {
 		dispatch(fetchProductFailure());

@@ -1,16 +1,4 @@
-import {
-	Button,
-	Typography,
-	Container,
-	TextField,
-	CardActionArea,
-	Card,
-	Grid,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-} from "@material-ui/core";
+import { Typography, Card } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useStyles } from "./ItemList.styles";
 import { convertMoney } from "../../components/Utils/converter";
@@ -19,6 +7,7 @@ import { fetchProducts } from "../../redux/productsApi";
 import Progress from "../../components/Utils/Progress";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { HiDocumentSearch } from "react-icons/hi";
+import "./date.css";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -32,26 +21,79 @@ import dayjs from "dayjs";
 const ItemList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
+	const [sort, setSort] = useState("");
 	const [term, setTerm] = useState("");
-	const [sortValue, setSortValue] = useState("Item name");
+	const [startDate, setStartDate] = useState("");
+	const [endDate, setEndDate] = useState("");
+	const [sortValue, setSortValue] = useState("");
+	const [filterValue, setFilterValue] = useState("");
+
+	const { productList, isFetching, error } = useSelector((state) => state.products);
+	const [products, setProducts] = useState(productList);
 
 	useEffect(() => {
 		fetchProducts(dispatch);
 	}, [dispatch]);
 
-	const { productList, isFetching, error } = useSelector((state) => state.products);
+	useEffect(() => {
+		setProducts(
+			productList?.filter(
+				(product) =>
+					product.itemName?.toLowerCase().includes(term.toLowerCase()) ||
+					product.salesPrice === parseInt(term) ||
+					product.vendor?.toLowerCase().includes(term.toLowerCase()) ||
+					product.department?.toLowerCase().includes(term.toLowerCase())
+			)
+		);
+	}, [term, productList]);
+	// useEffect(() => {
+	// 	setProducts(
+	// 		productList?.filter((product) => {
+	// 			const date = new Date().getTime(product.createdAt);
+	// 			return date;
+	// 		})
+	// 	);
+	// }, [term, productList]);
 
-	const searchData = productList?.filter(
-		(product) =>
-			product.itemName?.toLowerCase().includes(term.toLowerCase()) ||
-			product.salesPrice === parseInt(term) ||
-			product.vendor?.toLowerCase().includes(term.toLowerCase()) ||
-			product.department?.toLowerCase().includes(term.toLowerCase())
-	);
+	useEffect(() => {
+		if (sort === "createdAt") {
+			setProducts((prev) =>
+				[...prev]
+					.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+					.reverse()
+			);
+		} else if (sort === "name") {
+			setProducts((prev) =>
+				[...prev].sort((a, b) => (a.itemName > b.itemName ? 1 : b.itemName > a.itemName ? -1 : 0))
+			);
+		} else if (sort === "availQty") {
+			setProducts((prev) => [...prev].sort((a, b) => a.availQty - b.availQty));
+		} else if (sort === "salesPrice") {
+			setProducts((prev) => [...prev].sort((a, b) => a.salesPrice - b.salesPrice));
+		} else {
+			setProducts((prev) =>
+				[...prev].sort((a, b) => (a.itemName > b.itemName ? 1 : b.itemName > a.itemName ? -1 : 0))
+			);
+		}
+	}, [sort]);
 
-	const sortOptions = ["Item name", "Qty", "Sales price", "Date Added"];
-	let List = searchData || productList;
+	const handleFilter = () => {
+		setProducts((prev) =>
+			[...prev].filter(
+				(product) =>
+					new Date(product.createdAt) >= startDate && new Date(product.createdAt) <= endDate
+			)
+		);
 
+		// fetchProducts(dispatch, e.target.value);
+	};
+
+	const sortOptions = [
+		{ name: "A - Z", value: "name" },
+		{ name: "Qty", value: "availQty" },
+		{ name: "Sales Price", value: "salesPrice" },
+		{ name: "Date Added", value: "createdAt" },
+	];
 	return (
 		<>
 			<div className={classes.container}>
@@ -72,22 +114,46 @@ const ItemList = () => {
 						<input
 							type="text"
 							className={classes.input}
-							placeholder="Find Items"
+							placeholder="Search..."
 							onChange={(e) => setTerm(e.target.value)}
-							value={term}
 						/>
 					</div>
-					<div className={classes.inputContainer} style={{ width: 250, justifyContent: "center" }}>
+					<div className={classes.inputContainer}>
 						<label htmlFor="sort" style={{ marginRight: 10 }}>
-							Sort By:{" "}
+							Sort By:
 						</label>
-						<select name="" id="sort" className={classes.select}>
+						<select
+							name=""
+							id="sort"
+							onChange={(e) => setSort(e.target.value)}
+							className={classes.select}
+						>
+							<option value="">default</option>
 							{sortOptions.map((option) => (
-								<option key={option} value={option}>
-									{option}
+								<option key={option.value} value={option.value}>
+									{option.name}
 								</option>
 							))}
 						</select>
+					</div>
+					<div className={classes.inputContainer}>
+						<label htmlFor="filter" style={{ marginRight: 10 }}>
+							Filter by date:
+						</label>
+						<input
+							type="date"
+							className="date_input"
+							onChange={(e) => setStartDate(new Date(e.target.value))}
+						/>
+						to
+						<input
+							type="date"
+							className="date_input"
+							onChange={(e) => setEndDate(new Date(e.target.value))}
+						/>
+						<button className={classes.button} onClick={handleFilter} style={{ marginLeft: 10 }}>
+							Go
+						</button>
 					</div>
 				</Card>
 				<TableContainer component={Paper} className={classes.tableContainer}>
@@ -108,7 +174,7 @@ const ItemList = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{List.map((row, index) => (
+							{products.map((row, index) => (
 								<TableRow className={classes.tableBody} key={row._id}>
 									<TableCell align="left">{index + 1}</TableCell>
 

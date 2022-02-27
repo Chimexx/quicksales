@@ -85,6 +85,7 @@ export const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 		justifyContent: "center",
 		paddingRight: "20px",
+		borderRight: `1px solid ${theme.palette.secondary.main}`,
 	},
 	button: {
 		border: "none",
@@ -113,6 +114,10 @@ export const useStyles = makeStyles((theme) => ({
 		padding: "0 20px",
 		borderRight: `1px solid ${theme.palette.secondary.main}`,
 		position: "relative",
+
+		"&:last-child": {
+			borderRight: "none",
+		},
 	},
 
 	input: {
@@ -123,6 +128,19 @@ export const useStyles = makeStyles((theme) => ({
 		outline: "none",
 		border: "none",
 		fontSize: 16,
+		width: 110,
+		backgroundColor: theme.palette.primary.bg3,
+	},
+
+	date_input: {
+		height: 30,
+		paddingLeft: 5,
+		paddingRight: 5,
+		borderRadius: 8,
+		outline: "none",
+		border: "none",
+		fontSize: 16,
+		width: 120,
 		backgroundColor: theme.palette.primary.bg3,
 	},
 	searchIcon: {
@@ -145,6 +163,7 @@ export const useStyles = makeStyles((theme) => ({
 		cursor: "pointer",
 		textTransform: "capitalize",
 		padding: "0 5px",
+		margin: 0,
 		backgroundColor: theme.palette.primary.bg3,
 	},
 }));
