@@ -179,9 +179,20 @@ const ItemList = () => {
 									<TableCell align="left">{index + 1}</TableCell>
 
 									<TableCell component="th" scope="row">
-										{row.itemName.length > 30
-											? row.itemName.slice(0, 30) + "..."
-											: row.itemName}
+										<div style={{ display: "flex", alignItems: "center" }}>
+											<p
+												style={{
+													marginRight: 3,
+													fontSize: 20,
+													color: row.availQty < 10 ? "red" : "#57fd48",
+												}}
+											>
+												&#8226;
+											</p>
+											{row.itemName.length > 30
+												? row.itemName.slice(0, 30) + "..."
+												: row.itemName}
+										</div>
 									</TableCell>
 									<TableCell align="left">{row.description.slice(0, 40)}</TableCell>
 									<TableCell align="right">{convertMoney(row.salesPrice)}</TableCell>

@@ -7,6 +7,7 @@ import Inventory from "./Pages/Inventory/Inventory";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ItemList from "./Pages/ItemList/ItemList";
+import SellItem from "./Pages/SellItem/SellItem";
 
 function App() {
 	return (
@@ -41,6 +42,7 @@ function App() {
 						<MainView>
 							<Routes>
 								<Route path="/home" element={<Home />} />
+								<Route path="/sales" element={<SellItem />} />
 								<Route path="/inventory" element={<Inventory />} />
 								<Route path="/items" element={<ItemList />} />
 							</Routes>

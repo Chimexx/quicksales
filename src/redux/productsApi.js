@@ -21,7 +21,6 @@ import { authRequest, publicRequest } from "./requestMethods";
 //Fetch Products
 export const fetchProducts = async (dispatch, term) => {
 	dispatch(fetchProductStart());
-	console.log(term);
 	try {
 		let res;
 		term
@@ -50,7 +49,7 @@ export const receiveInventory = async (data, dispatch) => {
 	dispatch(receiveInventoryStart());
 	try {
 		const res = await publicRequest.put("products/receive", data);
-		if (res.data === "ok") {
+		if (res.data.nModified === data.length) {
 			dispatch(receiveInventorySuccess(data));
 			dispatch(clearBuyCart());
 			dispatch(getTotals());

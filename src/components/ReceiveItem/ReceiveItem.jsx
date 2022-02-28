@@ -55,7 +55,7 @@ const ReceiveItem = () => {
 						onChange={(e) => setTerm(e.target.value)}
 						placeholder="Find Items"
 					/>
-					{term ? <FilterDisplay data={dataFilter()} /> : null}
+					{term ? <FilterDisplay data={dataFilter()} action="receive" /> : null}
 					<Container className={classes.table__container}>
 						<InventoryList />
 						<Button
@@ -84,12 +84,13 @@ const ReceiveItem = () => {
 						Receive Items
 					</Button>
 				</Container>
-				<Container style={{ display: "flex", alignItems: "center", fontFamily: "Roboto" }}>
-					<p className={classes.total_field}>Total:</p>
-					<Container className={classes.totals}>
-						<p className={classes.total_field}> {convertMoney(buyCartTotalAmount)}</p>
-					</Container>
-				</Container>
+				<div
+					className={classes.total_container}
+					style={{ display: "flex", alignItems: "center", fontFamily: "Roboto" }}
+				>
+					<p className={classes.short}>Total:</p>
+					<p className={classes.long}> {convertMoney(buyCartTotalAmount)}</p>
+				</div>
 			</CardActionArea>
 		</Container>
 	);

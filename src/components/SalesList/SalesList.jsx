@@ -1,27 +1,23 @@
 import { Button, Container } from "@material-ui/core";
 import React, { useState } from "react";
-import { Table } from "./InventoryList.styles";
+import { Table } from "./SalesList.styles";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { addToBuyCart, decQty, directInput, getTotals, removeFromBuyCart } from "../../redux/BuyCartSlice";
+import { addToSellCart, decQty, directInput, getTotals, removeFromSellCart } from "../../redux/SellCartSlice";
 import { CgOptions } from "react-icons/cg";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { convertMoney } from "../Utils/converter";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-	actions: {
-		backgroundColor: theme.palette.primary.blueDeFrance2,
-		color: theme.palette.primary.white,
-		padding: 1,
-		borderRadius: 5,
-	},
 	button: {
-		fontSize: 18,
+		fontSize: 12,
 		width: 25,
 		height: 30,
 		padding: 0,
+		minWidth: 30,
+		margin: 0,
 	},
 	editbutton: {
 		color: theme.palette.primary.main,
@@ -37,18 +33,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const InventoryList = () => {
+const SalesList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	const { buyCartItems } = useSelector((state) => state.buyCart);
+	const { sellCartItems } = useSelector((state) => state.sellCart);
 	const [onHandQty, setOnHandQty] = useState(1);
 
 	const handleQty = (item, action, value) => {
 		setOnHandQty(item.onHandQty);
 		if (action === "inc") {
 			setOnHandQty(item.onHandQty + 1);
-			dispatch(addToBuyCart({ item, onHandQty }));
+			dispatch(addToSellCart({ item, onHandQty }));
 			dispatch(getTotals());
 		}
 		if (action === "dec") {
@@ -72,7 +68,7 @@ const InventoryList = () => {
 		}
 	};
 	const handleDelete = (item) => {
-		dispatch(removeFromBuyCart({ item }));
+		dispatch(removeFromSellCart({ item }));
 		dispatch(getTotals());
 	};
 
@@ -84,19 +80,18 @@ const InventoryList = () => {
 						<th>
 							<CgOptions style={{ fontSize: 18 }} />
 						</th>
+						<th>#</th>
 						<th>Item Name</th>
 						<th>Price</th>
-						<th>Cost</th>
-						<th>OH Qty</th>
-						<th>Ext Cost </th>
+						<th>Ext Price</th>
+						<th>Qty</th>
 						<th>Avail Qty</th>
 						<th>Wholesale Price</th>
 						<th>Retail Price</th>
-						<th>Extra Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					{buyCartItems?.map((item) => (
+					{sellCartItems?.map((item, index) => (
 						<tr key={item._id}>
 							<td>
 								<RiDeleteBack2Fill
@@ -104,14 +99,15 @@ const InventoryList = () => {
 									onClick={() => handleDelete(item)}
 								/>
 							</td>
+							<td>{index + 1}</td>
 							<td>{item.itemName}</td>
 							<td>{convertMoney(item.salesPrice)}</td>
-							<td>{convertMoney(item.costPrice)}</td>
-							<td className="button-col">
-								<Container className={classes.actions}>
-									<Button className={classes.button} onClick={() => handleQty(item, "dec")}>
-										<BsDashLg color="rgba(255,255,255, 0.9)" />
-									</Button>
+							<td>{convertMoney(item.salesPrice * item.onHandQty)}</td>
+							<td className="button_col">
+								<div className="actions_container">
+									<button className="action_button" onClick={() => handleQty(item, "dec")}>
+										<BsDashLg style={{ color: "inherit" }} />
+									</button>
 
 									<input
 										type="number"
@@ -119,29 +115,15 @@ const InventoryList = () => {
 										min="1"
 										onChange={(e) => handleQty(item, "dir", parseInt(e.target.value))}
 									/>
-
-									<Button className={classes.button} onClick={() => handleQty(item, "inc")}>
-										<BsPlusLg color="rgba(255,255,255, 0.9)" />
-									</Button>
-								</Container>
+									<button className="action_button" onClick={() => handleQty(item, "inc")}>
+										<BsPlusLg style={{ color: "inherit" }} />
+									</button>
+								</div>
 							</td>
 
-							<td>{convertMoney(item.costPrice * item.onHandQty)}</td>
 							<td>{item.availQty}</td>
 							<td>{convertMoney(item.wholesalePrice)}</td>
 							<td>{convertMoney(item.retailPrice)}</td>
-							<td>
-								<Link to="/">
-									<Button
-										className={classes.editbutton}
-										size="small"
-										variant="outlined"
-										color="primary"
-									>
-										Edit
-									</Button>
-								</Link>
-							</td>
 						</tr>
 					))}
 				</tbody>
@@ -150,4 +132,4 @@ const InventoryList = () => {
 	);
 };
 
-export default InventoryList;
+export default SalesList;

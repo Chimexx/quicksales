@@ -50,10 +50,11 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --saffron: #F2C237;
     --blueDeFrance: #018ef4;
-    --blueDeFrance2: #018ff426;
-    --green: #96d243;
+    --blueDeFrance2: #d9efff;
+    --green: #00b400;
+    --lightGreen: #eaffea;
     --orange: #ff8400;
-    --lightOrange: #ff8c0034;
+    --lightOrange: #ffefdc;
 	--bg1: #f8f8ff;
 	--bg2: #ecedf6;
 	--bg3: #cccdde;

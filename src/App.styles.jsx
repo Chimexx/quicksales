@@ -26,6 +26,6 @@ export const MainView = styled.div`
 	align-items: flex-start;
 	justify-content: space-between;
 	width: 80vw;
-	height: calc(100vh - 60px);
+	height: calc(100vh - 40px);
 	overflow: auto;
 `;

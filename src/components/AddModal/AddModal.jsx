@@ -9,6 +9,7 @@ import { Container, Wrapper, ButtonContainer } from "./AddModal.styles";
 const AddModal = ({ setModalOpen, type }) => {
 	const dispatch = useDispatch();
 	const [vendor, setVendor] = useState([]);
+	const [customer, setCustomer] = useState([]);
 	const [dep, setDep] = useState("");
 	const [isValid, setIsValid] = useState(false);
 
@@ -19,6 +20,10 @@ const AddModal = ({ setModalOpen, type }) => {
 		setVendor({ ...vendor, [e.target.name]: e.target.value.toLowerCase() });
 		if (vendor.company) setIsValid(true);
 	};
+	const handleCustomer = (e) => {
+		setCustomer({ ...customer, [e.target.name]: e.target.value.toLowerCase() });
+		if (customer.firstName) setIsValid(true);
+	};
 	const createVen = (e) => {
 		e.preventDefault();
 		createVendor(dispatch, vendor);
@@ -28,6 +33,10 @@ const AddModal = ({ setModalOpen, type }) => {
 		e.preventDefault();
 		createDepartment(dispatch, { department: dep });
 	};
+	// const createCustomer = (e) => {
+	// 	e.preventDefault();
+	// 	createCustomer(dispatch, { customer: customer });
+	// };
 
 	if (type === "dep") {
 		return (
@@ -189,6 +198,101 @@ const AddModal = ({ setModalOpen, type }) => {
 									disabled={!isValid || isFetching_vendor}
 								>
 									Add Vendor
+								</Button>
+								<Button
+									className=""
+									size="small"
+									color="secondary"
+									onClick={() => setModalOpen(false)}
+								>
+									Cancel
+								</Button>
+							</ButtonContainer>
+						</form>
+					</div>
+				</Wrapper>
+			</Container>
+		);
+	}
+	if (type === "customer") {
+		return (
+			<Container>
+				<Wrapper>
+					{/* {isFetching_customer && <Progress />} */}
+					<div className="body">
+						<p className="title">Add a new customer</p>
+						<Divider />
+						<form className="form" autoComplete="Off">
+							<Grid container spacing={3}>
+								<Grid item>
+									<TextField
+										label="Name"
+										id="name"
+										required
+										name="name"
+										variant="filled"
+										size="small"
+										// value={customer.name ?? ""}
+										// onChange={handleCustomer}
+									/>
+								</Grid>
+								<Grid item>
+									<TextField
+										label="First Name"
+										id="firstName"
+										name="firstName"
+										variant="filled"
+										size="small"
+										// value={customer.firstName ?? ""}
+										// onChange={handleCustomer}
+									/>
+								</Grid>
+								<Grid item>
+									<TextField
+										label="Last Name"
+										id="lastName"
+										name="lastName"
+										variant="filled"
+										size="small"
+										// value={customer.lastName ?? ""}
+										// onChange={handleCustomer}
+									/>
+								</Grid>
+								<Grid item>
+									<TextField
+										label="Address"
+										id="address"
+										name="address"
+										variant="filled"
+										size="small"
+										// value={customer.address ?? ""}
+										// onChange={handleCustomer}
+									/>
+								</Grid>
+
+								<Grid item>
+									<TextField
+										label="Phone"
+										id="phone"
+										name="phone"
+										type="number"
+										variant="filled"
+										size="small"
+										// value={customer.phone ?? ""}
+										// onChange={handleCustomer}
+									/>
+								</Grid>
+							</Grid>
+							<ButtonContainer>
+								<Button
+									className=""
+									size="small"
+									variant="outlined"
+									color="primary"
+									// onClick={createCustomer}
+									// disabled={!isValid || isFetching_customer}
+								>
+									Add Customer
 								</Button>
 								<Button
 									className=""

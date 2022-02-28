@@ -7,8 +7,9 @@ export const Item = styled.div`
 	cursor: pointer;
 	white-space: nowrap;
 	&:hover {
-		background-color: #eeeeee;
-		font-weight: 700;
+		background-color: ${(props) => (props.qty < 10 ? `#ffe6cc` : `#dceffd`)};
+		font-weight: 600;
+		color: ${(props) => (props.qty < 10 ? "#ff8400" : "#0095ff")};
 	}
 
 	.name {

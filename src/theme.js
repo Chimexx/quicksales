@@ -4,8 +4,8 @@ export const theme = createTheme({
 	palette: {
 		primary: {
 			main: "#018ef4",
-			green: "#96d243",
-			lightGreen: "#96d24347",
+			green: "#00b400",
+			lightGreen: "#eaffea",
 			lightOrange: "#ff840049",
 			saffron: "#F2C237",
 			white: "#fff",
