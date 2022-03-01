@@ -13,12 +13,12 @@ export const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
-		width: "65%",
+		width: "75%",
 		padding: 0,
 		height: "100%",
 		borderRadius: "5px 5px 0 0",
 		border: `1px solid ${theme.palette.secondary.main}`,
-		marginRight: 20,
+		marginRight: 10,
 	},
 
 	new: {
@@ -123,5 +123,34 @@ export const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.green,
 		padding: 5,
 		textTransform: "uppercase",
+	},
+	containerRight: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-between",
+		width: "25%",
+		padding: 0,
+		height: "100%",
+		borderRadius: "5px 5px 0 0",
+		border: `1px solid ${theme.palette.secondary.main}`,
+	},
+
+	add__buttons: {
+		backgroundColor: theme.palette.primary.white,
+		color: theme.palette.primary.blueDeFrance,
+	},
+	account: {
+		backgroundColor: theme.palette.primary.lightBlue,
+		color: theme.palette.primary.blueDeFrance,
+		height: 70,
+		width: "100%",
+		borderRadius: 5,
+		marginBottom: 20,
+	},
+	account_figure: {
+		color: theme.palette.primary.white,
+		padding: "0 10px",
+		fontWeight: 700,
+		fontSize: "2rem",
 	},
 }));

@@ -54,6 +54,24 @@ const productSlice = createSlice({
 			state.error = true;
 			toast.error(`Sorry, an error occured`);
 		},
+		//sell Inventory
+		sellInventoryStart: (state) => {
+			state.isFetching = true;
+		},
+		sellInventorySuccess: (state, action) => {
+			state.isFetching = false;
+			state.error = false;
+			action.payload.items.forEach((entry) => {
+				state.productList[state.productList.findIndex((item) => item._id === entry._id)].availQty -=
+					entry.onHandQty;
+			});
+			toast.success("You just made a sale!");
+		},
+		sellInventoryFailure: (state) => {
+			state.isFetching = false;
+			state.error = true;
+			toast.error(`Sorry, an error occured`);
+		},
 		//Create Product
 		createProductStart: (state) => {
 			state.isFetching = true;
@@ -106,5 +124,8 @@ export const {
 	receiveInventoryStart,
 	receiveInventorySuccess,
 	receiveInventoryFailure,
+	sellInventoryStart,
+	sellInventorySuccess,
+	sellInventoryFailure,
 } = productSlice.actions;
 export default productSlice.reducer;

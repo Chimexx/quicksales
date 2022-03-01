@@ -4,60 +4,48 @@ import {
 	Container,
 	TextField,
 	CardActionArea,
-	Select,
-	InputLabel,
 	FormControl,
-	MenuItem,
-	Card,
+	InputLabel,
+	Select,
 	Divider,
+	Card,
+	MenuItem,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useStyles } from "./SellItem.styles";
+import React, { useState } from "react";
+import { useStyles } from "./ReceiveItem.styles";
+import { clearBuyCart, getTotals } from "../../redux/BuyCartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { receiveInventory } from "../../redux/productsApi";
 import FilterDisplay from "../../components/FilterDisplay/FilterDisplay";
-import Progress from "../../components/Utils/Progress";
-import SalesList from "../../components/SalesList/SalesList";
-import { clearSellCart, getTotals } from "../../redux/SellCartSlice";
+import InventoryList from "../../components/InventoryList/InventoryList";
 import { convertMoney } from "../../components/Utils/converter";
-import { sellInventory } from "../../redux/productsApi";
 import AddModal from "../../components/AddModal/AddModal";
-import { fetchCustomers, updateCustomer } from "../../redux/customerApi";
+import Progress from "../../components/Utils/Progress";
 
-const SellItem = () => {
+const ReceiveItem = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [term, setTerm] = useState("");
-	const [customer, setCustomer] = useState({});
 	const [modalOpen, setModalOpen] = useState(false);
+	const [vendor, setVendor] = useState({});
 
-	useEffect(() => {
-		fetchCustomers(dispatch);
-	}, [dispatch]);
-
-	const { sellCartTotalAmount, sellCartItems } = useSelector((state) => state.sellCart);
-	const { customerList, isFetching_customer } = useSelector((state) => state.customers);
+	const { buyCartTotalAmount, buyCartItems } = useSelector((state) => state.buyCart);
+	const { vendorList, isFetching_ven } = useSelector((state) => state.vendors);
 
 	const handleDispatch = () => {
-		dispatch(clearSellCart());
+		dispatch(clearBuyCart());
 		dispatch(getTotals());
 	};
-
-	const handleMakeSale = () => {
-		/* This is updating the customer's balance and sale status. */
-		sellInventory({ items: sellCartItems }, dispatch);
-		if (customer.firstName) {
-			/* This is updating the customer's balance and sale status. */
-			updateCustomer({ customer, total: sellCartTotalAmount, sale: true }, dispatch);
-		}
+	const handleInventory = () => {
+		receiveInventory(buyCartItems, dispatch);
 	};
 
 	return (
-		<div className={classes.wrapper}>
+		<>
 			<Container className={classes.containerLeft}>
 				<Container className={classes.new}>
-					{isFetching_customer && <Progress />}
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
-						Make A Sale
+						Receive Item
 					</Typography>
 					<Container className={classes.inner__body}>
 						<TextField
@@ -71,9 +59,9 @@ const SellItem = () => {
 							onChange={(e) => setTerm(e.target.value)}
 							placeholder="Find Items"
 						/>
-						{term ? <FilterDisplay term={term} action="sell" /> : null}
+						{term ? <FilterDisplay term={term} action="receive" /> : null}
 						<Container className={classes.table__container}>
-							<SalesList />
+							<InventoryList />
 							<Button
 								size="small"
 								variant="outlined"
@@ -94,21 +82,10 @@ const SellItem = () => {
 							style={{ marginRight: 20 }}
 							variant="outlined"
 							color="primary"
-							disabled={isFetching_customer || sellCartItems?.length === 0}
-							onClick={handleMakeSale}
+							disabled={buyCartItems?.length === 0}
+							onClick={handleInventory}
 						>
-							Save
-						</Button>
-						<Button
-							size="small"
-							className={classes.action__buttons}
-							style={{ marginRight: 20 }}
-							variant="outlined"
-							color="primary"
-							disabled={isFetching_customer || sellCartItems?.length === 0}
-							// onClick={handleInventory}
-						>
-							Save and Print
+							Receive Items
 						</Button>
 					</Container>
 					<div
@@ -116,36 +93,36 @@ const SellItem = () => {
 						style={{ display: "flex", alignItems: "center", fontFamily: "Roboto" }}
 					>
 						<p className={classes.short}>Total:</p>
-						<p className={classes.long}> {convertMoney(sellCartTotalAmount)}</p>
+						<p className={classes.long}> {convertMoney(buyCartTotalAmount)}</p>
 					</div>
 				</CardActionArea>
 			</Container>
 			<Container className={classes.containerRight}>
 				<Container className={classes.new}>
-					{isFetching_customer && <Progress />}
+					{isFetching_ven && <Progress />}
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 						Customer Info
 					</Typography>
 					<Container className={classes.inner__body}>
 						<FormControl size="small" className={(classes.formControl, classes.new__input)}>
-							<InputLabel id="demo-simple-select-label">Customer</InputLabel>
+							<InputLabel id="demo-simple-select-label">Vendor</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								onChange={(e) => setCustomer(e.target.value)}
+								onChange={(e) => setVendor(e.target.value)}
 							>
-								{customerList.map((customer) => (
-									<MenuItem key={customer._id} value={customer}>
-										{customer.firstName.toUpperCase()}
+								{vendorList.map((vendor) => (
+									<MenuItem key={vendor._id} value={vendor}>
+										{vendor.company.toUpperCase()}
 									</MenuItem>
 								))}
 							</Select>
 						</FormControl>
 						<Card variant="outlined" className={classes.account}>
 							<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
-								Customer Balance:
+								Vendor Balance:
 							</Typography>
-							<p className={classes.account_figure}>{convertMoney(customer?.balance)}</p>
+							<p className={classes.account_figure}>{vendor.company}</p>
 						</Card>
 						<Divider />
 						<Button
@@ -156,14 +133,14 @@ const SellItem = () => {
 							color="primary"
 							style={{ marginTop: 20 }}
 						>
-							Add Customer
+							Add vendor
 						</Button>
 					</Container>
 				</Container>
-				{modalOpen && <AddModal type="customer" setModalOpen={setModalOpen} />}
+				{modalOpen && <AddModal type="vendor" setModalOpen={setModalOpen} />}
 			</Container>
-		</div>
+		</>
 	);
 };
 
-export default SellItem;
+export default ReceiveItem;

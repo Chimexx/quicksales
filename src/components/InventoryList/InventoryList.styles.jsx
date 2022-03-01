@@ -68,4 +68,32 @@ export const Table = styled.table`
 	tr:nth-child(even) {
 		background-color: #e3f3ff83;
 	}
+	.actions_container {
+		background-color: var(--blueDeFrance2);
+		color: var(--white);
+		padding: 0;
+		border-radius: 5px;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		width: 150px;
+	}
+	.action_button {
+		display: flex;
+		width: 33%;
+		height: 25px;
+		color: var(--white);
+		background: none;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		border: none;
+		cursor: pointer;
+		transition: all ease-in-out 0.3s;
+
+		&:hover {
+			color: var(--blueDeFrance);
+		}
+	}
 `;

@@ -7,7 +7,7 @@ const initialState = {
 	error: false,
 };
 
-const departmentSlice = createSlice({
+const vendorSlice = createSlice({
 	name: "vendors",
 	initialState,
 	reducers: {
@@ -41,7 +41,7 @@ const departmentSlice = createSlice({
 			toast.error(`Sorry, an error occured`);
 		},
 		//Update Vendor
-		updateProductStart: (state) => {
+		updateVendorStart: (state) => {
 			state.isFetching_vendor = true;
 		},
 		updateVendorSuccess: (state, action) => {
@@ -76,7 +76,7 @@ const departmentSlice = createSlice({
 	},
 });
 
-export default departmentSlice.reducer;
+export default vendorSlice.reducer;
 export const getState = (state) => state.vendors;
 export const {
 	fetchVendorFailure,
@@ -91,4 +91,4 @@ export const {
 	updateVendorFailure,
 	updateVendorStart,
 	updateVendorSuccess,
-} = departmentSlice.actions;
+} = vendorSlice.actions;

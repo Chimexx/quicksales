@@ -1,6 +1,7 @@
 import { Button, Divider, Grid, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { createCustomer } from "../../redux/customerApi";
 import { createDepartment } from "../../redux/departmentsApi";
 import { createVendor } from "../../redux/vendorsApi";
 import Progress from "../Utils/Progress";
@@ -15,6 +16,7 @@ const AddModal = ({ setModalOpen, type }) => {
 
 	const { isFetching_vendor } = useSelector((state) => state.vendors);
 	const { isFetching_dep } = useSelector((state) => state.departments);
+	const { isFetching_customer } = useSelector((state) => state.customers);
 
 	const handleVendor = (e) => {
 		setVendor({ ...vendor, [e.target.name]: e.target.value.toLowerCase() });
@@ -24,19 +26,16 @@ const AddModal = ({ setModalOpen, type }) => {
 		setCustomer({ ...customer, [e.target.name]: e.target.value.toLowerCase() });
 		if (customer.firstName) setIsValid(true);
 	};
-	const createVen = (e) => {
-		e.preventDefault();
+	const createVen = () => {
 		createVendor(dispatch, vendor);
 	};
 
-	const createDep = (e) => {
-		e.preventDefault();
+	const createDep = () => {
 		createDepartment(dispatch, { department: dep });
 	};
-	// const createCustomer = (e) => {
-	// 	e.preventDefault();
-	// 	createCustomer(dispatch, { customer: customer });
-	// };
+	const createCust = () => {
+		createCustomer(dispatch, customer);
+	};
 
 	if (type === "dep") {
 		return (
@@ -218,7 +217,7 @@ const AddModal = ({ setModalOpen, type }) => {
 		return (
 			<Container>
 				<Wrapper>
-					{/* {isFetching_customer && <Progress />} */}
+					{isFetching_customer && <Progress />}
 					<div className="body">
 						<p className="title">Add a new customer</p>
 						<Divider />
@@ -226,25 +225,14 @@ const AddModal = ({ setModalOpen, type }) => {
 							<Grid container spacing={3}>
 								<Grid item>
 									<TextField
-										label="Name"
-										id="name"
 										required
-										name="name"
-										variant="filled"
-										size="small"
-										// value={customer.name ?? ""}
-										// onChange={handleCustomer}
-									/>
-								</Grid>
-								<Grid item>
-									<TextField
 										label="First Name"
 										id="firstName"
 										name="firstName"
 										variant="filled"
 										size="small"
-										// value={customer.firstName ?? ""}
-										// onChange={handleCustomer}
+										value={customer.firstName ?? ""}
+										onChange={handleCustomer}
 									/>
 								</Grid>
 								<Grid item>
@@ -254,10 +242,11 @@ const AddModal = ({ setModalOpen, type }) => {
 										name="lastName"
 										variant="filled"
 										size="small"
-										// value={customer.lastName ?? ""}
-										// onChange={handleCustomer}
+										value={customer.lastName ?? ""}
+										onChange={handleCustomer}
 									/>
 								</Grid>
+
 								<Grid item>
 									<TextField
 										label="Address"
@@ -265,8 +254,8 @@ const AddModal = ({ setModalOpen, type }) => {
 										name="address"
 										variant="filled"
 										size="small"
-										// value={customer.address ?? ""}
-										// onChange={handleCustomer}
+										value={customer.address ?? ""}
+										onChange={handleCustomer}
 									/>
 								</Grid>
 
@@ -278,8 +267,8 @@ const AddModal = ({ setModalOpen, type }) => {
 										type="number"
 										variant="filled"
 										size="small"
-										// value={customer.phone ?? ""}
-										// onChange={handleCustomer}
+										value={customer.phone ?? ""}
+										onChange={handleCustomer}
 									/>
 								</Grid>
 							</Grid>
@@ -289,8 +278,8 @@ const AddModal = ({ setModalOpen, type }) => {
 									size="small"
 									variant="outlined"
 									color="primary"
-									// onClick={createCustomer}
-									// disabled={!isValid || isFetching_customer}
+									onClick={createCust}
+									disabled={!isValid || isFetching_customer}
 								>
 									Add Customer
 								</Button>

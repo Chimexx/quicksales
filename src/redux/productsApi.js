@@ -1,4 +1,3 @@
-import { clearBuyCart, getTotals } from "./BuyCartSlice";
 import {
 	fetchProductStart,
 	fetchProductSuccess,
@@ -12,11 +11,16 @@ import {
 	receiveInventoryStart,
 	receiveInventorySuccess,
 	receiveInventoryFailure,
+	sellInventoryStart,
+	sellInventorySuccess,
+	sellInventoryFailure,
 	deleteProductStart,
 	deleteProductSuccess,
 	deleteProductFailure,
 } from "./productSlice";
 import { authRequest, publicRequest } from "./requestMethods";
+import { clearSellCart, getTotals as getSellTotals } from "./SellCartSlice";
+import { clearBuyCart, getTotals } from "./BuyCartSlice";
 
 //Fetch Products
 export const fetchProducts = async (dispatch, term) => {
@@ -58,6 +62,22 @@ export const receiveInventory = async (data, dispatch) => {
 		}
 	} catch (error) {
 		dispatch(receiveInventoryFailure());
+	}
+};
+//Sell Inventory
+export const sellInventory = async (data, dispatch) => {
+	dispatch(sellInventoryStart());
+	try {
+		const res = await publicRequest.put("products/sell", data);
+		if (res.data.nModified === data.items.length) {
+			dispatch(sellInventorySuccess(data));
+			dispatch(clearSellCart());
+			dispatch(getSellTotals());
+		} else {
+			dispatch(sellInventoryFailure());
+		}
+	} catch (error) {
+		dispatch(sellInventoryFailure());
 	}
 };
 //Update Product
