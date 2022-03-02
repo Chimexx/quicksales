@@ -120,7 +120,6 @@ const InventoryList = () => {
 									</button>
 								</div>
 							</td>
-
 							<td>{convertMoney(item.costPrice * item.onHandQty)}</td>
 							<td>{item.availQty}</td>
 							<td>{convertMoney(item.wholesalePrice)}</td>

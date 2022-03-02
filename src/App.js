@@ -9,6 +9,8 @@ import ItemList from "./Pages/ItemList/ItemList";
 import SellItem from "./Pages/SellItem/SellItem";
 import NewItem from "./Pages/NewItem/NewItem";
 import ReceiveItem from "./Pages/ReceiveItem/ReceiveItem";
+import Customers from "./Pages/Customers/Customers";
+import Vendors from "./Pages/Vendors/Vendors";
 
 function App() {
 	return (
@@ -47,6 +49,8 @@ function App() {
 								<Route path="/items" element={<ItemList />} />
 								<Route path="/newitem" element={<NewItem />} />
 								<Route path="/receive" element={<ReceiveItem />} />
+								<Route path="/customers" element={<Customers />} />
+								<Route path="/vendors" element={<Vendors />} />
 							</Routes>
 						</MainView>
 					</Wrapper>

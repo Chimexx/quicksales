@@ -4,12 +4,11 @@ import {
 	Container,
 	TextField,
 	CardActionArea,
-	FormControl,
-	InputLabel,
-	Select,
 	Divider,
 	Card,
 	MenuItem,
+	Menu,
+	CardActions,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useStyles } from "./ReceiveItem.styles";
@@ -21,6 +20,7 @@ import InventoryList from "../../components/InventoryList/InventoryList";
 import { convertMoney } from "../../components/Utils/converter";
 import AddModal from "../../components/AddModal/AddModal";
 import Progress from "../../components/Utils/Progress";
+import { fetchVendors, updateVendor } from "../../redux/vendorsApi";
 
 const ReceiveItem = () => {
 	const classes = useStyles();
@@ -28,6 +28,17 @@ const ReceiveItem = () => {
 	const [term, setTerm] = useState("");
 	const [modalOpen, setModalOpen] = useState(false);
 	const [vendor, setVendor] = useState({});
+
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (vendor) => {
+		setVendor(vendor);
+		setAnchorEl(null);
+	};
 
 	const { buyCartTotalAmount, buyCartItems } = useSelector((state) => state.buyCart);
 	const { vendorList, isFetching_ven } = useSelector((state) => state.vendors);
@@ -38,10 +49,14 @@ const ReceiveItem = () => {
 	};
 	const handleInventory = () => {
 		receiveInventory(buyCartItems, dispatch);
+		if (vendor.company) {
+			updateVendor({ vendor, total: buyCartTotalAmount, buy: true }, dispatch);
+			fetchVendors(dispatch);
+		}
 	};
 
 	return (
-		<>
+		<div className={classes.wrapper}>
 			<Container className={classes.containerLeft}>
 				<Container className={classes.new}>
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
@@ -74,7 +89,7 @@ const ReceiveItem = () => {
 						</Container>
 					</Container>
 				</Container>
-				<CardActionArea className={classes.actions}>
+				<CardActions className={classes.actions}>
 					<Container>
 						<Button
 							size="small"
@@ -82,10 +97,21 @@ const ReceiveItem = () => {
 							style={{ marginRight: 20 }}
 							variant="outlined"
 							color="primary"
-							disabled={buyCartItems?.length === 0}
+							disabled={isFetching_ven || buyCartItems?.length === 0}
 							onClick={handleInventory}
 						>
 							Receive Items
+						</Button>
+						<Button
+							size="small"
+							className={classes.action__buttons}
+							style={{ marginRight: 20 }}
+							variant="outlined"
+							color="primary"
+							disabled={isFetching_ven || buyCartItems?.length === 0}
+							// onClick={handleInventory}
+						>
+							Receive and Print
 						</Button>
 					</Container>
 					<div
@@ -95,34 +121,50 @@ const ReceiveItem = () => {
 						<p className={classes.short}>Total:</p>
 						<p className={classes.long}> {convertMoney(buyCartTotalAmount)}</p>
 					</div>
-				</CardActionArea>
+				</CardActions>
 			</Container>
 			<Container className={classes.containerRight}>
 				<Container className={classes.new}>
 					{isFetching_ven && <Progress />}
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
-						Customer Info
+						Vendor Info
 					</Typography>
 					<Container className={classes.inner__body}>
-						<FormControl size="small" className={(classes.formControl, classes.new__input)}>
-							<InputLabel id="demo-simple-select-label">Vendor</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								onChange={(e) => setVendor(e.target.value)}
-							>
-								{vendorList.map((vendor) => (
-									<MenuItem key={vendor._id} value={vendor}>
-										{vendor.company.toUpperCase()}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<Button
+							aria-controls="simple-menu"
+							aria-haspopup="true"
+							style={{ marginBottom: 10, width: "100%" }}
+							onClick={handleClick}
+							variant="outlined"
+							color="primary"
+						>
+							Select Vendor
+						</Button>
+						<Menu
+							id="simple-menu"
+							anchorEl={anchorEl}
+							keepMounted
+							open={Boolean(anchorEl)}
+							onClose={handleClose}
+						>
+							{vendorList.map((vendor) => (
+								<MenuItem
+									onClick={(e) => handleClose(vendor)}
+									key={vendor._id}
+									value={vendor}
+								>
+									{vendor.company.toUpperCase()}
+								</MenuItem>
+							))}
+						</Menu>
+
 						<Card variant="outlined" className={classes.account}>
 							<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 								Vendor Balance:
 							</Typography>
-							<p className={classes.account_figure}>{vendor.company}</p>
+							<p className={classes.account_figure}>
+								{vendor?.balance ? convertMoney(vendor.balance) : "--"}
+							</p>
 						</Card>
 						<Divider />
 						<Button
@@ -139,7 +181,7 @@ const ReceiveItem = () => {
 				</Container>
 				{modalOpen && <AddModal type="vendor" setModalOpen={setModalOpen} />}
 			</Container>
-		</>
+		</div>
 	);
 };
 

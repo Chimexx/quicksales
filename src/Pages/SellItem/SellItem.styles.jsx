@@ -2,6 +2,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
 	new_head: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "space-between",
 		fontSize: 18,
 		padding: "0 10px",
 		color: theme.palette.primary.white,
@@ -20,7 +23,7 @@ export const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
-		width: "100%",
+		width: "75%",
 		padding: 0,
 		marginRight: 10,
 		height: "100%",
@@ -136,7 +139,7 @@ export const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
-		width: "35%",
+		width: "25%",
 		padding: 0,
 		height: "100%",
 		borderRadius: "5px 5px 0 0",
@@ -160,5 +163,10 @@ export const useStyles = makeStyles((theme) => ({
 		padding: "0 10px",
 		fontWeight: 700,
 		fontSize: "2rem",
+	},
+	refresh: {
+		display: "flex",
+		alignItems: "center",
+		fontSize: 22,
 	},
 }));

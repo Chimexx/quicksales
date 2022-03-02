@@ -1,6 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
+	wrapper: {
+		padding: "10px 10px 0 10px",
+		display: "flex",
+		height: "100%",
+		width: "100%",
+	},
 	new_head: {
 		fontSize: 18,
 		padding: "0 10px",

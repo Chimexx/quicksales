@@ -37,11 +37,14 @@ export const createVendor = async (dispatch, data) => {
 };
 
 //Update Vendors
-export const updateVendor = async (id, data, dispatch) => {
+export const updateVendor = async (data, dispatch) => {
 	dispatch(updateVendorStart());
 	try {
-		const res = await authRequest.put(`vendors/${id}`, data);
-		await dispatch(updateVendorSuccess({ id, data: res.data }));
+		const res = await authRequest.put(`vendors/${data.vendor._id}`, data);
+		if (data.buy) {
+			console.log(res.data);
+			await dispatch(updateVendorSuccess({ data: res.data, total: data.total, buy: data.buy }));
+		}
 	} catch (error) {
 		dispatch(updateVendorFailure());
 	}

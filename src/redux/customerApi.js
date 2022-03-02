@@ -38,16 +38,15 @@ export const createCustomer = async (dispatch, data) => {
 };
 
 //Update Customers
-export const updateCustomer = async (info, dispatch) => {
+export const updateCustomer = async (data, dispatch) => {
 	dispatch(updateCustomerStart());
 	try {
-		const res = await publicRequest.put(`customers/${info.customer._id}`, info);
-		if (info.sale) {
-			await dispatch(updateCustomerSuccess({ data: res.data, total: info.total, sale: info.sale }));
+		const res = await publicRequest.put(`customers/${data.customer._id}`, data);
+		if (data.sale) {
+			await dispatch(updateCustomerSuccess({ data: res.data, total: data.total, sale: data.sale }));
 		}
 		// await dispatch(updateCustomerSuccess({ data: res.data, sale: info.sale }));
 	} catch (error) {
-		console.log(error);
 		dispatch(updateCustomerFailure());
 	}
 };

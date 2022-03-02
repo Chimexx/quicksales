@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import Action from "../../components/Action/Action";
 import { Container, Wrapper } from "./Home.styles";
 import { BsReceiptCutoff } from "react-icons/bs";
-import { FaShippingFast } from "react-icons/fa";
+import { FaShippingFast, FaStore } from "react-icons/fa";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { BsFillPeopleFill } from "react-icons/bs";
 
 const Home = () => {
 	return (
@@ -17,7 +18,9 @@ const Home = () => {
 						<Action title="make a sale" icon={<BsReceiptCutoff />} />
 					</Link>
 					<Action />
-					<Action />
+					<Link to="/customers">
+						<Action title="customers " icon={<BsFillPeopleFill />} />
+					</Link>
 					<Action />
 					<Action />
 				</Card>
@@ -30,8 +33,9 @@ const Home = () => {
 					<Link to="/newitem">
 						<Action title="New Item" icon={<AiOutlineAppstoreAdd />} />
 					</Link>
-					<Action />
-					<Action />
+					<Link to="/vendors">
+						<Action title="Vendors" icon={<FaStore />} />
+					</Link>
 					<Action />
 					<Action />
 				</Card>

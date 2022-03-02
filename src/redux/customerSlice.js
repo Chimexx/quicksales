@@ -47,12 +47,11 @@ const customerSlice = createSlice({
 		updateCustomerSuccess: (state, action) => {
 			state.isFetching_customer = false;
 			state.error = false;
-			const { total, sale, data } = action.payload;
-			console.log(total, sale, data);
+			const { sale, data } = action.payload;
 			const index = state.customerList.findIndex((customer) => customer._id === data._id);
 			if (sale) {
 				if (data.firstName) {
-					state.customerList[index] = { ...data, balance: data.balance + total };
+					state.customerList[index] = data;
 				}
 			} else {
 				// state.customerList[index] = action.payload.data;

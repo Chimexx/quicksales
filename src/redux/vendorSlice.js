@@ -47,9 +47,17 @@ const vendorSlice = createSlice({
 		updateVendorSuccess: (state, action) => {
 			state.isFetching_vendor = false;
 			state.error = false;
-			state.vendorList[state.vendorList.findIndex((item) => item._id === action.payload.id)] =
-				action.payload.data;
-			toast.success(`${action.payload.company} has been updated!`);
+			const { buy, data } = action.payload;
+
+			const index = state.vendorList.findIndex((item) => item._id === data._id);
+			if (buy) {
+				if (data.company) {
+					state.vendorList[index] = data;
+				}
+			} else {
+				// state.customerList[index] = action.payload.data;
+				// toast.success(`${action.payload.company} has been updated!`);
+			}
 		},
 		updateVendorFailure: (state) => {
 			state.isFetching_vendor = false;

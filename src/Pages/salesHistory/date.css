@@ -1,0 +1,16 @@
+.date_input {
+	padding: 5px 10px;
+	margin: 0 5px;
+	border-radius: 8px;
+	outline: none;
+	border: none;
+	font-size: 18;
+	height: 30px;
+	background-color: #eeeeee;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+	display: none;
+	-webkit-appearance: none;
+}

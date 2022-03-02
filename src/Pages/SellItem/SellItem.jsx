@@ -4,12 +4,11 @@ import {
 	Container,
 	TextField,
 	CardActionArea,
-	Select,
-	InputLabel,
-	FormControl,
 	MenuItem,
 	Card,
 	Divider,
+	Menu,
+	CardActions,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useStyles } from "./SellItem.styles";
@@ -30,6 +29,17 @@ const SellItem = () => {
 	const [customer, setCustomer] = useState({});
 	const [modalOpen, setModalOpen] = useState(false);
 
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = (customer) => {
+		setCustomer(customer);
+		setAnchorEl(null);
+	};
+
 	useEffect(() => {
 		fetchCustomers(dispatch);
 	}, [dispatch]);
@@ -48,6 +58,7 @@ const SellItem = () => {
 		if (customer.firstName) {
 			/* This is updating the customer's balance and sale status. */
 			updateCustomer({ customer, total: sellCartTotalAmount, sale: true }, dispatch);
+			fetchCustomers(dispatch);
 		}
 	};
 
@@ -86,7 +97,7 @@ const SellItem = () => {
 						</Container>
 					</Container>
 				</Container>
-				<CardActionArea className={classes.actions}>
+				<CardActions className={classes.actions}>
 					<Container>
 						<Button
 							size="small"
@@ -97,7 +108,7 @@ const SellItem = () => {
 							disabled={isFetching_customer || sellCartItems?.length === 0}
 							onClick={handleMakeSale}
 						>
-							Save
+							Sell
 						</Button>
 						<Button
 							size="small"
@@ -108,7 +119,7 @@ const SellItem = () => {
 							disabled={isFetching_customer || sellCartItems?.length === 0}
 							// onClick={handleInventory}
 						>
-							Save and Print
+							Sell and Print
 						</Button>
 					</Container>
 					<div
@@ -118,7 +129,7 @@ const SellItem = () => {
 						<p className={classes.short}>Total:</p>
 						<p className={classes.long}> {convertMoney(sellCartTotalAmount)}</p>
 					</div>
-				</CardActionArea>
+				</CardActions>
 			</Container>
 			<Container className={classes.containerRight}>
 				<Container className={classes.new}>
@@ -127,25 +138,40 @@ const SellItem = () => {
 						Customer Info
 					</Typography>
 					<Container className={classes.inner__body}>
-						<FormControl size="small" className={(classes.formControl, classes.new__input)}>
-							<InputLabel id="demo-simple-select-label">Customer</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								onChange={(e) => setCustomer(e.target.value)}
-							>
-								{customerList.map((customer) => (
-									<MenuItem key={customer._id} value={customer}>
-										{customer.firstName.toUpperCase()}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<Button
+							aria-controls="simple-menu"
+							aria-haspopup="true"
+							style={{ marginBottom: 10, width: "100%" }}
+							onClick={handleClick}
+							variant="outlined"
+							color="primary"
+						>
+							Select Customer
+						</Button>
+						<Menu
+							id="simple-menu"
+							anchorEl={anchorEl}
+							keepMounted
+							open={Boolean(anchorEl)}
+							onClose={handleClose}
+						>
+							{customerList.map((customer) => (
+								<MenuItem
+									onClick={(e) => handleClose(customer)}
+									key={customer._id}
+									value={customer}
+								>
+									{customer.firstName.toUpperCase()}
+								</MenuItem>
+							))}
+						</Menu>
 						<Card variant="outlined" className={classes.account}>
 							<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 								Customer Balance:
 							</Typography>
-							<p className={classes.account_figure}>{convertMoney(customer?.balance)}</p>
+							<p className={classes.account_figure}>
+								{customer?.balance ? convertMoney(customer.balance) : "--"}
+							</p>
 						</Card>
 						<Divider />
 						<Button
