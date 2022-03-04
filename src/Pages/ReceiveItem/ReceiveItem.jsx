@@ -21,6 +21,7 @@ import { convertMoney } from "../../components/Utils/converter";
 import AddModal from "../../components/AddModal/AddModal";
 import Progress from "../../components/Utils/Progress";
 import { fetchVendors, updateVendor } from "../../redux/vendorsApi";
+import { createPurchaseHistory } from "../../redux/purchaseHistoryApi";
 
 const ReceiveItem = () => {
 	const classes = useStyles();
@@ -47,8 +48,13 @@ const ReceiveItem = () => {
 		dispatch(clearBuyCart());
 		dispatch(getTotals());
 	};
+	/**
+	 * Receive the inventory and create a purchase history
+	 */
 	const handleInventory = () => {
 		receiveInventory(buyCartItems, dispatch);
+		createPurchaseHistory({ items: buyCartItems, totalAmt: buyCartTotalAmount, vendor }, dispatch);
+
 		if (vendor.company) {
 			updateVendor({ vendor, total: buyCartTotalAmount, buy: true }, dispatch);
 			fetchVendors(dispatch);
@@ -129,55 +135,63 @@ const ReceiveItem = () => {
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 						Vendor Info
 					</Typography>
-					<Container className={classes.inner__body}>
-						<Button
-							aria-controls="simple-menu"
-							aria-haspopup="true"
-							style={{ marginBottom: 10, width: "100%" }}
-							onClick={handleClick}
-							variant="outlined"
-							color="primary"
-						>
-							Select Vendor
-						</Button>
-						<Menu
-							id="simple-menu"
-							anchorEl={anchorEl}
-							keepMounted
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-						>
-							{vendorList.map((vendor) => (
-								<MenuItem
-									onClick={(e) => handleClose(vendor)}
-									key={vendor._id}
-									value={vendor}
-								>
-									{vendor.company.toUpperCase()}
-								</MenuItem>
-							))}
-						</Menu>
+					<div className={classes.inner__body__container}>
+						<Container className={classes.inner__body}>
+							<Button
+								aria-controls="simple-menu"
+								aria-haspopup="true"
+								style={{ marginBottom: 10, width: "100%" }}
+								onClick={handleClick}
+								variant="outlined"
+								color="primary"
+							>
+								Select Vendor
+							</Button>
+							<Menu
+								id="simple-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={Boolean(anchorEl)}
+								onClose={handleClose}
+							>
+								{vendorList.map((vendor) => (
+									<MenuItem
+										onClick={(e) => handleClose(vendor)}
+										key={vendor._id}
+										value={vendor}
+									>
+										{vendor.company.toUpperCase()}
+									</MenuItem>
+								))}
+							</Menu>
 
-						<Card variant="outlined" className={classes.account}>
-							<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
-								Vendor Balance:
-							</Typography>
-							<p className={classes.account_figure}>
-								{vendor?.balance ? convertMoney(vendor.balance) : "--"}
-							</p>
-						</Card>
-						<Divider />
-						<Button
-							onClick={() => setModalOpen(true)}
-							className={classes.add__buttons}
-							size="small"
-							variant="outlined"
-							color="primary"
-							style={{ marginTop: 20 }}
-						>
-							Add vendor
-						</Button>
-					</Container>
+							<Card variant="outlined" className={classes.account}>
+								<Typography
+									variant="h6"
+									className={classes.new_head}
+									component="h6"
+									gutterBottom
+								>
+									Vendor Balance:
+								</Typography>
+								<p className={classes.account_figure}>
+									{vendor?.balance ? convertMoney(vendor.balance) : "--"}
+								</p>
+							</Card>
+							<Divider />
+							<Button
+								onClick={() => setModalOpen(true)}
+								className={classes.add__buttons}
+								size="small"
+								variant="outlined"
+								color="primary"
+								style={{ marginTop: 20 }}
+							>
+								Add vendor
+							</Button>
+						</Container>
+						<Container className={classes.info_display}>hfhfhfhfh</Container>
+					</div>
 				</Container>
 				{modalOpen && <AddModal type="vendor" setModalOpen={setModalOpen} />}
 			</Container>

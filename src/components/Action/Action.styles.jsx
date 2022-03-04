@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-	button {
-		display: flex;
-		border: none;
-		background: none;
-		color: var(--white);
-		margin-bottom: 20px;
-		height: 8rem;
-		width: 8rem;
-		align-items: center;
-		flex-direction: column;
-	}
+export const Button = styled.button`
+	display: ${(props) => (props.disabled ? "none" : "flex")};
+	border: none;
+	background: none;
+	color: var(--white);
+	margin-bottom: 20px;
+	height: 8rem;
+	width: 8rem;
+	align-items: center;
+	flex-direction: column;
+	margin-right: 3.5rem;
+	cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 
 	.top {
 		width: 100%;
@@ -24,7 +24,6 @@ export const Container = styled.div`
 		align-items: center;
 		justify-content: center;
 		transition: all ease-in-out 0.3s;
-		cursor: pointer;
 
 		&:hover {
 			transform: translateY(-5px);
@@ -40,14 +39,8 @@ export const Container = styled.div`
 		justify-content: center;
 		font-size: 14px;
 		font-weight: 700;
-		transition: all ease-in-out 0.3s;
-		cursor: pointer;
 		color: var(--blueDeFrance);
 		padding: 5px;
 		text-transform: uppercase;
-
-		&:hover {
-			transform: translateY(5px);
-		}
 	}
 `;

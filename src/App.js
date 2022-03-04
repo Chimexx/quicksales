@@ -11,6 +11,8 @@ import NewItem from "./Pages/NewItem/NewItem";
 import ReceiveItem from "./Pages/ReceiveItem/ReceiveItem";
 import Customers from "./Pages/Customers/Customers";
 import Vendors from "./Pages/Vendors/Vendors";
+import SalesHistory from "./Pages/SalesHistory/SalesHistory";
+import PurchaseHistory from "./Pages/receivingHistory/PurchaseHistory";
 
 function App() {
 	return (
@@ -51,6 +53,8 @@ function App() {
 								<Route path="/receive" element={<ReceiveItem />} />
 								<Route path="/customers" element={<Customers />} />
 								<Route path="/vendors" element={<Vendors />} />
+								<Route path="/sales-history" element={<SalesHistory />} />
+								<Route path="/purchase-history" element={<PurchaseHistory />} />
 							</Routes>
 						</MainView>
 					</Wrapper>

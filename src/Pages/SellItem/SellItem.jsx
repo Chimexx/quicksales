@@ -3,7 +3,6 @@ import {
 	Typography,
 	Container,
 	TextField,
-	CardActionArea,
 	MenuItem,
 	Card,
 	Divider,
@@ -21,6 +20,7 @@ import { convertMoney } from "../../components/Utils/converter";
 import { sellInventory } from "../../redux/productsApi";
 import AddModal from "../../components/AddModal/AddModal";
 import { fetchCustomers, updateCustomer } from "../../redux/customerApi";
+import { createSalesHistory } from "../../redux/salesHistoryApi";
 
 const SellItem = () => {
 	const classes = useStyles();
@@ -55,6 +55,7 @@ const SellItem = () => {
 	const handleMakeSale = () => {
 		/* This is updating the customer's balance and sale status. */
 		sellInventory({ items: sellCartItems }, dispatch);
+		createSalesHistory({ items: sellCartItems, totalAmt: sellCartTotalAmount, customer }, dispatch);
 		if (customer.firstName) {
 			/* This is updating the customer's balance and sale status. */
 			updateCustomer({ customer, total: sellCartTotalAmount, sale: true }, dispatch);

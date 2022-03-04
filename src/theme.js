@@ -8,6 +8,7 @@ export const theme = createTheme({
 			lightGreen: "#eaffea",
 			lightOrange: "#ff840049",
 			saffron: "#F2C237",
+			lightSaffron: "#fff6db",
 			white: "#fff",
 			lightBlue: "#018ff455",
 			blueDeFrance2: "#018ff426",

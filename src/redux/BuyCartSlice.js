@@ -15,7 +15,7 @@ const buyCartSlice = createSlice({
 			if (index >= 0) {
 				state.buyCartItems[index].onHandQty += 1;
 			} else {
-				state.buyCartItems.push(action.payload.item);
+				state.buyCartItems.unshift({ ...action.payload.item, onHandQty: 1 });
 			}
 		},
 		decQty: (state, action) => {
@@ -32,6 +32,13 @@ const buyCartSlice = createSlice({
 			);
 			console.log(action.payload.value);
 			state.buyCartItems[index].onHandQty = action.payload.value;
+		},
+		directCost: (state, action) => {
+			const index = current(state.buyCartItems).findIndex(
+				(item) => item._id === action.payload.item._id
+			);
+
+			state.buyCartItems[index].costPrice = action.payload.value;
 		},
 		removeFromBuyCart: (state, action) => {
 			const newItems = state.buyCartItems.filter((item) => item._id !== action.payload.item._id);
@@ -68,7 +75,7 @@ const buyCartSlice = createSlice({
 	},
 });
 
-export const { addToBuyCart, removeFromBuyCart, decQty, clearBuyCart, directInput, getTotals } =
+export const { addToBuyCart, removeFromBuyCart, decQty, clearBuyCart, directInput, directCost, getTotals } =
 	buyCartSlice.actions;
 export const getBuyCart = (state) => state.buyCart;
 export default buyCartSlice.reducer;

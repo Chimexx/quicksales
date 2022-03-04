@@ -4,7 +4,14 @@ import { Table } from "./InventoryList.styles";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { addToBuyCart, decQty, directInput, getTotals, removeFromBuyCart } from "../../redux/BuyCartSlice";
+import {
+	addToBuyCart,
+	decQty,
+	directCost,
+	directInput,
+	getTotals,
+	removeFromBuyCart,
+} from "../../redux/BuyCartSlice";
 import { CgOptions } from "react-icons/cg";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { convertMoney } from "../Utils/converter";
@@ -72,6 +79,15 @@ const InventoryList = () => {
 		dispatch(removeFromBuyCart({ item }));
 		dispatch(getTotals());
 	};
+	const handleCost = (item, value) => {
+		if (isNaN(value)) {
+			dispatch(directCost({ item, value: "" }));
+			dispatch(getTotals());
+		} else {
+			dispatch(directCost({ item, value }));
+			dispatch(getTotals());
+		}
+	};
 
 	return (
 		<>
@@ -81,18 +97,20 @@ const InventoryList = () => {
 						<th>
 							<CgOptions style={{ fontSize: 18 }} />
 						</th>
+						<th>#</th>
 						<th>Item Name</th>
-						<th>Price</th>
 						<th>Cost</th>
-						<th>OH Qty</th>
 						<th>Ext Cost </th>
+						<th>OH Qty</th>
 						<th>Avail Qty</th>
-						<th>Wholesale Price</th>
+						<th>Sales Price</th>
+						<th>Wsale Price</th>
 						<th>Retail Price</th>
+						<th>Custom Price</th>
 					</tr>
 				</thead>
 				<tbody>
-					{buyCartItems?.map((item) => (
+					{buyCartItems?.map((item, index) => (
 						<tr key={item._id}>
 							<td>
 								<RiDeleteBack2Fill
@@ -100,9 +118,18 @@ const InventoryList = () => {
 									onClick={() => handleDelete(item)}
 								/>
 							</td>
+							<td>{index + 1}</td>
 							<td>{item.itemName}</td>
-							<td>{convertMoney(item.salesPrice)}</td>
-							<td>{convertMoney(item.costPrice)}</td>
+							<td>
+								₦
+								<input
+									type="number"
+									value={item.costPrice}
+									min="1"
+									onChange={(e) => handleCost(item, parseInt(e.target.value))}
+								/>
+							</td>
+							<td>{convertMoney(item.costPrice * item.onHandQty)}</td>
 							<td className="button_col">
 								<div className="actions_container">
 									<button className="action_button" onClick={() => handleQty(item, "dec")}>
@@ -120,10 +147,11 @@ const InventoryList = () => {
 									</button>
 								</div>
 							</td>
-							<td>{convertMoney(item.costPrice * item.onHandQty)}</td>
 							<td>{item.availQty}</td>
+							<td>{convertMoney(item.salesPrice)}</td>
 							<td>{convertMoney(item.wholesalePrice)}</td>
 							<td>{convertMoney(item.retailPrice)}</td>
+							<td>{convertMoney(item.customPrice)}</td>
 						</tr>
 					))}
 				</tbody>

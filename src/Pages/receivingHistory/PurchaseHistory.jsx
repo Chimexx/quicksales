@@ -1,20 +1,15 @@
 import { Typography, Card } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useStyles } from "./SalesHistory.styles";
+import { useStyles } from "./PurchaseHistory.styles";
 import { useDispatch, useSelector } from "react-redux";
 import Progress from "../../components/Utils/Progress";
 import { BiReset } from "react-icons/bi";
 import { HiDocumentSearch } from "react-icons/hi";
 import "./date.css";
-
-import dayjs from "dayjs";
-import { fetchSalesHistorys } from "../../redux/salesHistoryApi";
+import { fetchPurchaseHistorys } from "../../redux/purchaseHistoryApi";
 import HistoryTable from "../../components/HistoryTable/HistoryTable";
 
-var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
-
-const SalesHistory = () => {
+const PurchaseHistory = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [sort, setSort] = useState("");
@@ -23,49 +18,49 @@ const SalesHistory = () => {
 	const [endDate, setEndDate] = useState("");
 
 	useEffect(() => {
-		fetchSalesHistorys(dispatch);
+		fetchPurchaseHistorys(dispatch);
 	}, [dispatch]);
 
-	const { salesHistoryList, isFetching_history } = useSelector((state) => state.salesHistorys);
-	const [salesHistory, setSalesHistory] = useState(salesHistoryList);
+	const { purchaseHistoryList, isFetching_history } = useSelector((state) => state.purchaseHistorys);
+	const [purchaseHistory, setPurchaseHistory] = useState(purchaseHistoryList);
 
 	//Sort function
 	useEffect(() => {
 		if (sort === "createdAt") {
-			setSalesHistory((prev) =>
+			setPurchaseHistory((prev) =>
 				[...prev]
 					.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 					.reverse()
 			);
 		} else if (sort === "cashier") {
-			setSalesHistory((prev) =>
+			setPurchaseHistory((prev) =>
 				[...prev].sort((a, b) => (a.cashier > b.cashier ? 1 : b.cashier > a.cashier ? -1 : 0))
 			);
 		} else if (sort === "total") {
-			setSalesHistory((prev) => [...prev].sort((a, b) => a.totalAmt - b.totalAmt));
+			setPurchaseHistory((prev) => [...prev].sort((a, b) => a.totalAmt - b.totalAmt));
 		} else if (sort === "default") {
-			setSalesHistory(salesHistoryList);
+			setPurchaseHistory(purchaseHistoryList);
 		}
-	}, [sort, salesHistoryList]);
+	}, [sort, purchaseHistoryList]);
 
 	//Search function
 	useEffect(() => {
 		if (term) {
-			setSalesHistory(
-				salesHistoryList?.filter(
+			setPurchaseHistory(
+				purchaseHistoryList?.filter(
 					(history) =>
 						history.cashier?.toLowerCase().includes(term.toLowerCase()) ||
 						history.totalAmt === parseInt(term)
 				)
 			);
 		} else {
-			setSalesHistory(salesHistoryList);
+			setPurchaseHistory(purchaseHistoryList);
 		}
-	}, [term, salesHistoryList]);
+	}, [term, purchaseHistoryList]);
 
 	//Date filter function
 	const handleFilter = () => {
-		setSalesHistory((prev) =>
+		setPurchaseHistory((prev) =>
 			[...prev].filter(
 				(history) =>
 					new Date(history.createdAt) >= startDate && new Date(history.createdAt) <= endDate
@@ -85,7 +80,7 @@ const SalesHistory = () => {
 			<div className={classes.container}>
 				{isFetching_history && <Progress />}
 				<Typography variant="h6" className={classes.header} component="h6" gutterBottom>
-					Sales History
+					Purchase History
 				</Typography>
 				<Card className={classes.bar} variant="outlined">
 					<div className={classes.inputContainer}>
@@ -135,17 +130,17 @@ const SalesHistory = () => {
 						</button>
 						<button
 							className={classes.button}
-							onClick={() => setSalesHistory(salesHistoryList)}
+							onClick={() => setPurchaseHistory(purchaseHistoryList)}
 							style={{ marginLeft: 10 }}
 						>
 							<BiReset style={{ fontSize: 22, paddingRight: 5 }} /> Reset
 						</button>
 					</div>
 				</Card>
-				<HistoryTable history={salesHistory} type="sales" />
+				<HistoryTable history={purchaseHistory} type="receive" />
 			</div>
 		</>
 	);
 };
 
-export default SalesHistory;
+export default PurchaseHistory;

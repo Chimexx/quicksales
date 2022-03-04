@@ -1,12 +1,10 @@
 import React from "react";
-import { Container } from "./Action.styles";
-const Action = ({ title, icon }) => {
+import { Button } from "./Action.styles";
+const Action = ({ title, icon, disabled }) => {
 	return (
-		<Container>
-			<button>
-				<div className="top">{icon}</div> <div className="bottom">{title}</div>
-			</button>
-		</Container>
+		<Button disabled={disabled}>
+			<div className="top">{icon}</div> <div className="bottom">{title}</div>
+		</Button>
 	);
 };
 

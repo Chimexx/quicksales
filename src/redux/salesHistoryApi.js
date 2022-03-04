@@ -18,7 +18,7 @@ import { authRequest, publicRequest } from "./requestMethods";
 export const fetchSalesHistorys = async (dispatch) => {
 	dispatch(fetchSalesHistoryStart());
 	try {
-		const res = await publicRequest.get("saleshistorys");
+		const res = await publicRequest.get("sales-historys");
 		await dispatch(fetchSalesHistorySuccess(res.data));
 	} catch (error) {
 		dispatch(fetchSalesHistoryFailure());
@@ -26,10 +26,10 @@ export const fetchSalesHistorys = async (dispatch) => {
 };
 
 //Create SalesHistorys
-export const createSalesHistory = async (dispatch, data) => {
+export const createSalesHistory = async (data, dispatch) => {
 	dispatch(createSalesHistoryStart());
 	try {
-		const res = await publicRequest.post("saleshistorys/new", data);
+		const res = await publicRequest.post("sales-historys/new", data);
 		await dispatch(createSalesHistorySuccess(res.data));
 	} catch (error) {
 		dispatch(createSalesHistoryFailure());
@@ -40,7 +40,7 @@ export const createSalesHistory = async (dispatch, data) => {
 export const updateSalesHistory = async (data, dispatch) => {
 	dispatch(updateSalesHistoryStart());
 	try {
-		const res = await authRequest.put(`saleshistorys/${data.saleshistory._id}`, data);
+		const res = await authRequest.put(`sales-historys/${data.salesHistory._id}`, data);
 		await dispatch(updateSalesHistorySuccess({ data: res.data }));
 	} catch (error) {
 		dispatch(updateSalesHistoryFailure());
@@ -51,7 +51,7 @@ export const updateSalesHistory = async (data, dispatch) => {
 export const deleteSalesHistory = async (id, dispatch) => {
 	dispatch(deleteSalesHistoryStart());
 	try {
-		await authRequest.delete(`saleshistorys/${id}`);
+		await authRequest.delete(`sales-historys/${id}`);
 		await dispatch(deleteSalesHistorySuccess({ id }));
 	} catch (error) {
 		dispatch(deleteSalesHistoryFailure());

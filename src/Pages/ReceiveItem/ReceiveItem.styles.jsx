@@ -41,6 +41,12 @@ export const useStyles = makeStyles((theme) => ({
 		height: "100%",
 		justifyContent: "space-between",
 	},
+	inner__body__container: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-between",
+		height: "100%",
+	},
 	inner__body: {
 		padding: 10,
 	},
@@ -158,5 +164,10 @@ export const useStyles = makeStyles((theme) => ({
 		padding: "0 10px",
 		fontWeight: 700,
 		fontSize: "2rem",
+	},
+	info_display: {
+		display: "flex",
+		alignItems: "flex-end",
+		padding: 10,
 	},
 }));

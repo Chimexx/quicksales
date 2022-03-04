@@ -1,40 +1,20 @@
-import { Button, Container } from "@material-ui/core";
 import React, { useState } from "react";
 import { Table } from "./SalesList.styles";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
-import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { addToSellCart, decQty, directInput, getTotals, removeFromSellCart } from "../../redux/SellCartSlice";
+import {
+	addToSellCart,
+	decQty,
+	directInput,
+	directPrice,
+	getTotals,
+	removeFromSellCart,
+} from "../../redux/SellCartSlice";
 import { CgOptions } from "react-icons/cg";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { convertMoney } from "../Utils/converter";
-import { Link } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-	button: {
-		fontSize: 12,
-		width: 25,
-		height: 30,
-		padding: 0,
-		minWidth: 30,
-		margin: 0,
-	},
-	editbutton: {
-		color: theme.palette.primary.main,
-		backgroundColor: theme.palette.primary.white,
-	},
-	btngrp: {
-		marginTop: theme.spacing(0),
-		borderColor: "#bebebe",
-
-		[theme.breakpoints.down("sm")]: {
-			marginTop: theme.spacing(2),
-		},
-	},
-}));
 
 const SalesList = () => {
-	const classes = useStyles();
 	const dispatch = useDispatch();
 
 	const { sellCartItems } = useSelector((state) => state.sellCart);
@@ -68,8 +48,17 @@ const SalesList = () => {
 		}
 	};
 	const handleDelete = (item) => {
-		dispatch(removeFromSellCart({ item }));
+		dispatch(removeFromSellCart(item));
 		dispatch(getTotals());
+	};
+	const handlePrice = (item, value) => {
+		if (isNaN(value)) {
+			dispatch(directPrice({ item, value: "" }));
+			dispatch(getTotals());
+		} else {
+			dispatch(directPrice({ item, value }));
+			dispatch(getTotals());
+		}
 	};
 
 	return (
@@ -82,12 +71,14 @@ const SalesList = () => {
 						</th>
 						<th>#</th>
 						<th>Item Name</th>
-						<th>Price</th>
+						<th>Sales Price</th>
 						<th>Ext Price</th>
 						<th>Qty</th>
 						<th>Avail Qty</th>
-						<th>Wholesale Price</th>
+						<th>Cost Price</th>
+						<th>Wsale Price</th>
 						<th>Retail Price</th>
+						<th>Custom Price</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -101,7 +92,16 @@ const SalesList = () => {
 							</td>
 							<td>{index + 1}</td>
 							<td>{item.itemName}</td>
-							<td>{convertMoney(item.salesPrice)}</td>
+
+							<td>
+								₦
+								<input
+									type="number"
+									value={item.salesPrice}
+									min="1"
+									onChange={(e) => handlePrice(item, parseInt(e.target.value))}
+								/>
+							</td>
 							<td>{convertMoney(item.salesPrice * item.onHandQty)}</td>
 							<td className="button_col">
 								<div className="actions_container">
@@ -122,8 +122,10 @@ const SalesList = () => {
 							</td>
 
 							<td>{item.availQty}</td>
+							<td>{convertMoney(item.costPrice)}</td>
 							<td>{convertMoney(item.wholesalePrice)}</td>
 							<td>{convertMoney(item.retailPrice)}</td>
+							<td>{convertMoney(item.customPrice)}</td>
 						</tr>
 					))}
 				</tbody>

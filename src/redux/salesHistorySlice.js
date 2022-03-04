@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
 const initialState = {
-	saleshistoryList: [],
+	salesHistoryList: [],
 	isFetching_history: false,
 	error: false,
 };
 
 const saleshistorySlice = createSlice({
-	name: "saleshistorys",
+	name: "salesHistorys",
 	initialState,
 	reducers: {
 		//Fetch SalesHistory
@@ -18,7 +18,7 @@ const saleshistorySlice = createSlice({
 		fetchSalesHistorySuccess: (state, action) => {
 			state.isFetching_history = false;
 			state.error = false;
-			state.saleshistoryList = action.payload;
+			state.salesHistoryList = action.payload;
 		},
 		fetchSalesHistoryFailure: (state) => {
 			state.isFetching_history = false;
@@ -30,9 +30,13 @@ const saleshistorySlice = createSlice({
 			state.isFetching_history = true;
 		},
 		createSalesHistorySuccess: (state, action) => {
+			console.log(action.payload);
 			state.isFetching_history = false;
 			state.error = false;
-			state.saleshistoryList.push(action.payload);
+			state.salesHistoryList.unshift(action.payload);
+			// if(customPrice !== null ){
+
+			// }
 		},
 		createSalesHistoryFailure: (state) => {
 			state.isFetching_history = false;
@@ -47,9 +51,9 @@ const saleshistorySlice = createSlice({
 			state.isFetching_history = false;
 			state.error = false;
 
-			const index = state.saleshistoryList.findIndex((item) => item._id === action.payload._id);
+			const index = state.salesHistoryList.findIndex((item) => item._id === action.payload._id);
 
-			state.saleshistoryList[index] = action.payload;
+			state.salesHistoryList[index] = action.payload;
 		},
 		updateSalesHistoryFailure: (state) => {
 			state.isFetching_history = false;
@@ -62,8 +66,8 @@ const saleshistorySlice = createSlice({
 		},
 		deleteSalesHistorySuccess: (state, action) => {
 			state.isFetching_history = false;
-			state.saleshistoryList.splice(
-				state.saleshistoryList.findIndex((item) => item._id === action.payload.id),
+			state.salesHistoryList.splice(
+				state.salesHistoryList.findIndex((item) => item._id === action.payload.id),
 				1
 			);
 			toast.success(`SalesHistory has been removed!`);
@@ -77,7 +81,7 @@ const saleshistorySlice = createSlice({
 });
 
 export default saleshistorySlice.reducer;
-export const getState = (state) => state.saleshistorys;
+export const getState = (state) => state.salesHistorys;
 export const {
 	fetchSalesHistoryFailure,
 	fetchSalesHistoryStart,

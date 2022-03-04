@@ -17,6 +17,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import dayjs from "dayjs";
+import { BiReset } from "react-icons/bi";
 
 const ItemList = () => {
 	const classes = useStyles();
@@ -74,8 +75,6 @@ const ItemList = () => {
 					new Date(product.createdAt) >= startDate && new Date(product.createdAt) <= endDate
 			)
 		);
-
-		// fetchProducts(dispatch, e.target.value);
 	};
 
 	const sortOptions = [
@@ -128,7 +127,7 @@ const ItemList = () => {
 					</div>
 					<div className={classes.inputContainer}>
 						<label htmlFor="filter" style={{ marginRight: 10 }}>
-							Filter by date:
+							Filter date:
 						</label>
 						<input
 							type="date"
@@ -144,6 +143,13 @@ const ItemList = () => {
 						<button className={classes.button} onClick={handleFilter} style={{ marginLeft: 10 }}>
 							Go
 						</button>
+						<button
+							className={classes.button}
+							onClick={() => setProducts(productList)}
+							style={{ marginLeft: 10 }}
+						>
+							<BiReset style={{ fontSize: 22, paddingRight: 5 }} />
+						</button>
 					</div>
 				</Card>
 				<TableContainer component={Paper} className={classes.tableContainer}>
@@ -158,6 +164,7 @@ const ItemList = () => {
 								<TableCell className={classes.tableHead}>Avail. Qty</TableCell>
 								<TableCell className={classes.tableHead}>Wholesale Price</TableCell>
 								<TableCell className={classes.tableHead}>Retail Price</TableCell>
+								<TableCell className={classes.tableHead}>Custom Price</TableCell>
 								<TableCell className={classes.tableHead}>Dep</TableCell>
 								<TableCell className={classes.tableHead}>Vendor</TableCell>
 								<TableCell className={classes.tableHead}>Exp Date</TableCell>
@@ -190,6 +197,7 @@ const ItemList = () => {
 									<TableCell align="right">{row.availQty}</TableCell>
 									<TableCell align="right">{convertMoney(row.wholesalePrice)}</TableCell>
 									<TableCell align="right">{convertMoney(row.retailPrice)}</TableCell>
+									<TableCell align="right">{convertMoney(row.customPrice)}</TableCell>
 									<TableCell align="left">{row.department}</TableCell>
 									<TableCell align="left">{row.vendor}</TableCell>
 									<TableCell align="left">

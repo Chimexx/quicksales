@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import Action from "../../components/Action/Action";
 import { Container, Wrapper } from "./Home.styles";
 import { BsReceiptCutoff } from "react-icons/bs";
-import { FaShippingFast, FaStore } from "react-icons/fa";
-import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { FaShippingFast, FaStore, FaHistory } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
+import { BiPurchaseTag } from "react-icons/bi";
+import { MdOutlineInventory } from "react-icons/md";
 
 const Home = () => {
 	return (
@@ -17,7 +18,9 @@ const Home = () => {
 					<Link to="/sales">
 						<Action title="make a sale" icon={<BsReceiptCutoff />} />
 					</Link>
-					<Action />
+					<Link to="/sales-history">
+						<Action title="sales history " icon={<MdOutlineInventory />} />
+					</Link>
 					<Link to="/customers">
 						<Action title="customers " icon={<BsFillPeopleFill />} />
 					</Link>
@@ -28,10 +31,11 @@ const Home = () => {
 				<p className="section--title">VENDOR SECTION</p>
 				<Card className="section">
 					<Link to="/receive">
-						<Action title="Receive items" icon={<FaShippingFast />} />
+						<Action title="Receive items" disabled={false} icon={<FaShippingFast />} />
 					</Link>
-					<Link to="/newitem">
-						<Action title="New Item" icon={<AiOutlineAppstoreAdd />} />
+
+					<Link to="/purchase-history">
+						<Action title="Purchase History" icon={<BiPurchaseTag />} />
 					</Link>
 					<Link to="/vendors">
 						<Action title="Vendors" icon={<FaStore />} />

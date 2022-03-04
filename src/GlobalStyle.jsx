@@ -49,6 +49,7 @@ const GlobalStyle = createGlobalStyle`
   }
   :root {
     --saffron: #F2C237;
+    --lightSaffron: #fff6db;
     --blueDeFrance: #018ef4;
     --blueDeFrance2: #d9efff;
     --green: #00b400;

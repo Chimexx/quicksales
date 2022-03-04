@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+let dis;
 export const Container = styled.aside`
 	display: flex;
 	width: 20vw;
@@ -14,15 +14,18 @@ export const Wrapper = styled.div`
 	flex-direction: column;
 	width: 100%;
 	align-items: center;
+`;
+export const Button = styled.button`
+	display: flex;
+	height: 50px;
+	width: 200px;
+	border: none;
+	background: none;
+	color: var(--white);
+	margin-bottom: 20px;
 
-	button {
-		display: flex;
-		height: 50px;
-		width: 200px;
-		border: none;
-		background: none;
-		color: var(--white);
-		margin-bottom: 20px;
+	:disabled {
+		pointer-events: none;
 	}
 
 	.short {

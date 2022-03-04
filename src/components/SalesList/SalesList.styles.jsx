@@ -11,8 +11,8 @@ export const Table = styled.table`
 		padding: 2px 3px;
 		font-size: 15px;
 		font-weight: 700;
-		/* overflow: hidden;
-		white-space: nowrap; */
+		overflow: hidden;
+		white-space: nowrap;
 		font-weight: 700;
 		text-transform: capitalize;
 

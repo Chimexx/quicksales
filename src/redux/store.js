@@ -6,6 +6,7 @@ import buyCartReducer from "./BuyCartSlice";
 import sellCartReducer from "./SellCartSlice";
 import customerReducer from "./customerSlice";
 import salesHistoryReducer from "./salesHistorySlice";
+import purchaseHistoryReducer from "./purchaseHistorySlice";
 import {
 	persistStore,
 	persistReducer,
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
 	vendors: vendorReducer,
 	departments: departmentReducer,
 	customers: customerReducer,
-	salesHistory: salesHistoryReducer,
+	salesHistorys: salesHistoryReducer,
+	purchaseHistorys: purchaseHistoryReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

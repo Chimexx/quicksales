@@ -15,7 +15,7 @@ const sellCartSlice = createSlice({
 			if (index >= 0) {
 				state.sellCartItems[index].onHandQty += 1;
 			} else {
-				state.sellCartItems.push(action.payload.item);
+				state.sellCartItems.unshift({ ...action.payload.item, onHandQty: 1 });
 			}
 		},
 		decQty: (state, action) => {
@@ -30,11 +30,17 @@ const sellCartSlice = createSlice({
 			const index = current(state.sellCartItems).findIndex(
 				(item) => item._id === action.payload.item._id
 			);
-			console.log(action.payload.value);
 			state.sellCartItems[index].onHandQty = action.payload.value;
 		},
+		directPrice: (state, action) => {
+			const index = current(state.sellCartItems).findIndex(
+				(item) => item._id === action.payload.item._id
+			);
+
+			state.sellCartItems[index].salesPrice = action.payload.value;
+		},
 		removeFromSellCart: (state, action) => {
-			const newItems = state.sellCartItems.filter((item) => item._id !== action.payload.item._id);
+			const newItems = state.sellCartItems.filter((item) => item._id !== action.payload._id);
 			state.sellCartItems = newItems;
 		},
 
@@ -68,7 +74,14 @@ const sellCartSlice = createSlice({
 	},
 });
 
-export const { addToSellCart, removeFromSellCart, decQty, clearSellCart, directInput, getTotals } =
-	sellCartSlice.actions;
+export const {
+	addToSellCart,
+	removeFromSellCart,
+	decQty,
+	clearSellCart,
+	directInput,
+	directPrice,
+	getTotals,
+} = sellCartSlice.actions;
 export const getSellCart = (state) => state.sellCart;
 export default sellCartSlice.reducer;
