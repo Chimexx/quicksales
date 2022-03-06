@@ -1,5 +1,5 @@
 import styled from "styled-components";
-let dis;
+
 export const Container = styled.aside`
 	display: flex;
 	width: 20vw;

@@ -5,6 +5,16 @@ export const Table = styled.table`
 	width: 100%;
 	border-radius: 50px;
 
+	.info {
+		padding: 1rem;
+		display: flex;
+		justify-content: space-between;
+		border-radius: 0.5rem;
+		background-color: var(--lightOrange);
+		color: var(--orange);
+		width: 100%;
+	}
+
 	td {
 		border: 1px solid #e6e6e6;
 		text-align: left;
@@ -96,6 +106,44 @@ export const Table = styled.table`
 
 		&:hover {
 			color: var(--blueDeFrance);
+		}
+	}
+`;
+
+export const Info = styled.div`
+	position: relative;
+
+	.content {
+		padding: 1rem;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		border-radius: 0.5rem;
+		background-color: var(--lightOrange);
+		color: var(--orange);
+		margin-top: 0.5rem;
+	}
+	.caret {
+		position: absolute;
+		top: -0.65rem;
+		left: 10rem;
+		color: var(--lightOrange);
+	}
+	.info__icon {
+		color: var(--orange);
+		font-size: 1.3rem;
+		margin-right: 0.5rem;
+	}
+	.cancel__icon {
+		border-radius: 50%;
+		color: var(--orange);
+		font-size: 1.3rem;
+		margin-left: 1rem;
+		cursor: pointer;
+		transition: all ease-in-out 0.3s;
+
+		&:hover {
+			border: 1px solid var(--orange);
 		}
 	}
 `;

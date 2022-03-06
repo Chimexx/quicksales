@@ -41,12 +41,11 @@ const Customers = () => {
 								<TableCell className={classes.tableHead}>Address</TableCell>
 								<TableCell className={classes.tableHead}>Phone</TableCell>
 								<TableCell className={classes.tableHead}>Balance</TableCell>
-								<TableCell className={classes.tableHead}>Action</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{customerList.map((row, index) => (
-								<TableRow className={classes.tableBody} key={row._id}>
+								<TableRow className={classes.table__row} key={row._id}>
 									<TableCell align="left">{index + 1}</TableCell>
 									<TableCell component="th" scope="row">
 										<div style={{ display: "flex", alignItems: "center" }}>
@@ -65,9 +64,6 @@ const Customers = () => {
 									<TableCell align="left">{row.address}</TableCell>
 									<TableCell align="left">{row.phone}</TableCell>
 									<TableCell align="left">{convertMoney(row.balance)}</TableCell>
-									<TableCell align="left">
-										<Button size="small"> Edit</Button>
-									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

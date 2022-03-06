@@ -178,11 +178,11 @@ const AddModal = ({ setModalOpen, type }) => {
 									<TextField
 										label="Account Number"
 										id="account"
-										name="account"
+										name="accountNo"
 										type="number"
 										variant="filled"
 										size="small"
-										value={vendor.account ?? ""}
+										value={vendor.accountNo ?? ""}
 										onChange={handleVendor}
 									/>
 								</Grid>

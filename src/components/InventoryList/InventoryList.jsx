@@ -1,8 +1,6 @@
-import { Button, Container } from "@material-ui/core";
 import React, { useState } from "react";
 import { Table } from "./InventoryList.styles";
 import { BsDashLg, BsPlusLg } from "react-icons/bs";
-import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	addToBuyCart,
@@ -15,34 +13,8 @@ import {
 import { CgOptions } from "react-icons/cg";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { convertMoney } from "../Utils/converter";
-import { Link } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-	actions: {
-		backgroundColor: theme.palette.primary.blueDeFrance2,
-		color: theme.palette.primary.white,
-		padding: 1,
-		borderRadius: 5,
-	},
-	button: {
-		fontSize: 18,
-		width: 25,
-		height: 30,
-		padding: 0,
-	},
-
-	btngrp: {
-		marginTop: theme.spacing(0),
-		borderColor: "#bebebe",
-
-		[theme.breakpoints.down("sm")]: {
-			marginTop: theme.spacing(2),
-		},
-	},
-}));
 
 const InventoryList = () => {
-	const classes = useStyles();
 	const dispatch = useDispatch();
 
 	const { buyCartItems } = useSelector((state) => state.buyCart);

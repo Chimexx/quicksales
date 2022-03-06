@@ -153,16 +153,29 @@ export const useStyles = makeStyles((theme) => ({
 	account: {
 		backgroundColor: theme.palette.primary.lightBlue,
 		color: theme.palette.primary.blueDeFrance,
-		height: 70,
+		minHheight: 70,
 		width: "100%",
 		borderRadius: 5,
 		marginBottom: 20,
+	},
+	account_container: {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	account_figure: {
 		color: theme.palette.primary.white,
 		padding: "0 10px",
 		fontWeight: 700,
-		fontSize: "2rem",
+		fontSize: "1.2rem",
+	},
+	account_name: {
+		color: theme.palette.primary.white,
+		textTransform: "capitalize",
+		padding: "0 10px",
+		fontWeight: 700,
+		fontSize: "1.2rem",
+		width: "50%",
 	},
 	refresh: {
 		display: "flex",

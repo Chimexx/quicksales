@@ -170,9 +170,18 @@ const SellItem = () => {
 							<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 								Customer Balance:
 							</Typography>
-							<p className={classes.account_figure}>
-								{customer?.balance ? convertMoney(customer.balance) : "--"}
-							</p>
+
+							<div className={classes.account_container}>
+								<p className={classes.account_name}>
+									{customer?.firstName?.length > 9
+										? customer?.firstName?.slice(0, 8) + "..."
+										: customer?.firstName}
+								</p>
+
+								<p className={classes.account_figure}>
+									{customer?.balance ? convertMoney(customer.balance) : "--"}
+								</p>
+							</div>
 						</Card>
 						<Divider />
 						<Button

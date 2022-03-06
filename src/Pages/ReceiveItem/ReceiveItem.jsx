@@ -3,14 +3,14 @@ import {
 	Typography,
 	Container,
 	TextField,
-	CardActionArea,
 	Divider,
 	Card,
 	MenuItem,
 	Menu,
 	CardActions,
+	Checkbox,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStyles } from "./ReceiveItem.styles";
 import { clearBuyCart, getTotals } from "../../redux/BuyCartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +29,7 @@ const ReceiveItem = () => {
 	const [term, setTerm] = useState("");
 	const [modalOpen, setModalOpen] = useState(false);
 	const [vendor, setVendor] = useState({});
+	const [checked, setChecked] = useState(false);
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -42,12 +43,16 @@ const ReceiveItem = () => {
 	};
 
 	const { buyCartTotalAmount, buyCartItems } = useSelector((state) => state.buyCart);
-	const { vendorList, isFetching_ven } = useSelector((state) => state.vendors);
+	const { vendorList, isFetching_vendor } = useSelector((state) => state.vendors);
 
 	const handleDispatch = () => {
 		dispatch(clearBuyCart());
 		dispatch(getTotals());
 	};
+
+	useEffect(() => {
+		fetchVendors(dispatch);
+	}, [dispatch, vendor]);
 	/**
 	 * Receive the inventory and create a purchase history
 	 */
@@ -55,12 +60,13 @@ const ReceiveItem = () => {
 		receiveInventory(buyCartItems, dispatch);
 		createPurchaseHistory({ items: buyCartItems, totalAmt: buyCartTotalAmount, vendor }, dispatch);
 
-		if (vendor.company) {
-			updateVendor({ vendor, total: buyCartTotalAmount, buy: true }, dispatch);
+		if (vendor.company && !checked) {
+			const accountItem = { items: buyCartItems, amount: buyCartTotalAmount };
+			updateVendor({ vendor, total: buyCartTotalAmount, buy: true, accountItem }, dispatch);
 			fetchVendors(dispatch);
 		}
 	};
-
+	console.log(vendor);
 	return (
 		<div className={classes.wrapper}>
 			<Container className={classes.containerLeft}>
@@ -103,7 +109,7 @@ const ReceiveItem = () => {
 							style={{ marginRight: 20 }}
 							variant="outlined"
 							color="primary"
-							disabled={isFetching_ven || buyCartItems?.length === 0}
+							disabled={isFetching_vendor || buyCartItems?.length === 0}
 							onClick={handleInventory}
 						>
 							Receive Items
@@ -114,7 +120,7 @@ const ReceiveItem = () => {
 							style={{ marginRight: 20 }}
 							variant="outlined"
 							color="primary"
-							disabled={isFetching_ven || buyCartItems?.length === 0}
+							disabled={isFetching_vendor || buyCartItems?.length === 0}
 							// onClick={handleInventory}
 						>
 							Receive and Print
@@ -131,7 +137,7 @@ const ReceiveItem = () => {
 			</Container>
 			<Container className={classes.containerRight}>
 				<Container className={classes.new}>
-					{isFetching_ven && <Progress />}
+					{isFetching_vendor && <Progress />}
 					<Typography variant="h6" className={classes.new_head} component="h6" gutterBottom>
 						Vendor Info
 					</Typography>
@@ -172,11 +178,19 @@ const ReceiveItem = () => {
 									component="h6"
 									gutterBottom
 								>
-									Vendor Balance:
+									Vendor Account:
 								</Typography>
-								<p className={classes.account_figure}>
-									{vendor?.balance ? convertMoney(vendor.balance) : "--"}
-								</p>
+								<div className={classes.account_container}>
+									<p className={classes.account_name}>
+										{vendor?.company?.length > 9
+											? vendor?.company?.slice(0, 8) + "..."
+											: vendor?.company}
+									</p>
+
+									<p className={classes.account_figure}>
+										{vendor?.balance ? convertMoney(vendor.balance) : "--"}
+									</p>
+								</div>
 							</Card>
 							<Divider />
 							<Button
@@ -189,8 +203,19 @@ const ReceiveItem = () => {
 							>
 								Add vendor
 							</Button>
+							<Divider />
+							<Container className={classes.info_display}>
+								<Checkbox
+									disabled={!vendor.company}
+									checked={vendor.company ? checked : true}
+									className={classes.check}
+									color="primary"
+									inputProps={{ "aria-label": "checkbox with default color" }}
+									onChange={(e) => setChecked(e.target.checked)}
+								/>
+								<p className={classes.check__info}>Mark these items as paid</p>
+							</Container>
 						</Container>
-						<Container className={classes.info_display}>hfhfhfhfh</Container>
 					</div>
 				</Container>
 				{modalOpen && <AddModal type="vendor" setModalOpen={setModalOpen} />}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Action from "../../components/Action/Action";
 import { Container, Wrapper } from "./Home.styles";
 import { BsReceiptCutoff } from "react-icons/bs";
-import { FaShippingFast, FaStore, FaHistory } from "react-icons/fa";
+import { FaShippingFast, FaStore } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { BiPurchaseTag } from "react-icons/bi";
 import { MdOutlineInventory } from "react-icons/md";

@@ -1,4 +1,4 @@
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useStyles } from "./Vendors.styles";
 import { convertMoney } from "../../components/Utils/converter";
@@ -43,12 +43,11 @@ const Vendors = () => {
 								<TableCell className={classes.tableHead}>State</TableCell>
 								<TableCell className={classes.tableHead}>Phone</TableCell>
 								<TableCell className={classes.tableHead}>Balance</TableCell>
-								<TableCell className={classes.tableHead}>Action</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{vendorList.map((row, index) => (
-								<TableRow className={classes.tableBody} key={row._id}>
+								<TableRow className={classes.table__row} key={row._id}>
 									<TableCell align="left">{index + 1}</TableCell>
 									<TableCell component="th" scope="row">
 										<div style={{ display: "flex", alignItems: "center" }}>
@@ -75,11 +74,6 @@ const Vendors = () => {
 									<TableCell align="left">{row.state}</TableCell>
 									<TableCell align="left">{row.phone}</TableCell>
 									<TableCell align="left">{convertMoney(row.balance)}</TableCell>
-									<TableCell align="left">
-										<Button size="small" variant="outlined" color="primary">
-											Edit
-										</Button>
-									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

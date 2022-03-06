@@ -23,6 +23,7 @@ const PurchaseHistory = () => {
 
 	const { purchaseHistoryList, isFetching_history } = useSelector((state) => state.purchaseHistorys);
 	const [purchaseHistory, setPurchaseHistory] = useState(purchaseHistoryList);
+	console.log(purchaseHistory);
 
 	//Sort function
 	useEffect(() => {

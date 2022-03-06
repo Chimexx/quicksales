@@ -42,12 +42,13 @@ export const useStyles = makeStyles((theme) => ({
 		color: "#fff",
 		backgroundColor: theme.palette.primary.lightBlue,
 	},
-	tableBody: {
+	table__row: {
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		fontFamily: "poppins",
 		transition: "ease-in-out all 0.6s",
 		textTransform: "capitalize",
+		cursor: "pointer",
 
 		"&:hover": {
 			backgroundColor: theme.palette.primary.lightBlue,

@@ -79,10 +79,18 @@ const HistoryTable = ({ history, type }) => {
 										</p>
 									</div>
 									<Divider />
-									<p className={classes.row}>
-										<span className={classes.span}>Price:</span>
-										{convertMoney(item.salesPrice)}
-									</p>
+									{type === "sales" ? (
+										<p className={classes.row}>
+											<span className={classes.span}>Price:</span>
+											{convertMoney(item.salesPrice)}
+										</p>
+									) : (
+										<p className={classes.row}>
+											<span className={classes.span}>Cost:</span>
+											{convertMoney(item.costPrice)}
+										</p>
+									)}
+
 									<Divider />
 									<p className={classes.row}>
 										<span className={classes.span}>Qty: </span>

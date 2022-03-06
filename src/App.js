@@ -13,6 +13,7 @@ import Customers from "./Pages/Customers/Customers";
 import Vendors from "./Pages/Vendors/Vendors";
 import SalesHistory from "./Pages/SalesHistory/SalesHistory";
 import PurchaseHistory from "./Pages/receivingHistory/PurchaseHistory";
+import Accounting from "./Pages/Accounting/Accounting";
 
 function App() {
 	return (
@@ -55,6 +56,7 @@ function App() {
 								<Route path="/vendors" element={<Vendors />} />
 								<Route path="/sales-history" element={<SalesHistory />} />
 								<Route path="/purchase-history" element={<PurchaseHistory />} />
+								<Route path="/accounting" element={<Accounting />} />
 							</Routes>
 						</MainView>
 					</Wrapper>
