@@ -53,20 +53,24 @@ const ReceiveItem = () => {
 	useEffect(() => {
 		fetchVendors(dispatch);
 	}, [dispatch, vendor]);
-	/**
-	 * Receive the inventory and create a purchase history
-	 */
+
+	const bill = {
+		items: buyCartItems,
+		amount: buyCartTotalAmount,
+		date: new Date(),
+		status: "open",
+	};
+
 	const handleInventory = () => {
 		receiveInventory(buyCartItems, dispatch);
 		createPurchaseHistory({ items: buyCartItems, totalAmt: buyCartTotalAmount, vendor }, dispatch);
 
 		if (vendor.company && !checked) {
-			const accountItem = { items: buyCartItems, amount: buyCartTotalAmount };
-			updateVendor({ vendor, total: buyCartTotalAmount, buy: true, accountItem }, dispatch);
+			updateVendor({ vendor, bill, buy: true }, dispatch);
 			fetchVendors(dispatch);
+			setVendor({});
 		}
 	};
-	console.log(vendor);
 	return (
 		<div className={classes.wrapper}>
 			<Container className={classes.containerLeft}>

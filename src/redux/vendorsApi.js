@@ -40,11 +40,8 @@ export const createVendor = async (dispatch, data) => {
 export const updateVendor = async (data, dispatch) => {
 	dispatch(updateVendorStart());
 	try {
-		const res = await authRequest.put(`vendors/${data.vendor._id}`, data);
-		if (data.buy) {
-			console.log(res.data);
-			await dispatch(updateVendorSuccess({ data: res.data, total: data.total, buy: data.buy }));
-		}
+		const res = await publicRequest.put(`vendors/${data.vendor._id}`, data);
+		await dispatch(updateVendorSuccess({ data: res.data, buy: data.buy }));
 	} catch (error) {
 		dispatch(updateVendorFailure());
 	}

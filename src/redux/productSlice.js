@@ -52,7 +52,7 @@ const productSlice = createSlice({
 		receiveInventoryFailure: (state) => {
 			state.isFetching = false;
 			state.error = true;
-			toast.error(`Sorry, an error occured`);
+			toast.error(`Sorry, could not post to inventory`);
 		},
 		//sell Inventory
 		sellInventoryStart: (state) => {
@@ -70,7 +70,7 @@ const productSlice = createSlice({
 		sellInventoryFailure: (state) => {
 			state.isFetching = false;
 			state.error = true;
-			toast.error(`Sorry, an error occured`);
+			toast.error(`Sorry, could not process sell`);
 		},
 		//Create Product
 		createProductStart: (state) => {
