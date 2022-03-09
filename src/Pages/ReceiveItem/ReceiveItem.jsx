@@ -54,19 +54,18 @@ const ReceiveItem = () => {
 		fetchVendors(dispatch);
 	}, [dispatch, vendor]);
 
-	const bill = {
-		items: buyCartItems,
-		amount: buyCartTotalAmount,
+	const entity = {
+		totalBilled: buyCartTotalAmount,
 		date: new Date(),
-		status: "open",
 	};
 
-	const handleInventory = () => {
-		receiveInventory(buyCartItems, dispatch);
-		createPurchaseHistory({ items: buyCartItems, totalAmt: buyCartTotalAmount, vendor }, dispatch);
+	const handleInventory = async () => {
+		await receiveInventory(buyCartItems, dispatch);
+		await createPurchaseHistory({ items: buyCartItems, totalAmt: buyCartTotalAmount, vendor }, dispatch);
 
 		if (vendor.company && !checked) {
-			updateVendor({ vendor, bill, buy: true }, dispatch);
+			await updateVendor({ vendor, entity, type: "buy" }, dispatch);
+			console.log({ vendor, entity, type: "buy" });
 			fetchVendors(dispatch);
 			setVendor({});
 		}

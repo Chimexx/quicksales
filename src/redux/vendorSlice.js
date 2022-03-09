@@ -47,14 +47,13 @@ const vendorSlice = createSlice({
 		updateVendorSuccess: (state, action) => {
 			state.isFetching_vendor = false;
 			state.error = false;
-			const { buy, data } = action.payload;
+			const { type, data } = action.payload;
 
 			const index = state.vendorList.findIndex((item) => item._id === data._id);
-			if (buy) {
+			if (type === "buy") {
 				if (data.company) {
 					state.vendorList[index] = data;
 				}
-			} else {
 				// state.customerList[index] = action.payload.data;
 				// toast.success(`${action.payload.company} has been updated!`);
 			}

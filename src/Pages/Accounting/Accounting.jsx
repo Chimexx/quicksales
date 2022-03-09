@@ -1,48 +1,46 @@
-import { Checkbox, Container, Divider, TextField, Typography } from "@material-ui/core";
+import { Button, Divider, TextField, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Progress from "../../components/Utils/Progress";
 import { useStyles } from "./Accounting.styles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVendors } from "../../redux/vendorsApi";
 import { convertMoney } from "../../components/Utils/converter";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+
 import dayjs from "dayjs";
-import { BsCheckSquare } from "react-icons/bs";
+import BillPayment from "../../components/BillPayment/BillPayment";
 
 const Accounting = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [term, setTerm] = useState("");
-	const [vendor, setVendor] = useState({});
-	const [bills, setBills] = useState([]);
-	const [checked, setChecked] = useState(false);
+	const [vendor, setVendor] = useState(null);
+	const [bill, setBill] = useState(null);
+	const [value, setValue] = useState(null);
+	const [vvalue, setVvalue] = useState(null);
+	const [proceed, setProceed] = useState(false);
 
 	const { vendorList, isFetching_vendor } = useSelector((state) => state.vendors);
 	const [vendors, setVendors] = useState(vendorList);
 
 	useEffect(() => {
 		fetchVendors(dispatch);
-	}, [dispatch]);
+	}, [dispatch, vendor]);
 
 	useEffect(() => {
 		setVendors(vendorList.filter((vendor) => vendor.company.includes(term)));
 	}, [term, vendorList]);
 
-	const handleCheckedBills = () => {
-		setChecked(true);
-		// setBills((prev) => [...prev, bill]);
+	const handleEntity = (bill, index) => {
+		setValue(index);
+		setBill(bill);
 	};
-	const handleUncheckedBills = (bill) => {
-		setBills((prev) => [...prev, bill]);
+	const handleVendor = (vendor, index) => {
+		setVvalue(index);
+		setVendor(vendor);
+		setBill(null);
+		setValue(null);
 	};
-	console.log(bills);
+
 	return (
 		<>
 			<div className={classes.container}>
@@ -66,11 +64,13 @@ const Accounting = () => {
 						/>
 						<Divider className={classes.divider} />
 						<div className={classes.vendorlist}>
-							{vendors.map((vendor) => (
+							{vendors?.map((vendor, index) => (
 								<div
 									key={vendor._id}
-									className={classes.eachVendor}
-									onClick={() => setVendor(vendor)}
+									className={`${classes.eachVendor}  ${
+										index === vvalue && classes.active_vendor
+									}`}
+									onClick={() => handleVendor(vendor, index)}
 								>
 									<p className={classes.company}>
 										{vendor.company.length > 13
@@ -86,54 +86,78 @@ const Accounting = () => {
 						<Typography variant="h6" className={classes.header} component="h6" gutterBottom>
 							Vendor Information
 						</Typography>
+
 						<div className={classes.vendor__info}>
-							<Table className={classes.table} size="small" aria-label="a dense table">
-								<TableHead>
-									<TableRow className={classes.table__head} style={{ fontWeight: 700 }}>
-										<TableCell align="center" className={classes.table__head}>
-											<BsCheckSquare />
-										</TableCell>
-										<TableCell align="center" className={classes.table__head}>
-											Type
-										</TableCell>
-										<TableCell align="center" className={classes.table__head}>
-											Date
-										</TableCell>
-										<TableCell align="center" className={classes.table__head}>
-											Amount
-										</TableCell>
-										<TableCell align="center" className={classes.table__head}>
-											Status
-										</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{vendor?.openAccount?.map((row) => (
-										<TableRow key={row._id}>
-											<TableCell align="center">
-												<Checkbox
-													checked={checked}
-													className={classes.check}
-													color="primary"
-													inputProps={{
-														"aria-label": "checkbox with default color",
-													}}
-													onChange={handleCheckedBills}
-												/>
-											</TableCell>
-											<TableCell align="center">Bill</TableCell>
-											<TableCell align="center">
-												{dayjs(row.date).format("DD MMM, YYYY")}
-											</TableCell>
-											<TableCell align="center">{row.amount}</TableCell>
-											<TableCell align="center">{row.status}</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
+							<div className={classes.vendor__title}>
+								<p>{vendor?.company}</p>
+							</div>
+							<Button
+								size="small"
+								variant="outlined"
+								color="primary"
+								disabled={isFetching_vendor || !bill}
+								onClick={() => setProceed(true)}
+							>
+								Pay Selected Bill
+							</Button>
+						</div>
+						<Divider />
+						<div className={classes.table}>
+							<div className={classes.table_head_container}>
+								<p className={classes.table_title}>Type</p>
+								<p className={classes.table_title}>Date</p>
+								<p className={classes.table_title}>Total</p>
+								<p className={classes.table_title}>Amount Paid</p>
+								<p className={classes.table_title}>Status</p>
+							</div>
+							<div className={classes.table_body_container}>
+								{vendor?.bills?.map((bill, index) => (
+									<div key={bill._id}>
+										<div
+											onClick={() => handleEntity(bill, index)}
+											className={`${classes.row}  ${index === value && classes.active}`}
+										>
+											<p className={classes.cell}>Bill</p>
+
+											<p className={classes.cell}>
+												{dayjs(bill.date).format("DD MMM, YYYY")}
+											</p>
+											<p className={classes.cell}>{convertMoney(bill.totalBilled)}</p>
+
+											<p className={classes.cell}>{convertMoney(bill.totalPaid)}</p>
+
+											<p className={classes.cell}>{bill.status}</p>
+										</div>
+										<div className={classes.payments_container}>
+											{vendor?.payments
+												?.filter((payment) => payment.billId === bill._id)
+												.map((payment) => (
+													<div
+														key={payment._id}
+														className={`${classes.payments}  ${
+															index === value && classes.show_payments
+														}`}
+													>
+														<p className={classes.payment_cell}>Payment</p>
+
+														<p className={classes.payment_cell}>
+															{dayjs(payment.date).format("DD MMM, YYYY")}
+														</p>
+														<p className={classes.payment_cell}>
+															{convertMoney(payment.paid)}
+														</p>
+													</div>
+												))}
+										</div>
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className={`${classes.bill_container}  ${proceed && classes.bill_container_active}`}>
+				<BillPayment bill={bill} setProceed={setProceed} vendor={vendor} />
 			</div>
 		</>
 	);

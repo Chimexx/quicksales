@@ -13,6 +13,7 @@ import {
 	deleteVendorFailure,
 } from "./vendorSlice";
 import { authRequest, publicRequest } from "./requestMethods";
+import toast from "react-hot-toast";
 
 //Fetch Vendors
 export const fetchVendors = async (dispatch) => {
@@ -41,7 +42,13 @@ export const updateVendor = async (data, dispatch) => {
 	dispatch(updateVendorStart());
 	try {
 		const res = await publicRequest.put(`vendors/${data.vendor._id}`, data);
-		await dispatch(updateVendorSuccess({ data: res.data, buy: data.buy }));
+		console.log(res.data);
+		await dispatch(updateVendorSuccess({ data: res.data, type: data.type }));
+		if (data.type === "pay") {
+			if (res.data.totalPaid.modifiedCount === 1) {
+				toast.success(`Payment was successful!`);
+			}
+		}
 	} catch (error) {
 		dispatch(updateVendorFailure());
 	}

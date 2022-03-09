@@ -21,6 +21,7 @@ import { sellInventory } from "../../redux/productsApi";
 import AddModal from "../../components/AddModal/AddModal";
 import { fetchCustomers, updateCustomer } from "../../redux/customerApi";
 import { createSalesHistory } from "../../redux/salesHistoryApi";
+import { FiDelete } from "react-icons/fi";
 
 const SellItem = () => {
 	const classes = useStyles();
@@ -72,17 +73,20 @@ const SellItem = () => {
 						Make A Sale
 					</Typography>
 					<Container className={classes.inner__body}>
-						<TextField
-							className={classes.new__input}
-							id="filled-basic"
-							variant="filled"
-							fullWidth={true}
-							size="small"
-							value={term}
-							autoComplete="off"
-							onChange={(e) => setTerm(e.target.value)}
-							placeholder="Find Items"
-						/>
+						<div className={classes.input_container}>
+							<TextField
+								className={classes.new__input}
+								id="filled-basic"
+								variant="filled"
+								fullWidth={true}
+								size="small"
+								value={term}
+								autoComplete="off"
+								onChange={(e) => setTerm(e.target.value)}
+								placeholder="Find Items"
+							/>
+							<FiDelete className={classes.clear} onClick={() => setTerm("")} />
+						</div>
 						{term ? <FilterDisplay term={term} action="sell" /> : null}
 						<Container className={classes.table__container}>
 							<SalesList />
@@ -109,7 +113,7 @@ const SellItem = () => {
 							disabled={isFetching_customer || sellCartItems?.length === 0}
 							onClick={handleMakeSale}
 						>
-							Sell
+							Sell only
 						</Button>
 						<Button
 							size="small"

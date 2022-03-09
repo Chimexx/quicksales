@@ -88,57 +88,49 @@ const SalesList = () => {
 				</thead>
 				<tbody>
 					{sellCartItems?.map((item, index) => (
-						<>
-							<tr key={item._id}>
-								<td>
-									<RiDeleteBack2Fill
-										style={{ fontSize: 18, color: "#ff1818", cursor: "pointer" }}
-										onClick={() => handleDelete(item)}
-									/>
-								</td>
-								<td>{index + 1}</td>
-								<td>{item.itemName}</td>
-								<td>
-									₦
+						<tr key={item._id}>
+							<td>
+								<RiDeleteBack2Fill
+									style={{ fontSize: 18, color: "#ff1818", cursor: "pointer" }}
+									onClick={() => handleDelete(item)}
+								/>
+							</td>
+							<td>{index + 1}</td>
+							<td>{item.itemName}</td>
+							<td>
+								₦
+								<input
+									type="number"
+									value={item.salesPrice}
+									min="1"
+									onChange={(e) => handlePrice(item, parseInt(e.target.value))}
+								/>
+							</td>
+							<td>{convertMoney(item.salesPrice * item.onHandQty)}</td>
+							<td className="button_col">
+								<div className="actions_container">
+									<button className="action_button" onClick={() => handleQty(item, "dec")}>
+										<BsDashLg style={{ color: "inherit" }} />
+									</button>
+
 									<input
 										type="number"
-										value={item.salesPrice}
+										value={item.onHandQty}
 										min="1"
-										onChange={(e) => handlePrice(item, parseInt(e.target.value))}
+										onChange={(e) => handleQty(item, "dir", parseInt(e.target.value))}
 									/>
-								</td>
-								<td>{convertMoney(item.salesPrice * item.onHandQty)}</td>
-								<td className="button_col">
-									<div className="actions_container">
-										<button
-											className="action_button"
-											onClick={() => handleQty(item, "dec")}
-										>
-											<BsDashLg style={{ color: "inherit" }} />
-										</button>
+									<button className="action_button" onClick={() => handleQty(item, "inc")}>
+										<BsPlusLg style={{ color: "inherit" }} />
+									</button>
+								</div>
+							</td>
 
-										<input
-											type="number"
-											value={item.onHandQty}
-											min="1"
-											onChange={(e) => handleQty(item, "dir", parseInt(e.target.value))}
-										/>
-										<button
-											className="action_button"
-											onClick={() => handleQty(item, "inc")}
-										>
-											<BsPlusLg style={{ color: "inherit" }} />
-										</button>
-									</div>
-								</td>
-
-								<td>{item.availQty}</td>
-								<td>{convertMoney(item.costPrice)}</td>
-								<td>{convertMoney(item.wholesalePrice)}</td>
-								<td>{convertMoney(item.retailPrice)}</td>
-								<td>{convertMoney(item.customPrice)}</td>
-							</tr>
-						</>
+							<td>{item.availQty}</td>
+							<td>{convertMoney(item.costPrice)}</td>
+							<td>{convertMoney(item.wholesalePrice)}</td>
+							<td>{convertMoney(item.retailPrice)}</td>
+							<td>{convertMoney(item.customPrice)}</td>
+						</tr>
 					))}
 				</tbody>
 			</Table>

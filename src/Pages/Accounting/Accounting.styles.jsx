@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		height: "100%",
 		border: `1px solid ${theme.palette.secondary.main}`,
+		overflow: "hidden",
 	},
 	header: {
 		fontSize: 18,
@@ -19,7 +20,6 @@ export const useStyles = makeStyles((theme) => ({
 	body: {
 		display: "flex",
 		justifyContent: "space-between",
-
 		height: "100%",
 		width: "100%",
 	},
@@ -31,14 +31,15 @@ export const useStyles = makeStyles((theme) => ({
 	},
 	main: {
 		width: "75%",
-		height: "calc(100% - 3px)",
+		height: "calc(100vh - 70px)",
+		// height: "100%",
 		marginTop: 3,
 		marginLeft: 3,
+		overflow: "auto",
 	},
 	search: {
 		margin: "10px 0 10px 10px ",
 	},
-
 	vendorlist: {
 		display: "flex",
 		flexDirection: "column",
@@ -52,11 +53,12 @@ export const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		height: "2rem",
 		borderBottom: `1px solid #dadae0`,
+		borderLeft: `3px solid transparent`,
 		transition: "all ease-in-out 0.3s",
 		cursor: "pointer",
-
+		padding: 5,
 		"&:hover": {
-			backgroundColor: theme.palette.primary.lightBlue,
+			borderLeft: `3px solid ${theme.palette.primary.orange}`,
 		},
 	},
 	company: {
@@ -70,23 +72,101 @@ export const useStyles = makeStyles((theme) => ({
 		textAlign: "right",
 	},
 	vendor__info: {
-		// display: "grid",
-		// gridTemplateColumns: "repeat(auto-fill,300px) ",
-		// padding: 10,
-		// width: "100%",
-		// textTransform: "capitalize",
-		// border: `1px solid #dadae0`,
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		margin: "5px 0 5px 0",
+		padding: "5px 10px 5px 10px",
+		width: "100%",
+		height: 40,
 	},
-	table: {
-		borderCollapse: "collapse",
-		minWidth: "100%",
+	vendor__title: {
+		width: "80%",
+		textTransform: "capitalize",
 	},
 
-	table__head: {
-		fontWeight: "800!important",
+	table_title: {
+		fontSize: "1rem",
+		textJustify: "center",
 	},
-	check: {
-		height: 30,
-		width: 30,
+	cell: {
+		fontSize: "1rem",
+	},
+	table: {
+		overflow: "auto",
+	},
+	table_head_container: {
+		display: "grid",
+		gridTemplateColumns: "repeat(5, 150px)",
+		alignItems: "center",
+		padding: "10px 5px 10px  5px",
+		borderBottom: `1px solid #dadae0`,
+		background: theme.palette.primary.lightBlue,
+		color: theme.palette.primary.white,
+		fontWeight: 700,
+		textAlign: "left",
+	},
+	table_body_container: {
+		alignItems: "center",
+		fontWeight: 500,
+		justifyContent: "space-between",
+	},
+	active: {
+		background: theme.palette.primary.orange,
+		color: theme.palette.primary.white,
+	},
+	active_vendor: {
+		borderLeft: `3px solid ${theme.palette.primary.orange}`,
+	},
+	active_cell: {
+		color: "#fff",
+	},
+	row: {
+		display: "grid",
+		gridTemplateColumns: "repeat(5, 150px)",
+		alignItems: "center",
+		padding: "10px 5px 10px  5px",
+		borderBottom: `1px solid #dadae0`,
+		cursor: "pointer",
+		textAlign: "left",
+	},
+	bill_container: {
+		height: "100vh",
+		width: 400,
+		top: 40,
+		right: -400,
+		position: "fixed",
+		zIndex: 500,
+		display: "flex",
+		flexDirection: "column",
+		backdropFilter: "blur(9.5px)",
+		transition: "all ease-in-out 0.2s",
+		borderLeft: `3px solid ${theme.palette.primary.lightBlue}`,
+		boxShadow: "rgb(160, 160, 160) 0px 2px 8px 0px",
+	},
+	bill_container_active: {
+		right: 0,
+	},
+
+	payments_container: {
+		transition: "all ease-in-out 0.4s",
+	},
+	payments: {
+		opacity: 0,
+		display: "none",
+		transition: "all ease-in-out 0.4s",
+		background: theme.palette.primary.lightOrange,
+		padding: 10,
+		paddingLeft: 40,
+		paddingRight: 10,
+	},
+	show_payments: {
+		opacity: 1,
+		display: "flex",
+		transition: "all ease-in-out 0.4s",
+		justifyContent: "flex-start",
+	},
+	payment_cell: {
+		marginRight: "3rem",
 	},
 }));

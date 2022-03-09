@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		height: "100%",
 		width: "100%",
+		transition: "ease-in-out all 0.3s",
 	},
 
 	containerLeft: {
@@ -52,6 +53,22 @@ export const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		marginBottom: "10px ",
 	},
+	input_container: {
+		position: "relative",
+	},
+	clear: {
+		position: "absolute",
+		color: theme.palette.primary.orange,
+		fontSize: "1.5rem",
+		right: "1.5rem",
+		top: "0.7rem",
+		cursor: "pointer",
+		transition: "ease-in-out all 0.3s",
+
+		"&:hover": {
+			fontSize: "1.6rem",
+		},
+	},
 	new_small_input: {
 		width: "100%",
 		display: "grid",
@@ -68,7 +85,7 @@ export const useStyles = makeStyles((theme) => ({
 		padding: 10,
 	},
 	table__container: {
-		maxHeight: 280,
+		maxHeight: 350,
 		width: "100%",
 		padding: 0,
 		margin: "10px 0",
