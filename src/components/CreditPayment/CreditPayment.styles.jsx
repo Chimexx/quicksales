@@ -5,24 +5,24 @@ export const useStyles = makeStyles((theme) => ({
 		padding: 5,
 		color: theme.palette.secondary.darkGray,
 	},
-	bill_title: {
+	credit_title: {
 		textTransform: "capitalize",
 		fontSize: "1.4rem",
 		marginBottom: "0.5rem",
 	},
-	bill_details: {
+	credit_details: {
 		display: "flex",
 		margin: "0.5rem 0 0.5rem 0",
 	},
-	bill_caption: {
+	credit_caption: {
 		textTransform: "capitalize",
 		fontSize: "1rem",
 		marginRight: "3rem",
 	},
-	bill_amount: {
+	credit_amount: {
 		fontSize: "1rem",
 	},
-	bill_input: {
+	credit_input: {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "space-between",

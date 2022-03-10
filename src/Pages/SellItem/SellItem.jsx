@@ -22,6 +22,7 @@ import AddModal from "../../components/AddModal/AddModal";
 import { fetchCustomers, updateCustomer } from "../../redux/customerApi";
 import { createSalesHistory } from "../../redux/salesHistoryApi";
 import { FiDelete } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const SellItem = () => {
 	const classes = useStyles();
@@ -43,7 +44,7 @@ const SellItem = () => {
 
 	useEffect(() => {
 		fetchCustomers(dispatch);
-	}, [dispatch]);
+	}, [dispatch, customer]);
 
 	const { sellCartTotalAmount, sellCartItems } = useSelector((state) => state.sellCart);
 	const { customerList, isFetching_customer } = useSelector((state) => state.customers);
@@ -53,13 +54,18 @@ const SellItem = () => {
 		dispatch(getTotals());
 	};
 
+	const entity = {
+		totalCredited: sellCartTotalAmount,
+		date: new Date(),
+	};
+
 	const handleMakeSale = () => {
 		/* This is updating the customer's balance and sale status. */
 		sellInventory({ items: sellCartItems }, dispatch);
 		createSalesHistory({ items: sellCartItems, totalAmt: sellCartTotalAmount, customer }, dispatch);
 		if (customer.firstName) {
 			/* This is updating the customer's balance and sale status. */
-			updateCustomer({ customer, total: sellCartTotalAmount, sale: true }, dispatch);
+			updateCustomer({ customer, entity, type: "credit" }, dispatch);
 			fetchCustomers(dispatch);
 		}
 	};
@@ -192,6 +198,7 @@ const SellItem = () => {
 							onClick={() => setModalOpen(true)}
 							className={classes.add__buttons}
 							size="small"
+							fullWidth={true}
 							variant="outlined"
 							color="primary"
 							style={{ marginTop: 20 }}

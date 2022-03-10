@@ -65,7 +65,6 @@ const ReceiveItem = () => {
 
 		if (vendor.company && !checked) {
 			await updateVendor({ vendor, entity, type: "buy" }, dispatch);
-			console.log({ vendor, entity, type: "buy" });
 			fetchVendors(dispatch);
 			setVendor({});
 		}
