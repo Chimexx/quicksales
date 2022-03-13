@@ -35,7 +35,6 @@ const NewItem = () => {
 		fetchDepartments(dispatch);
 	}, [dispatch]);
 
-	// const { isFetching } = useSelector((state) => state.products);
 	const { vendorList, isFetching_ven } = useSelector((state) => state.vendors);
 	const { departmentList, isFetching_dep } = useSelector((state) => state.departments);
 

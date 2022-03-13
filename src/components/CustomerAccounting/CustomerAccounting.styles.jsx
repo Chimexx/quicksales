@@ -7,7 +7,6 @@ export const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		padding: 0,
 		height: "100%",
-		border: `1px solid ${theme.palette.secondary.main}`,
 		overflow: "hidden",
 	},
 	header: {

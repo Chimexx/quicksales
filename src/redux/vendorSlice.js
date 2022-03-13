@@ -54,8 +54,9 @@ const vendorSlice = createSlice({
 				if (data.company) {
 					state.vendorList[index] = data;
 				}
-				// state.customerList[index] = action.payload.data;
-				// toast.success(`${action.payload.company} has been updated!`);
+			} else {
+				state.vendorList[index] = data;
+				toast.success(`${data.company} has been updated!`);
 			}
 		},
 		updateVendorFailure: (state) => {

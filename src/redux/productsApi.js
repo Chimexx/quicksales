@@ -81,11 +81,11 @@ export const sellInventory = async (data, dispatch) => {
 	}
 };
 //Update Product
-export const updateProduct = async (id, data, dispatch) => {
+export const updateProduct = async (data, dispatch) => {
 	dispatch(updateProductStart());
 	try {
-		const res = await publicRequest.put(`products/${id}`, data);
-		await dispatch(updateProductSuccess({ id, data: res.data }));
+		const res = await publicRequest.put(`products/${data._id}`, data);
+		await dispatch(updateProductSuccess({ id: data._id, data: res.data }));
 	} catch (error) {
 		dispatch(updateProductFailure());
 	}
@@ -95,8 +95,8 @@ export const updateProduct = async (id, data, dispatch) => {
 export const deleteProduct = async (id, dispatch) => {
 	dispatch(deleteProductStart());
 	try {
-		await authRequest.delete(`dishes/${id}`);
-		await dispatch(deleteProductSuccess({ id }));
+		await authRequest.delete(`products/${id}`);
+		await dispatch(deleteProductSuccess(id));
 	} catch (error) {
 		dispatch(deleteProductFailure());
 	}

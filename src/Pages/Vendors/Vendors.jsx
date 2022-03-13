@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useStyles } from "./Vendors.styles";
 import { convertMoney } from "../../components/Utils/converter";
@@ -12,6 +12,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { fetchVendors } from "../../redux/vendorsApi";
+import { Link } from "react-router-dom";
 
 const Vendors = () => {
 	const classes = useStyles();
@@ -43,6 +44,7 @@ const Vendors = () => {
 								<TableCell className={classes.tableHead}>State</TableCell>
 								<TableCell className={classes.tableHead}>Phone</TableCell>
 								<TableCell className={classes.tableHead}>Balance</TableCell>
+								<TableCell className={classes.tableHead}>Edit</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -74,6 +76,13 @@ const Vendors = () => {
 									<TableCell align="left">{row.state}</TableCell>
 									<TableCell align="left">{row.phone}</TableCell>
 									<TableCell align="left">{convertMoney(row.balance)}</TableCell>
+									<Link to={"/vendor/" + row._id}>
+										<TableCell align="left">
+											<Button size="small" variant="outlined" color="secondary">
+												edit
+											</Button>
+										</TableCell>
+									</Link>
 								</TableRow>
 							))}
 						</TableBody>

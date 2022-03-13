@@ -88,7 +88,7 @@ const ReceiveItem = () => {
 							onChange={(e) => setTerm(e.target.value)}
 							placeholder="Find Items"
 						/>
-						{term ? <FilterDisplay term={term} action="receive" /> : null}
+						{term ? <FilterDisplay term={term} setTerm={setTerm} action="receive" /> : null}
 						<Container className={classes.table__container}>
 							<InventoryList />
 							<Button

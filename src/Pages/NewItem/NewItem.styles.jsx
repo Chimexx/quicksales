@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
 		height: "35rem",
 		// color: var(--darkGray),
 		backgroundColor: "white",
-		borderRadius: "0.8rem",
+		borderRadius: "0.4rem",
 		display: "flex",
 		flexDirection: "column",
 		overflow: "hidden",

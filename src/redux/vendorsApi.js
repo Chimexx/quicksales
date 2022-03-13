@@ -48,6 +48,9 @@ export const updateVendor = async (data, dispatch) => {
 			if (res.data.totalPaid.modifiedCount === 1) {
 				toast.success(`Payment was successful!`);
 			}
+		} else {
+			console.log(res.data);
+			await dispatch(updateVendorSuccess({ data: res.data }));
 		}
 	} catch (error) {
 		dispatch(updateVendorFailure());

@@ -21,8 +21,6 @@ import { sellInventory } from "../../redux/productsApi";
 import AddModal from "../../components/AddModal/AddModal";
 import { fetchCustomers, updateCustomer } from "../../redux/customerApi";
 import { createSalesHistory } from "../../redux/salesHistoryApi";
-import { FiDelete } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
 const SellItem = () => {
 	const classes = useStyles();
@@ -79,21 +77,19 @@ const SellItem = () => {
 						Make A Sale
 					</Typography>
 					<Container className={classes.inner__body}>
-						<div className={classes.input_container}>
-							<TextField
-								className={classes.new__input}
-								id="filled-basic"
-								variant="filled"
-								fullWidth={true}
-								size="small"
-								value={term}
-								autoComplete="off"
-								onChange={(e) => setTerm(e.target.value)}
-								placeholder="Find Items"
-							/>
-							<FiDelete className={classes.clear} onClick={() => setTerm("")} />
-						</div>
-						{term ? <FilterDisplay term={term} action="sell" /> : null}
+						<TextField
+							className={classes.new__input}
+							id="filled-basic"
+							variant="filled"
+							fullWidth={true}
+							size="small"
+							value={term}
+							autoComplete="off"
+							onChange={(e) => setTerm(e.target.value)}
+							placeholder="Find Items"
+						/>
+
+						{term ? <FilterDisplay term={term} setTerm={setTerm} action="sell" /> : null}
 						<Container className={classes.table__container}>
 							<SalesList />
 							<Button

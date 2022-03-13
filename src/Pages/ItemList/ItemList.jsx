@@ -1,4 +1,4 @@
-import { Typography, Card } from "@material-ui/core";
+import { Typography, Card, Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useStyles } from "./ItemList.styles";
 import { convertMoney } from "../../components/Utils/converter";
@@ -17,6 +17,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import dayjs from "dayjs";
 import { BiReset } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const ItemList = () => {
 	const classes = useStyles();
@@ -167,6 +168,7 @@ const ItemList = () => {
 								<TableCell className={classes.tableHead}>Dep</TableCell>
 								<TableCell className={classes.tableHead}>Vendor</TableCell>
 								<TableCell className={classes.tableHead}>Exp Date</TableCell>
+								<TableCell className={classes.tableHead}>Open Item</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -204,6 +206,13 @@ const ItemList = () => {
 											? dayjs(row.expiryDate).format("DD MMM, YYYY")
 											: "- -"}
 									</TableCell>
+									<Link to={"/product/" + row._id}>
+										<TableCell align="left">
+											<Button size="small" variant="outlined" color="secondary">
+												edit
+											</Button>
+										</TableCell>
+									</Link>
 								</TableRow>
 							))}
 						</TableBody>

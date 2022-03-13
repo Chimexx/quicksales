@@ -34,7 +34,7 @@ const productSlice = createSlice({
 			state.error = false;
 			state.productList[state.productList.findIndex((item) => item._id === action.payload.id)] =
 				action.payload.data;
-			toast.success(`${action.payload.itemName} has been updated!`);
+			toast.success(`${action.payload.data.itemName} has been updated!`);
 		},
 		//receive Inventory
 		receiveInventoryStart: (state) => {
@@ -95,7 +95,7 @@ const productSlice = createSlice({
 		deleteProductSuccess: (state, action) => {
 			state.isFetching = false;
 			state.productList.splice(
-				state.productList.findIndex((item) => item._id === action.payload.id),
+				state.productList.findIndex((item) => item._id === action.payload),
 				1
 			);
 			toast.success(`Product has been deleted!`);

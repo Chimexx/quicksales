@@ -14,6 +14,8 @@ import Vendors from "./Pages/Vendors/Vendors";
 import SalesHistory from "./Pages/SalesHistory/SalesHistory";
 import PurchaseHistory from "./Pages/receivingHistory/PurchaseHistory";
 import Accounting from "./Pages/Accounting/Accounting";
+import Product from "./Pages/Product/Product";
+import Vendor from "./Pages/Vendor/Vendor";
 
 function App() {
 	return (
@@ -49,7 +51,7 @@ function App() {
 							<Routes>
 								<Route path="/home" element={<Home />} />
 								<Route path="/sales" element={<SellItem />} />
-								<Route path="/items" element={<ItemList />} />
+								<Route path="/products" element={<ItemList />} />
 								<Route path="/newitem" element={<NewItem />} />
 								<Route path="/receive" element={<ReceiveItem />} />
 								<Route path="/customers" element={<Customers />} />
@@ -57,6 +59,10 @@ function App() {
 								<Route path="/sales-history" element={<SalesHistory />} />
 								<Route path="/purchase-history" element={<PurchaseHistory />} />
 								<Route path="/accounting" element={<Accounting />} />
+								<Route path="/product/:id" element={<Product />} />
+								<Route path="/vendor/:id" element={<Vendor />} />
+								{/* <Route path="/department/:id" element={<Product />} />
+								<Route path="/customer/:id" element={<Product />} /> */}
 							</Routes>
 						</MainView>
 					</Wrapper>

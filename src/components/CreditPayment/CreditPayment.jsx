@@ -32,7 +32,7 @@ const CreditPayment = ({ credit, setProceed, customer }) => {
 			<div className={classes.credit_details}>
 				<p className={classes.credit_caption}>Balance for this credit:</p>
 				<p className={classes.credit_amount}>
-					{convertMoney(credit?.totalCredited - credit?.totalPaid)}
+					{credit?.totalCredited ? convertMoney(credit?.totalCredited - credit?.totalPaid) : "- -"}
 				</p>
 			</div>
 			<Divider />

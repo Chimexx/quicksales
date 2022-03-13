@@ -7,7 +7,7 @@ import { addToSellCart, getTotals as SellTotals } from "../../redux/SellCartSlic
 import { MdErrorOutline } from "react-icons/md";
 import { fetchProducts } from "../../redux/productsApi";
 
-const FilterDisplay = ({ term, action }) => {
+const FilterDisplay = ({ term, setTerm, action }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -31,6 +31,7 @@ const FilterDisplay = ({ term, action }) => {
 				dispatch(SellTotals());
 			}
 		}
+		setTerm("");
 	};
 
 	if (list.length === 0) {

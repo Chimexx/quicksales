@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme) => ({
 	progress: {
 		backgroundColor: theme.palette.primary.saffron,
 	},
-	table: {},
+
 	tableContainer: {
 		height: "100%",
 		borderRadius: 0,

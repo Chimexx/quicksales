@@ -53,9 +53,7 @@ export const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		marginBottom: "10px ",
 	},
-	input_container: {
-		position: "relative",
-	},
+
 	clear: {
 		position: "absolute",
 		color: theme.palette.primary.orange,

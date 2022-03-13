@@ -33,7 +33,9 @@ const BillPayment = ({ bill, setProceed, vendor }) => {
 			<Divider />
 			<div className={classes.bill_details}>
 				<p className={classes.bill_caption}>Balance for this bill:</p>
-				<p className={classes.bill_amount}>{convertMoney(bill?.totalBilled - bill?.totalPaid)}</p>
+				<p className={classes.bill_amount}>
+					{bill?.totalBilled ? convertMoney(bill?.totalBilled - bill?.totalPaid) : "- -"}
+				</p>
 			</div>
 			<Divider />
 			<div className={classes.bill_input}>

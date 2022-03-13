@@ -27,7 +27,7 @@ const SideBar = () => {
 						<div className="long">New Item</div>
 					</Button>
 				</Link>
-				<Link to="/items">
+				<Link to="/products">
 					<Button>
 						<div className="short">
 							<AiOutlineOrderedList />
