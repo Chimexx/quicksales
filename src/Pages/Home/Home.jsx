@@ -8,6 +8,7 @@ import { FaShippingFast, FaStore } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { BiPurchaseTag } from "react-icons/bi";
 import { MdOutlineInventory } from "react-icons/md";
+import { FaNetworkWired } from "react-icons/fa";
 
 const Home = () => {
 	return (
@@ -40,7 +41,9 @@ const Home = () => {
 					<Link to="/vendors">
 						<Action title="Vendors" icon={<FaStore />} />
 					</Link>
-					<Action />
+					<Link to="/departments">
+						<Action title="Departments" icon={<FaNetworkWired />} />
+					</Link>
 					<Action />
 				</Card>
 			</Wrapper>

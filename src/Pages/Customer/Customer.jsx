@@ -11,79 +11,63 @@ import {
 } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Wrapper, ButtonContainer } from "./Vendor.styles";
-import { deleteVendor, updateVendor } from "../../redux/vendorsApi";
+import { Container, Wrapper, ButtonContainer } from "./Customer.styles";
 import Progress from "../../components/Utils/Progress";
+import { deleteCustomer, updateCustomer } from "../../redux/customerApi";
 
-const Vendor = () => {
+const Customer = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	let navigate = useNavigate();
 	const id = location.pathname.split("/")[2];
 	const [open, setOpen] = React.useState(false);
 
-	const { vendorList, isFetching_vendor } = useSelector((state) => state.vendors);
-	const vendor = vendorList.find((vendor) => vendor._id === id);
+	const { customerList, isFetching_customer } = useSelector((state) => state.customers);
+	const customer = customerList.find((customer) => customer._id === id);
 
-	const [company, setCompany] = useState(vendor.company);
-	const [firstName, setFirstName] = useState(vendor.firstName);
-	const [lastName, setLastName] = useState(vendor.lastName);
-	const [address, setAddress] = useState(vendor.address);
-	const [state, setState] = useState(vendor.state);
-	const [phone, setPhone] = useState(vendor.phone);
-	const [bank, setBank] = useState(vendor.bank);
-	const [accountNo, setAccountNo] = useState(vendor.accountNo);
+	const [firstName, setFirstName] = useState(customer.firstName);
+	const [lastName, setLastName] = useState(customer.lastName);
+	const [address, setAddress] = useState(customer.address);
+	const [state, setState] = useState(customer.state);
+	const [phone, setPhone] = useState(customer.phone);
+	const [balance, setBalance] = useState(customer.balance);
 
 	const data = {
 		_id: id,
-		company,
 		firstName,
 		lastName,
 		address,
 		state,
 		phone,
-		bank,
-		accountNo,
+		balance,
 	};
-	const checkValid = () => {
-		if (company) {
-			return true;
-		} else {
-			return false;
-		}
-	};
+	// const checkValid = () => {
+	// 	if (firstName) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// };
 	const handleBack = () => {
-		navigate("/vendors", { replace: true });
+		navigate("/customers", { replace: true });
 	};
 
 	const handleUpdate = async () => {
-		updateVendor({ vendor: data }, dispatch);
+		updateCustomer({ customer: data }, dispatch);
 	};
 
 	const handleDelete = () => {
-		deleteVendor(id, dispatch);
-		navigate("/vendors", { replace: true });
+		deleteCustomer(id, dispatch);
+		navigate("/customers", { replace: true });
 	};
 	return (
 		<Container>
 			<Wrapper>
-				{isFetching_vendor && <Progress />}
+				{isFetching_customer && <Progress />}
 				<div className="body">
-					<p className="title">Update Vendor</p>
+					<p className="title">Update Customer</p>
 					<Divider />
 					<form className="form" autoComplete="Off">
-						<TextField
-							label="Company"
-							id="company"
-							required
-							fullWidth={true}
-							name="company"
-							variant="filled"
-							size="small"
-							value={company}
-							onChange={(e) => setCompany(e.target.value)}
-						/>
-
 						<TextField
 							fullWidth={true}
 							label="First Name"
@@ -138,24 +122,14 @@ const Vendor = () => {
 						/>
 
 						<TextField
-							label="Bank"
-							id="bank"
-							name="bank"
-							variant="filled"
-							size="small"
-							value={bank}
-							onChange={(e) => setBank(e.target.value)}
-						/>
-
-						<TextField
-							label="Account Number"
-							id="account"
-							name="accountNo"
+							label="Balance"
+							id="balance"
+							name="Balance"
 							type="number"
 							variant="filled"
 							size="small"
-							value={accountNo}
-							onChange={(e) => setAccountNo(e.target.value)}
+							value={balance}
+							onChange={(e) => setBalance(parseInt(e.target.value))}
 						/>
 					</form>
 					<ButtonContainer>
@@ -166,9 +140,9 @@ const Vendor = () => {
 								variant="outlined"
 								color="primary"
 								onClick={handleUpdate}
-								disabled={!checkValid() || isFetching_vendor}
+								disabled={!firstName || isFetching_customer}
 							>
-								Update Vendor
+								Update Customer
 							</Button>
 							<Button className="" size="small" color="secondary" onClick={handleBack}>
 								Cancel
@@ -180,7 +154,7 @@ const Vendor = () => {
 							className="delete_button"
 							size="small"
 							onClick={() => setOpen(true)}
-							disabled={isFetching_vendor || !checkValid}
+							disabled={isFetching_customer || !firstName}
 						>
 							Delete
 						</Button>
@@ -191,10 +165,10 @@ const Vendor = () => {
 						aria-labelledby="alert-dialog-title"
 						aria-describedby="alert-dialog-description"
 					>
-						<DialogTitle id="alert-dialog-title">{"Delete Vendor?"}</DialogTitle>
+						<DialogTitle id="alert-dialog-title">{"Delete Customer?"}</DialogTitle>
 						<DialogContent>
 							<DialogContentText id="alert-dialog-description">
-								Are you sure you want to delete {vendor.company}?
+								Are you sure you want to delete {customer.firstName}?
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
@@ -212,4 +186,4 @@ const Vendor = () => {
 	);
 };
 
-export default Vendor;
+export default Customer;

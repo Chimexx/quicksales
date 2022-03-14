@@ -39,15 +39,15 @@ export const createVendor = async (dispatch, data) => {
 
 //Update Vendors
 export const updateVendor = async (data, dispatch) => {
-	dispatch(updateVendorStart());
 	try {
+		dispatch(updateVendorStart());
 		const res = await publicRequest.put(`vendors/${data.vendor._id}`, data);
-		console.log(res.data);
-		await dispatch(updateVendorSuccess({ data: res.data, type: data.type }));
 		if (data.type === "pay") {
 			if (res.data.totalPaid.modifiedCount === 1) {
 				toast.success(`Payment was successful!`);
 			}
+		} else if (data.type === "buy") {
+			await dispatch(updateVendorSuccess({ data: res.data }));
 		} else {
 			console.log(res.data);
 			await dispatch(updateVendorSuccess({ data: res.data }));

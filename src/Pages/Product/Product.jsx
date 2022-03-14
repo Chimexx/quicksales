@@ -286,7 +286,7 @@ const Product = () => {
 						onClick={() => setOpen(true)}
 						disabled={isFetching_ven || isFetching_dep || !checkValidity() || isFetching}
 					>
-						Delete Product
+						Delete
 					</Button>
 					<Dialog
 						open={open}

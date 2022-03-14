@@ -47,7 +47,7 @@ const SalesHistory = () => {
 			setSalesHistory(salesHistoryList);
 		}
 	}, [sort, salesHistoryList]);
-
+	console.log(salesHistoryList);
 	//Search function
 	useEffect(() => {
 		if (term) {
@@ -55,7 +55,8 @@ const SalesHistory = () => {
 				salesHistoryList?.filter(
 					(history) =>
 						history.cashier?.toLowerCase().includes(term.toLowerCase()) ||
-						history.totalAmt === parseInt(term)
+						history.totalAmt === parseInt(term) ||
+						history.customer?.firstName.toLowerCase().includes(term.toLowerCase())
 				)
 			);
 		} else {

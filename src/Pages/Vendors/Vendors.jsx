@@ -76,13 +76,13 @@ const Vendors = () => {
 									<TableCell align="left">{row.state}</TableCell>
 									<TableCell align="left">{row.phone}</TableCell>
 									<TableCell align="left">{convertMoney(row.balance)}</TableCell>
-									<Link to={"/vendor/" + row._id}>
-										<TableCell align="left">
+									<TableCell align="left">
+										<Link to={"/vendor/" + row._id}>
 											<Button size="small" variant="outlined" color="secondary">
 												edit
 											</Button>
-										</TableCell>
-									</Link>
+										</Link>
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

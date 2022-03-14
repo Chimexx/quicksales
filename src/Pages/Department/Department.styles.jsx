@@ -33,17 +33,24 @@ export const Wrapper = styled.div`
 	}
 	.body {
 		margin: 1rem;
+
+		.delete_button {
+			color: var(--red);
+			border-color: var(--red);
+		}
 	}
 	.form {
 		margin: 1rem 0;
-		align-items: center;
-		justify-content: center;
+	}
+	.text {
+		width: 100%;
+		margin-bottom: 1rem;
 	}
 `;
 export const ButtonContainer = styled.div`
 	display: flex;
 	gap: 1rem;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: space-between;
 	margin-top: 2rem;
 `;

@@ -201,6 +201,7 @@ const ReceiveItem = () => {
 								size="small"
 								variant="outlined"
 								color="primary"
+								fullWidth={true}
 								style={{ marginTop: 20 }}
 							>
 								Add vendor
